@@ -1,0 +1,59 @@
+body {
+  background-image: url("images/bg.png");
+  color: #fff;
+}
+.App {
+  text-align: center;
+}
+
+.login-title > hr{
+  border-color: #fdb603;
+  border-top-width: 4px;
+  width: 50px;
+}
+
+.App-header {
+  background-color: #181f25;
+  height: 75px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.logo, .header-logo{  
+  background-image: url("images/logo.png");
+}
+
+.header-logo{
+  width:130px;
+  height:50px;
+  margin-top: 10px;
+}
+
+.header-icons{
+  display: flex;
+  float: right;
+  margin: 10px;
+}
+
+.header-icons > a > .twitter{
+  background-image: url("images/social_icons.png");
+  background-position: 0 -5px;
+  height: 45px;
+  width: 55px;
+}
+
+.header-icons > a > .facebook{
+  background-image: url("images/social_icons.png");
+  background-position: -58px -5px;
+  height: 45px;
+  width: 55px;
+}
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 870px;
+    }
+}
