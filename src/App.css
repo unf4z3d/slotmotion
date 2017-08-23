@@ -57,3 +57,110 @@ body {
         max-width: 870px;
     }
 }
+
+.main-menu > .container-fluid{
+  padding: 0px;
+}
+
+.main-menu > .container-fluid > hr{
+  margin: 0px;
+  border-color: #264251 currentcolor currentcolor;
+}
+
+.main-menu > .container-fluid > hr{
+  margin: 0px;
+  border-color: #264251 currentcolor currentcolor;
+}
+
+.main-menu > .container > .items{
+  margin-left: 25px;
+}
+
+.main-menu > .container > .items > div > hr{
+  border-top-width: 0px;
+  margin: 10px 0 0;
+  padding: 0 10%;
+  width: 80%;
+}
+
+.main-menu > .container > .items > div > a{
+  text-decoration: none;
+}
+
+.main-menu > .container > .items > .seleted > hr{
+  border-color: #fdb603;
+  border-top-width: 4px;
+  margin: 10px 0 0;
+  padding: 0 10%;
+  width: 80%;
+}
+
+.main-menu > .container > .items > div{
+  padding:0px;
+}
+
+.main-menu > .container > .items > div > a{
+  color: white;
+  font-family: monospace;
+  font-size: 12px;  
+}
+
+.promotion > .panel {
+  background-color: #13181e;
+  padding: 15px;    
+}
+
+.panel-header-label{
+  font-size: 10px;
+  padding-right: 15px;
+  text-align: right;
+}
+
+.promotion-detail, .promotion-steps, .promotion-status{
+  text-align: left;
+}
+
+.promotion-steps{
+  padding: 20px 0;
+}
+
+.promotion-status{
+  position: absolute;
+}
+.promotion-status > div > span{
+  text-transform: uppercase;
+  font-size: 10px !important;
+}
+
+.promotion-calendars{
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.promotion-name{
+  font-size: 20px;
+}
+
+.promotion-detail{
+  font-size: 10px;
+  margin-top: 10px;
+}
+
+.promotion-download-package{
+  float: right;
+}
+
+.promotion-download-package > div{
+  background-color: transparent !important;
+  border: solid 1px #00fffe !important;
+}
+
+.promotion-download-package > div > span{
+  text-transform: uppercase;
+  font-size: 10px !important;
+  color: #00FFFD !important;
+  line-height: 22px !important;
+}
+
+
+
