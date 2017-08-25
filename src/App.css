@@ -162,5 +162,63 @@ body {
   line-height: 22px !important;
 }
 
+/* TABLE*/
 
+.smotion-table {
+  font-size: 10px;
+  color: #657680;
+}
+
+.smotion-table > .react-bs-table-container > .react-bs-table{
+  border:0px;
+}
+
+.caret {
+  color:#00fffe !important;
+}
+
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-header > table > thead > tr >th{
+  border:0px;
+  text-align: center !important;
+}
+
+
+
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td {
+  border: 0px;
+  border-right: 1px solid #2b475d;
+  border-bottom: 1px solid #2b475d;
+}
+
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td:first-child{
+  border: 0px;
+  border-bottom: 1px solid #2b475d;
+}
+
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td:last-child{
+  border: 0px;
+  border-bottom: 1px solid #2b475d;
+}
+
+.smotion-table > .react-bs-table-container > .react-bs-table-pagination > div > div > ul > li.page-item > a{
+  background-color: #113042;
+  border-color: #234254;
+  color: #6b747c;
+}
+
+.smotion-table > .react-bs-table-container > .react-bs-table-pagination > div > div > ul > li.active > a{
+  background-color: #01ffff !important;
+  border-color: #14aeb6 !important;
+  color: #12676c !important;
+}
+
+.app-message-error{
+  color: red;
+  font-size: 12px;
+}
+
+.app-message-success{
+  color: #01d7d2;
+  font-size: 12px;
+}
 

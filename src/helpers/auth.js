@@ -1,4 +1,4 @@
-import { ref, firebaseAuth } from '../config/constants'
+import { firebaseAuth } from '../config/constants'
 
 export function logout () {
   return firebaseAuth().signOut()

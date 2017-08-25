@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Login from './components/Login';
+import PasswordRecovery from './components/PasswordRecovery';
 import ClientDashBoard from './components/protected/client/Dashboard';
-import StaffDashBoard from './components/protected/staff/Dashboard';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { firebaseAuth } from './config/constants'
+import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import './App.css';
 
@@ -17,33 +18,28 @@ class App extends Component {
     */
     constructor(props) {
       super(props);
-      this.state = {authed: false, loading: true};
+      this.state = {user: null};
   }
 
   /**
    * Component did mount
    */
-  componentDidMount () {
+  componentWillMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          authed: true,
-          loading: false,
-        })
-      } else {
-        this.setState({
-          authed: false,
-          loading: false
-        })
-      }
+        this.setState({ user });
     })
   }
 
-  /**
-   * Component will unmount
-   */
-  componentWillUnmount () {
-    this.removeListener()
+  renderDashboardOrLogin(){
+    if(this.state.user != null){
+      return <ClientDashBoard user={this.state.user} />
+    }else{
+      return <Switch>
+                <Route exact path="/" component={Login} />
+                <Route path="/forgot-password" component={PasswordRecovery} />
+                <Route render={() => <Redirect to={{pathname: '/'}} />} />
+             </Switch> 
+    }
   }
 
   /**
@@ -51,44 +47,36 @@ class App extends Component {
    */
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-      <div className="App">
-        <div className="App-header">
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-2">
-                <div className="logo header-logo"></div>
-              </div>
-              <div className="col-xs-10">
-                <div className="header-icons">
-                  <a href="#">
-                    <div className="twitter"></div>
-                  </a>
-                  <a href="#">
-                    <div className="facebook"></div>
-                  </a>
+      <Router>
+        <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <div className="App">
+          <div className="App-header">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-2">
+                  <div className="logo header-logo"></div>
+                </div>
+                <div className="col-xs-10">
+                  <div className="header-icons">
+                    <a rel="noopener noreferrer" target="_blank" href="https://www.twiiter.com">
+                      <div className="twitter"></div>
+                    </a>
+                    <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com">
+                      <div className="facebook"></div>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <br />
-        <br />
-        
-        
-        {this.state.authed
-        ? 
-          <div>
-            <ClientDashBoard />
-            
-          </div>
-        : 
-          <Login />
-        }
+          <br />
+          <br />
 
-        </div>
-      
-      </MuiThemeProvider>
+          {this.renderDashboardOrLogin()}
+
+          </div>
+        </MuiThemeProvider>
+      </Router>
     );
   }
 }

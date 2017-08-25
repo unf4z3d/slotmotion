@@ -2,8 +2,9 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
-import MdEmail from 'react-icons/lib/md/email';
-import { login, resetPassword } from '../helpers/auth';
+import Message from './commons/Message'
+import { Link } from 'react-router-dom';
+import { login } from './../helpers/auth';
 
 
 /**
@@ -24,7 +25,7 @@ class Login extends React.Component {
     /**
      * Setter
      */
-    setErrorMsg = (error) => { errorMessage: error }
+    setErrorMsg = (message) => ({ errorMessage: message })
     
     /**
      * Login submit
@@ -32,9 +33,10 @@ class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         login(this.refs.username.input.value, this.refs.password.input.value)
-        .catch((error) => {
-            this.setState(this.setErrorMsg('Invalid username/password.'))
-        })
+            .catch((error) => {
+                console.log(`Error ${error.code}: ${error.message}`);
+                this.setState(this.setErrorMsg('Invalid username/password.'));
+            })
     }
 
     /**
@@ -48,6 +50,7 @@ class Login extends React.Component {
                     <div className="login-title">
                         <h2>Client Area Login</h2>
                         <hr/>
+                        <Message error value={this.state.errorMessage} />
                         <br/><br/>  
                         <form onSubmit={this.handleSubmit}>
                             <TextField defaultValue="oyepez003@gmail.com" ref="username" hintText="Username"/>
@@ -59,9 +62,7 @@ class Login extends React.Component {
                             <RaisedButton type="submit" fullWidth={true} label="Login" primary={true} />
                         </form>
                         <br/><br/>
-                        <a href="#">
-                        <MdEmail size={20} /> Password recovery
-                        </a>
+                        <Link to="/forgot-password">Password recovery</Link>
                     </div>
                 </div>
             </div>
