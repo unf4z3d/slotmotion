@@ -152,7 +152,7 @@ body {
 
 .promotion-download-package > div{
   background-color: transparent !important;
-  border: solid 1px #00fffe !important;
+  border: solid 1px #00FFFD !important;
 }
 
 .promotion-download-package > div > span{
@@ -222,3 +222,74 @@ body {
   font-size: 12px;
 }
 
+.user-ico{  
+  background-image: url("images/user_ico.png");
+  height: 45px;
+  width: 45px;
+  background-size: 42px; 
+}
+
+.label {
+  font-size: 10px;
+  margin: 0px;
+}
+
+.gray{
+  color: #69747e;
+}
+
+.no-padding{
+  padding:0px;
+}
+
+.no-margin{
+  margin:0px;
+}
+
+.bg-gray{
+  background-color: #eaeeef;
+}
+
+.white-form label{
+  color:#24292c !important;
+  font-size: 14px !important;
+  text-transform: uppercase;
+}
+
+.white-form div{
+  text-align: left;
+}
+
+
+.white-form input, .white-form > .select-form > div > div > div {
+  color:#767b7e !important;
+  font-size: 12px !important;
+}
+
+.white-form hr:first-child{
+  border-color: #a2b7c2 !important;
+}
+
+.white-form svg{
+  fill: #171e24 !important;
+  margin-left: 10px !important;
+}
+
+.white-form > .btn-submit > div {  
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.white-form > .btn-submit > div > button {
+  top: 18px !important;
+  background-color: #01ffff !important;
+}
+
+.white-form > .btn-submit > div > button > div > div{
+  text-align: center !important;
+}
+
+.white-form > .btn-submit > div > button > div > div > span{
+  font-size: 10px !important;
+  font-weight: bold !important;
+}

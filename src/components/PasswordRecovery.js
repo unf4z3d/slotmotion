@@ -35,7 +35,7 @@ class PasswordRecovery extends React.Component {
             .then(() => this.setState(this.setSuccessMsg('Your password has been recovered. Check your email.')))
             .catch((error) => {
                 console.log(`Error ${error.code}: ${error.message}`);
-                this.setState(this.setErrorMsg('Invalid username/password.'));
+                this.setState(this.setErrorMsg('Invalid username.'));
             })
     }
 

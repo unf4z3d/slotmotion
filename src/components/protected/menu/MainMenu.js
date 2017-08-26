@@ -36,9 +36,8 @@ class Dashboard extends React.Component  {
                             <hr />
                         </div>
                         <div className="col-xs-offset-7 col-xs-1">
-                        <IconMenu
-                            iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
-                            <MenuItem primaryText="Profile" />
+                        <IconMenu iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
+                            <MenuItem containerElement={<Link to="/profile">Documents & Files</Link>} primaryText="Profile" />
                             <MenuItem onClick={this.handleLogout} primaryText="Sign out" />
                         </IconMenu>
                         </div>
