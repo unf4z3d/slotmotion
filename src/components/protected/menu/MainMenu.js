@@ -32,7 +32,7 @@ class Dashboard extends React.Component  {
                             <hr />
                         </div>
                         <div className="col-xs-1">
-                            <Link to="/promtions">Promotions</Link>
+                            <Link to="/promotions">Promotions</Link>
                             <hr />
                         </div>
                         <div className="col-xs-offset-7 col-xs-1">

@@ -26,7 +26,7 @@ class Campaign extends ClientRoleAwareComponent  {
                 promotions: this.state.promotions.concat(snap.val())
             })
         })
-        let usersPromoRef = ref.child('user').child('68ff71ae-7283-41f0-9a22-741b483e6930').child('promtions');
+        let usersPromoRef = ref.child('user').child('68ff71ae-7283-41f0-9a22-741b483e6930').child('promotions');
         usersPromoRef.on('child_added', snap => {
             this.setState({
                 userPromotions: this.state.userPromotions.concat(snap.val())
