@@ -3,8 +3,8 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import Message from './commons/Message'
-import { Link } from 'react-router-dom';
-import { login } from './../helpers/auth';
+import {Link} from 'react-router-dom';
+import {login} from './../helpers/auth';
 
 
 /**
@@ -14,7 +14,7 @@ class Login extends React.Component {
 
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -25,8 +25,8 @@ class Login extends React.Component {
     /**
      * Setter
      */
-    setErrorMsg = (message) => ({ errorMessage: message })
-    
+    setErrorMsg = (message) => ({errorMessage: message})
+
     /**
      * Login submit
      */
@@ -40,35 +40,35 @@ class Login extends React.Component {
     }
 
     /**
-     * Render method 
+     * Render method
      */
-    render = ()  => 
-    (
-        <div className="container">
-            <div className="row">
-                <div className="col-md-4 col-md-offset-4">
-                    <div className="login-title">
-                        <h2>Client Area Login</h2>
-                        <hr/>
-                        <Message error value={this.state.errorMessage} />
-                        <br/><br/>  
-                        <form onSubmit={this.handleSubmit}>
-                            <TextField defaultValue="user@yopmail.com" ref="username" hintText="Username"/>
+    render = () =>
+        (
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-4 col-md-offset-4">
+                        <div className="login-title">
+                            <h2>Client Area Login</h2>
+                            <hr/>
+                            <Message error value={this.state.errorMessage}/>
                             <br/><br/>
-                            <TextField defaultValue="123456" ref="password" type="password" hintText="Password"/>
+                            <form onSubmit={this.handleSubmit}>
+                                <TextField defaultValue="user@yopmail.com" ref="username" hintText="Username"/>
+                                <br/><br/>
+                                <TextField defaultValue="123456" ref="password" type="password" hintText="Password"/>
+                                <br/><br/>
+                                <Checkbox label="Remember me"/>
+                                <br/>
+                                <RaisedButton type="submit" fullWidth={true} label="Login" primary={true}/>
+                            </form>
                             <br/><br/>
-                            <Checkbox label="Remember me"/>
-                            <br/>
-                            <RaisedButton type="submit" fullWidth={true} label="Login" primary={true} />
-                        </form>
-                        <br/><br/>
-                        <Link to="/forgot-password">Password recovery</Link>
+                            <Link to="/forgot-password">Password recovery</Link>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
 }
- 
+
 // export the component
 export default Login;

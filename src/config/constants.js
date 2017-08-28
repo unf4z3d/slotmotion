@@ -12,7 +12,5 @@ firebase.initializeApp({
 export const ref = firebase.database().ref()
 export const firebaseAuth = firebase.auth
 
-export const values = {
-    
-}
+export const values = {}
 

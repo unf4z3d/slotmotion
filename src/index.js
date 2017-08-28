@@ -5,7 +5,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 import 'react-pace/vendor/pace/themes/blue/pace-theme-minimal.css';
+
 let pace = require('react-pace/vendor/pace/pace');
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
 registerServiceWorker();

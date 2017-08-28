@@ -1,295 +1,294 @@
 body {
-  background-image: url("images/bg.png");
-  color: #fff;
-}
-.App {
-  text-align: center;
+    background-image: url("images/bg.png");
+    color: #fff;
 }
 
-.login-title > hr{
-  border-color: #fdb603;
-  border-top-width: 4px;
-  width: 50px;
+.App {
+    text-align: center;
+}
+
+.login-title > hr {
+    border-color: #fdb603;
+    border-top-width: 4px;
+    width: 50px;
 }
 
 .App-header {
-  background-color: #181f25;
-  height: 75px;
-  color: white;
+    background-color: #181f25;
+    height: 75px;
+    color: white;
 }
 
 .App-intro {
-  font-size: large;
+    font-size: large;
 }
 
-.logo, .header-logo{  
-  background-image: url("images/logo.png");
+.logo, .header-logo {
+    background-image: url("images/logo.png");
 }
 
-.header-logo{
-  width:130px;
-  height:50px;
-  margin-top: 10px;
+.header-logo {
+    width: 130px;
+    height: 50px;
+    margin-top: 10px;
 }
 
-.header-icons{
-  display: flex;
-  float: right;
-  margin: 10px;
+.header-icons {
+    display: flex;
+    float: right;
+    margin: 10px;
 }
 
-.header-icons > a > .twitter{
-  background-image: url("images/social_icons.png");
-  background-position: 0 -5px;
-  height: 45px;
-  width: 55px;
+.header-icons > a > .twitter {
+    background-image: url("images/social_icons.png");
+    background-position: 0 -5px;
+    height: 45px;
+    width: 55px;
 }
 
-.header-icons > a > .facebook{
-  background-image: url("images/social_icons.png");
-  background-position: -58px -5px;
-  height: 45px;
-  width: 55px;
+.header-icons > a > .facebook {
+    background-image: url("images/social_icons.png");
+    background-position: -58px -5px;
+    height: 45px;
+    width: 55px;
 }
 
 @media (min-width: 1200px) {
-    .container{
+    .container {
         max-width: 870px;
     }
 }
 
-.main-menu > .container-fluid{
-  padding: 0px;
+.main-menu > .container-fluid {
+    padding: 0px;
 }
 
-.main-menu > .container-fluid > hr{
-  margin: 0px;
-  border-color: #264251 currentcolor currentcolor;
+.main-menu > .container-fluid > hr {
+    margin: 0px;
+    border-color: #264251 currentcolor currentcolor;
 }
 
-.main-menu > .container-fluid > hr{
-  margin: 0px;
-  border-color: #264251 currentcolor currentcolor;
+.main-menu > .container-fluid > hr {
+    margin: 0px;
+    border-color: #264251 currentcolor currentcolor;
 }
 
-.main-menu > .container > .items{
-  margin-left: 25px;
+.main-menu > .container > .items {
+    margin-left: 25px;
 }
 
-.main-menu > .container > .items > div > hr{
-  border-top-width: 0px;
-  margin: 10px 0 0;
-  padding: 0 10%;
-  width: 80%;
+.main-menu > .container > .items > div > hr {
+    border-top-width: 0px;
+    margin: 10px 0 0;
+    padding: 0 10%;
+    width: 80%;
 }
 
-.main-menu > .container > .items > div > a{
-  text-decoration: none;
+.main-menu > .container > .items > div > a {
+    text-decoration: none;
 }
 
-.main-menu > .container > .items > .seleted > hr{
-  border-color: #fdb603;
-  border-top-width: 4px;
-  margin: 10px 0 0;
-  padding: 0 10%;
-  width: 80%;
+.main-menu > .container > .items > .seleted > hr {
+    border-color: #fdb603;
+    border-top-width: 4px;
+    margin: 10px 0 0;
+    padding: 0 10%;
+    width: 80%;
 }
 
-.main-menu > .container > .items > div{
-  padding:0px;
+.main-menu > .container > .items > div {
+    padding: 0px;
 }
 
-.main-menu > .container > .items > div > a{
-  color: white;
-  font-family: monospace;
-  font-size: 12px;  
+.main-menu > .container > .items > div > a {
+    color: white;
+    font-family: monospace;
+    font-size: 12px;
 }
 
 .promotion > .panel {
-  background-color: #13181e;
-  padding: 15px;    
+    background-color: #13181e;
+    padding: 15px;
 }
 
-.panel-header-label{
-  font-size: 10px;
-  padding-right: 15px;
-  text-align: right;
+.panel-header-label {
+    font-size: 10px;
+    padding-right: 15px;
+    text-align: right;
 }
 
-.promotion-detail, .promotion-steps, .promotion-status{
-  text-align: left;
+.promotion-detail, .promotion-steps, .promotion-status {
+    text-align: left;
 }
 
-.promotion-steps{
-  padding: 20px 0;
+.promotion-steps {
+    padding: 20px 0;
 }
 
-.promotion-status{
-  position: absolute;
-}
-.promotion-status > div > span{
-  text-transform: uppercase;
-  font-size: 10px !important;
+.promotion-status {
+    position: absolute;
 }
 
-.promotion-calendars{
-  font-size: 9px;
-  text-transform: uppercase;
+.promotion-status > div > span {
+    text-transform: uppercase;
+    font-size: 10px !important;
 }
 
-.promotion-name{
-  font-size: 20px;
+.promotion-calendars {
+    font-size: 9px;
+    text-transform: uppercase;
 }
 
-.promotion-detail{
-  font-size: 10px;
-  margin-top: 10px;
+.promotion-name {
+    font-size: 20px;
 }
 
-.promotion-download-package{
-  float: right;
+.promotion-detail {
+    font-size: 10px;
+    margin-top: 10px;
 }
 
-.promotion-download-package > div{
-  background-color: transparent !important;
-  border: solid 1px #00FFFD !important;
+.promotion-download-package {
+    float: right;
 }
 
-.promotion-download-package > div > span{
-  text-transform: uppercase;
-  font-size: 10px !important;
-  color: #00FFFD !important;
-  line-height: 22px !important;
+.promotion-download-package > div {
+    background-color: transparent !important;
+    border: solid 1px #00FFFD !important;
+}
+
+.promotion-download-package > div > span {
+    text-transform: uppercase;
+    font-size: 10px !important;
+    color: #00FFFD !important;
+    line-height: 22px !important;
 }
 
 /* TABLE*/
 
 .smotion-table {
-  font-size: 10px;
-  color: #657680;
+    font-size: 10px;
+    color: #657680;
 }
 
-.smotion-table > .react-bs-table-container > .react-bs-table{
-  border:0px;
+.smotion-table > .react-bs-table-container > .react-bs-table {
+    border: 0px;
 }
 
 .caret {
-  color:#00fffe !important;
+    color: #00fffe !important;
 }
 
-.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-header > table > thead > tr >th{
-  border:0px;
-  text-align: center !important;
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-header > table > thead > tr > th {
+    border: 0px;
+    text-align: center !important;
 }
-
-
 
 .smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td {
-  border: 0px;
-  border-right: 1px solid #2b475d;
-  border-bottom: 1px solid #2b475d;
+    border: 0px;
+    border-right: 1px solid #2b475d;
+    border-bottom: 1px solid #2b475d;
 }
 
-.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td:first-child{
-  border: 0px;
-  border-bottom: 1px solid #2b475d;
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td:first-child {
+    border: 0px;
+    border-bottom: 1px solid #2b475d;
 }
 
-.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td:last-child{
-  border: 0px;
-  border-bottom: 1px solid #2b475d;
+.smotion-table > .react-bs-table-container > .react-bs-table > .react-bs-container-body > table > tbody > tr > td:last-child {
+    border: 0px;
+    border-bottom: 1px solid #2b475d;
 }
 
-.smotion-table > .react-bs-table-container > .react-bs-table-pagination > div > div > ul > li.page-item > a{
-  background-color: #113042;
-  border-color: #234254;
-  color: #6b747c;
+.smotion-table > .react-bs-table-container > .react-bs-table-pagination > div > div > ul > li.page-item > a {
+    background-color: #113042;
+    border-color: #234254;
+    color: #6b747c;
 }
 
-.smotion-table > .react-bs-table-container > .react-bs-table-pagination > div > div > ul > li.active > a{
-  background-color: #01ffff !important;
-  border-color: #14aeb6 !important;
-  color: #12676c !important;
+.smotion-table > .react-bs-table-container > .react-bs-table-pagination > div > div > ul > li.active > a {
+    background-color: #01ffff !important;
+    border-color: #14aeb6 !important;
+    color: #12676c !important;
 }
 
-.app-message-error{
-  color: red;
-  font-size: 12px;
+.app-message-error {
+    color: red;
+    font-size: 12px;
 }
 
-.app-message-success{
-  color: #01d7d2;
-  font-size: 12px;
+.app-message-success {
+    color: #01d7d2;
+    font-size: 12px;
 }
 
-.user-ico{  
-  background-image: url("images/user_ico.png");
-  height: 45px;
-  width: 45px;
-  background-size: 42px; 
+.user-ico {
+    background-image: url("images/user_ico.png");
+    height: 45px;
+    width: 45px;
+    background-size: 42px;
 }
 
 .label {
-  font-size: 10px;
-  margin: 0px;
+    font-size: 10px;
+    margin: 0px;
 }
 
-.gray{
-  color: #69747e;
+.gray {
+    color: #69747e;
 }
 
-.no-padding{
-  padding:0px;
+.no-padding {
+    padding: 0px;
 }
 
-.no-margin{
-  margin:0px;
+.no-margin {
+    margin: 0px;
 }
 
-.bg-gray{
-  background-color: #eaeeef;
+.bg-gray {
+    background-color: #eaeeef;
 }
 
-.white-form label{
-  color:#24292c !important;
-  font-size: 14px !important;
-  text-transform: uppercase;
+.white-form label {
+    color: #24292c !important;
+    font-size: 14px !important;
+    text-transform: uppercase;
 }
 
-.white-form div{
-  text-align: left;
+.white-form div {
+    text-align: left;
 }
-
 
 .white-form input, .white-form > .select-form > div > div > div {
-  color:#767b7e !important;
-  font-size: 12px !important;
+    color: #767b7e !important;
+    font-size: 12px !important;
 }
 
-.white-form hr:first-child{
-  border-color: #a2b7c2 !important;
+.white-form hr:first-child {
+    border-color: #a2b7c2 !important;
 }
 
-.white-form svg{
-  fill: #171e24 !important;
-  margin-left: 10px !important;
+.white-form svg {
+    fill: #171e24 !important;
+    margin-left: 10px !important;
 }
 
-.white-form > .btn-submit > div {  
-  box-shadow: none !important;
-  background-color: transparent !important;
+.white-form > .btn-submit > div {
+    box-shadow: none !important;
+    background-color: transparent !important;
 }
 
 .white-form > .btn-submit > div > button {
-  top: 18px !important;
-  background-color: #01ffff !important;
+    top: 18px !important;
+    background-color: #01ffff !important;
 }
 
-.white-form > .btn-submit > div > button > div > div{
-  text-align: center !important;
+.white-form > .btn-submit > div > button > div > div {
+    text-align: center !important;
 }
 
-.white-form > .btn-submit > div > button > div > div > span{
-  font-size: 10px !important;
-  font-weight: bold !important;
+.white-form > .btn-submit > div > button > div > div > span {
+    font-size: 10px !important;
+    font-weight: bold !important;
 }

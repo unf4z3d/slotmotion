@@ -3,20 +3,20 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import { Link } from 'react-router-dom';
-import { logout } from './../../../helpers/auth';
+import {Link} from 'react-router-dom';
+import {logout} from './../../../helpers/auth';
 
 /**
  * Dashboard component for client Role.
  */
-class Dashboard extends React.Component  {
-    
-    handleLogout(){
+class Dashboard extends React.Component {
+
+    handleLogout() {
         logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
@@ -25,21 +25,23 @@ class Dashboard extends React.Component  {
                     <div className="items">
                         <div className="col-xs-1 seleted">
                             <Link to="/">Dashboard</Link>
-                            <hr />
+                            <hr/>
                         </div>
                         <div className="col-xs-2">
                             <Link to="/docs-and-files">Documents & Files</Link>
-                            <hr />
+                            <hr/>
                         </div>
                         <div className="col-xs-1">
                             <Link to="/promotions">Promotions</Link>
-                            <hr />
+                            <hr/>
                         </div>
                         <div className="col-xs-offset-7 col-xs-1">
-                        <IconMenu iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
-                            <MenuItem containerElement={<Link to="/profile">Documents & Files</Link>} primaryText="Profile" />
-                            <MenuItem onClick={this.handleLogout} primaryText="Sign out" />
-                        </IconMenu>
+                            <IconMenu iconButtonElement={<IconButton
+                                style={{padding: 0, height: 35}}><MoreVertIcon/></IconButton>}>
+                                <MenuItem containerElement={<Link to="/profile">Documents & Files</Link>}
+                                          primaryText="Profile"/>
+                                <MenuItem onClick={this.handleLogout} primaryText="Sign out"/>
+                            </IconMenu>
                         </div>
                     </div>
                 </div>
@@ -53,6 +55,6 @@ class Dashboard extends React.Component  {
         return jsx;
     }
 }
- 
+
 // export the component
 export default Dashboard;
