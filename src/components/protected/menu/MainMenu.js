@@ -32,14 +32,21 @@ class Dashboard extends React.Component  {
                             <hr />
                         </div>
                         <div className="col-xs-1">
-                            <Link to="/promtions">Promotions</Link>
+                            <Link to="/promotions">Promotions</Link>
                             <hr />
                         </div>
-                        <div className="col-xs-offset-7 col-xs-1">
-                        <IconMenu iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
-                            <MenuItem containerElement={<Link to="/profile">Documents & Files</Link>} primaryText="Profile" />
-                            <MenuItem onClick={this.handleLogout} primaryText="Sign out" />
-                        </IconMenu>
+                        <div className="col-xs-7 text-right" style={{marginTop:7}}>
+                            <div className="header-user-name">
+                                <span className="micro-icons user" />
+                                &nbsp;&nbsp;
+                                { this.props.user.email }
+                            </div>
+                        </div>
+                        <div className="col-xs-1 text-left">                            
+                            <IconMenu iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
+                                <MenuItem containerElement={<Link to="/profile">Documents & Files</Link>} primaryText="Profile" />
+                                <MenuItem onClick={this.handleLogout} primaryText="Sign out" />
+                            </IconMenu>
                         </div>
                     </div>
                 </div>

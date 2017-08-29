@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import { ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator';
-import { ref } from './../../../config/constants'
+import { firabaseDB } from './../../../config/constants'
 import { updatePassword } from './../../../helpers/auth';
 
 /**
@@ -22,8 +22,8 @@ class Profile extends ClientRoleAwareComponent  {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSetCountry = this.handleSetCountry.bind(this);
-        this.profileDB = ref.child(`users/${this.props.user.uid}/profile`);
-        this.countriesDB = ref.child('countries');
+        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+        this.countriesDB = firabaseDB.child('countries');
     }
 
     componentWillMount() {
@@ -60,7 +60,7 @@ class Profile extends ClientRoleAwareComponent  {
 
     handleSubmit(e){
         e.preventDefault()
-        let password = this.refs.password.input.value;
+        const password = this.refs.password.input.value;
         if(password !== undefined && password !== null && password){
             updatePassword(this.props.user, password)
                 .then(() => {
@@ -134,12 +134,13 @@ class Profile extends ClientRoleAwareComponent  {
                                                             name="country" 
                                                             onChange={this.handleSetCountry}
                                                             value={this.state.profile.country}
+                                                            maxHeight={200}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         >
 
-                                                            {Object.keys(this.state.countries).map((key, i) =>
-                                                                <MenuItem key={i} value={this.state.countries[key]} primaryText={this.state.countries[key]} />
+                                                            {this.state.countries.map((country, i) =>
+                                                                <MenuItem key={i} value={i} primaryText={country.name} />
                                                             , this)}
                                                         
                                                         </SelectValidator>
@@ -158,8 +159,8 @@ class Profile extends ClientRoleAwareComponent  {
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
-                                                        <div className="btn-submit">
-                                                            <RaisedButton type="submit" fullWidth label="Save Changes" primary={true} />
+                                                        <div>
+                                                            <RaisedButton className="btn-smotion primary btn-submit" type="submit" fullWidth label="Save Changes" primary={true} />
                                                         </div>
                                                     </div>
                                                 </ValidatorForm>

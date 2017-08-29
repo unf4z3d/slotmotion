@@ -9,10 +9,12 @@ firebase.initializeApp({
     messagingSenderId: "216704113839"
 })
 
-export const ref = firebase.database().ref()
+export const firabaseDB = firebase.database().ref()
 export const firebaseAuth = firebase.auth
+export const firebaseStorage = firebase.storage
 
-export const values = {
-    
+
+export const constants = {
+    formatDate : 'dddd, mmmm dS, yyyy' // -> 'dddd, mmmm dS, yyyy, h:MM:ss TT'
 }
 
