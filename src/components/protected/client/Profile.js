@@ -18,7 +18,7 @@ class Profile extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        this.state = {countries: [], profile : this.props.user.profile};
+        this.state = {countries: [], profile : this.props.user.profile, loading: true};
         this.countriesDB = firabaseDB.child('countries');
         this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
     }
@@ -30,7 +30,8 @@ class Profile extends ClientRoleAwareComponent  {
 
         this.profileDB.on('value', snap => {
             this.setState({
-                profile: snap.val()
+                profile: snap.val(),
+                loading: false
             })
         });
     }

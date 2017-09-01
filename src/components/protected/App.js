@@ -5,7 +5,6 @@ import ClientMenu from './menu/ClientMenu'
 import StaffMenu from './menu/StaffMenu'
 import ClientDashboard from './client/Dashboard'
 import StaffDashboard from './staff/Dashboard'
-import Campaign from './client/Campaign'
 import DocsAndFiles from './client/DocsAndFiles'
 import Profile from './client/Profile'
 import Promotions from './client/Promotions'
@@ -44,16 +43,18 @@ class App extends ClientRoleAwareComponent  {
     render() {
         const jsx = (
             <div>
-                { this.isAdmin() 
-                ?
-                    <StaffMenu user={this.props.user} />
-                :
-                    
-                    <ClientMenu user={this.props.user} />
+                {   
+                    this.isAdmin() 
+                    ? <StaffMenu user={this.props.user} />
+                    : <ClientMenu user={this.props.user} />
                 }
                 <div className="container">
                     <Switch>
-                        <Route exact path="/" render={(props) => ( this.isAdmin() ? <StaffDashboard user={this.state.user} />:<ClientDashboard user={this.state.user} /> )} />
+                        <Route exact path="/" render={(props) => ( 
+                            this.isAdmin() 
+                            ?  <StaffDashboard user={this.state.user} />
+                            :  <ClientDashboard user={this.state.user} /> )} 
+                        />
                         <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={this.state.user}/> )} />
                         <Route exact path="/promotions" render={(props) => ( <Promotions user={this.state.user}/> )} />
                         <Route exact path="/profile" render={(props) => ( <Profile user={this.state.user}/> )} />
@@ -62,7 +63,7 @@ class App extends ClientRoleAwareComponent  {
             </div>
         );
 
-        return this.state.loading ? null: this.renderIfAuth(jsx);
+        return !this.state.loading && this.renderIfAuth(jsx);
     }
 }
  

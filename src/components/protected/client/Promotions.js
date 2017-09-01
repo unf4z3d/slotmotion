@@ -20,7 +20,8 @@ class Promotions extends ClientRoleAwareComponent  {
         super(props);
         this.state = {
             promotions : [], 
-            promotionVisible: false
+            promotionVisible: false,
+            loading: true,
         }
         this.promotionsDB = firabaseDB.child('promotions');
     }
@@ -31,7 +32,8 @@ class Promotions extends ClientRoleAwareComponent  {
     componentWillMount() {
         this.promotionsDB.on('child_added', snap => {
             this.setState({
-                promotions: this.state.promotions.concat(snap.val())
+                promotions: this.state.promotions.concat(snap.val()),
+                loading: false
             })
         })
         console.log(this.props.user);
@@ -86,7 +88,7 @@ class Promotions extends ClientRoleAwareComponent  {
                         
                         <div>
                             <br/><br/>
-                            <Promotion ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
+                            <Promotion editable={true} ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
                         </div>
                     </div>
                 }

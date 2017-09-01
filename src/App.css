@@ -292,7 +292,7 @@ a{
 }
 
 .btn-smotion > button, .btn-smotion > label {
-  top: 18px !important;
+  /*top: 18px !important;*/
   background-color: #93a1ac !important;
   border-radius: 0px !important;
 }
@@ -316,6 +316,10 @@ a{
 
 .btn-smotion.btn-submit{
   width: 100%;
+}
+
+.btn-smotion.btn-submit > button{
+  top: 18px !important;
 }
 
 .promo-edit-level{

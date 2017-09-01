@@ -27,7 +27,7 @@ class Promotion extends CommonRoleAwareComponent  {
             openLevelDialog: false, 
             selectedLevelIndex:null, 
             selectedLevel:{},
-            editable : this.props.ediatble ? true : false,
+            editable : this.props.editable ? true : false,
         };
     }
 
@@ -268,22 +268,22 @@ class Promotion extends CommonRoleAwareComponent  {
                   .child(promotion.key).set(userSignup)
                   .then((snap) => 
         {
-            alert('Success');
-            if(this.props.signupCallback !== undefined){
-                this.props.signupCallback();
-            }
+            userSignup.promotion = promotion.key;
+            userSignup.user = this.props.user.uid;
+            this.saveCampaignSignup(userSignup);
         })
     }
 
     /**
      * Save the user-campaign relation.
      */
-    saveCampaignSignup(){
-        /*firabaseDB.child('users').child(this.props.user.id).child().set().then((snap) => {
+    saveCampaignSignup = (userSignup) => {
+        firabaseDB.child('signups').push(userSignup).then((snap) => {
+            alert('success');
             if(this.props.signupCallback !== undefined){
                 this.props.signupCallback();
             }
-        })*/
+        })
     }
 
     /**
@@ -378,7 +378,7 @@ class Promotion extends CommonRoleAwareComponent  {
                         <div className="row">
                             <div className="promotion-detail">
                                 <div className="col-xs-12">
-                                    <textarea readOnly={this.isEditable} disabled={this.isEditable} onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:100, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
+                                    <textarea readOnly={this.isEditable} disabled={this.isEditable} onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
                                 </div>
                             </div>
                         </div>

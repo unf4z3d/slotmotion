@@ -14,7 +14,7 @@ class Dashboard extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        this.state = {promotions: [], userSignUp: []};
+        this.state = {promotions: [], userSignUp: [], loading: true};
         this.promotionsDB = firabaseDB.child('promotions');
         this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
     }
@@ -26,7 +26,8 @@ class Dashboard extends ClientRoleAwareComponent  {
         let {userSignUp} = this.state
         this.promotionsDB.on('child_added', snap => {
             this.setState({
-                promotions: this.state.promotions.concat(snap.val())
+                promotions: this.state.promotions.concat(snap.val()),
+                loading: false,
             })
         })
         this.signupsDB.on('child_added', snap => {            

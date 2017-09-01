@@ -1,6 +1,7 @@
 import {RoleAwareComponent} from 'react-router-role-authorization';
+import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
 
-class StaffRoleAwareComponent extends RoleAwareComponent {
+class StaffRoleAwareComponent extends CommonRoleAwareComponent {
 
     constructor(props) {
         super(props);

@@ -23,7 +23,14 @@ class CommonRoleAwareComponent extends RoleAwareComponent  {
    */
   renderIfAuth = (component) =>{
     if(this.isAuthenticated()){
-      return component;
+      const {loading} = this.state;
+
+      if(loading){
+        return <div>Please Wait</div>
+      }else{
+        return component;
+      }
+
     }else{
       return <Redirect to={{pathname: '/'}} />;
     }

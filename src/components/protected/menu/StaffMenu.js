@@ -42,7 +42,7 @@ class StaffMenu extends CommonRoleAwareComponent  {
                             <div className="header-user-name">
                                 <span className="micro-icons user" />
                                 &nbsp;&nbsp;
-                                { this.props.user.email }
+                                { this.props.user.profile.name }
                             </div>
                         </div>
                         <div className="col-xs-1 text-left">                            

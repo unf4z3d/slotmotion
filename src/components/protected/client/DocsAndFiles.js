@@ -28,7 +28,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
             docsType: [],
             docsCategory: [],
             docsLanguage: [],
-            docsDialogVisible : false
+            docsDialogVisible : false,
+            loading: true,
         }
 
         this.docsDB = firabaseDB.child('documents');
@@ -56,7 +57,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
         this.docsDB.on('child_added', snap => {
             this.setState({
-                docs: this.state.docs.concat(snap.val())
+                docs: this.state.docs.concat(snap.val()),
+                loading: false,
             })
         })
     }
