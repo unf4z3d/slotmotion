@@ -9,9 +9,9 @@ import { logout } from './../../../helpers/auth';
 import { Redirect } from 'react-router-dom';
 
 /**
- * Dashboard component for client Role.
+ * StaffMenu component for staff Role.
  */
-class Dashboard extends CommonRoleAwareComponent  {
+class StaffMenu extends CommonRoleAwareComponent  {
     
     handleLogout(){
         logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
@@ -34,13 +34,11 @@ class Dashboard extends CommonRoleAwareComponent  {
                             <Link to="/docs-and-files">Documents & Files</Link>
                             <hr />
                         </div>
-                        { this.isAdmin() &&
-                            <div className="col-xs-1">
-                                <Link to="/promotions">Promotions</Link>
-                                <hr />
-                            </div>
-                        }
-                        <div className={this.isAdmin() ? "col-xs-7 text-right" : "col-xs-8 text-right"} style={{marginTop:7}}>
+                        <div className="col-xs-1">
+                            <Link to="/promotions">Promotions</Link>
+                            <hr />
+                        </div>
+                        <div className="col-xs-7 text-right" style={{marginTop:7}}>
                             <div className="header-user-name">
                                 <span className="micro-icons user" />
                                 &nbsp;&nbsp;
@@ -67,4 +65,4 @@ class Dashboard extends CommonRoleAwareComponent  {
 }
  
 // export the component
-export default Dashboard;
+export default StaffMenu;

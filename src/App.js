@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Login from './components/Login';
 import PasswordRecovery from './components/PasswordRecovery';
 import ClientDashBoard from './components/protected/client/Dashboard';
+import ProtectedApp from './components/protected/App';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -18,7 +19,7 @@ class App extends Component {
      */
     constructor(props) {
         super(props);
-        this.state = {user: null};
+        this.state = {user: null, loading: true};
     }
 
     /**
@@ -26,20 +27,24 @@ class App extends Component {
      */
     componentWillMount() {
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
-            this.setState({user});
+            this.setState({user, loading: false});
         })
     }
 
-    renderDashboardOrLogin() {
-        if (this.state.user != null) {
-            return <ClientDashBoard user={this.state.user}/>
-        } else {
-            return <Switch>
-                <Route exact path="/" component={Login}/>
-                <Route path="/forgot-password" component={PasswordRecovery}/>
-                <Route render={() => <Redirect to={{pathname: '/'}}/>}/>
-            </Switch>
-        }
+    renderDashboardOrLogin = () => {
+        if(!this.state.loading){
+            if (this.state.user != null) {
+                return <ProtectedApp user={this.state.user}/>
+            } else {
+                return <Switch>
+                            <Route exact path="/" component={Login}/>
+                            <Route path="/forgot-password" component={PasswordRecovery}/>
+                            <Route render={() => <Redirect to={{pathname: '/'}}/>}/>
+                    </Switch>
+            }
+        }else{
+           return <div>Please wait</div>
+        }   
     }
 
     /**

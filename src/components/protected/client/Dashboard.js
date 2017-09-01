@@ -1,38 +1,62 @@
-import React from 'react';
+import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
-import { Route, Switch } from 'react-router-dom';
-import MainMenu from './../menu/MainMenu'
-import Campaign from './Campaign'
-import DocsAndFiles from './DocsAndFiles'
-import Profile from './Profile'
-import Promotions from './Promotions'
+import Promotion from './../Promotion';
 import { firabaseDB } from './../../../config/constants'
 
 /**
  * Dashboard component for client Role.
  */
 class Dashboard extends ClientRoleAwareComponent  {
-    
+
     /**
      * Component constructor
      * @param {*} props 
      */
     constructor(props) {
         super(props);
-        this.state = {user : this.props.user, signups: []};
-        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+        this.state = {promotions: [], userSignUp: []};
+        this.promotionsDB = firabaseDB.child('promotions');
+        this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
     }
 
-    componentWillMount() {
-        this.profileDB.on('value', snap => {
-            const {user} = this.state;
-            user.profile = snap.val();
-            this.setState({ user })
-        });
+    /**
+     * Component Life Cycle
+     */
+    componentWillMount(){
+        let {userSignUp} = this.state
+        this.promotionsDB.on('child_added', snap => {
+            this.setState({
+                promotions: this.state.promotions.concat(snap.val())
+            })
+        })
+        this.signupsDB.on('child_added', snap => {            
+            userSignUp[snap.key] = snap.val()
+            this.setState({
+                userSignUp
+            })
+        })
     }
 
+    /**
+     * Component Life Cycle
+     */
     componentWillUnmount() {
-        this.profileDB.off();
+        this.promotionsDB.off();
+        this.signupsDB.off();
+    }
+
+    /**
+     * Is allowed to signup the campaign.
+     */
+    isSignUpAllowed = (campaing) => {
+        return this.state.userSignUp[campaing.key] === undefined;
+    }
+
+    /**
+     * Callback after signup (Campaign signup)
+     */
+    reloadCampaigns = () => {
+        this.forceUpdate()
     }
 
     /**
@@ -41,15 +65,15 @@ class Dashboard extends ClientRoleAwareComponent  {
     render() {
         const jsx = (
             <div>
-                <MainMenu user={this.props.user} />
-                <div className="container">
-                    <Switch>
-                        <Route exact path="/" render={(props) => ( <Campaign user={this.state.user} /> )} />
-                        <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={this.state.user}/> )} />
-                        <Route exact path="/promotions" render={(props) => ( <Promotions user={this.state.user}/> )} />
-                        <Route exact path="/profile" render={(props) => ( <Profile user={this.state.user}/> )} />
-                    </Switch>
-                </div>
+                {this.state.promotions.map((promotion, key) =>
+                    <Promotion 
+                        editable={false} 
+                        key={key} 
+                        value={promotion} 
+                        user={this.props.user}
+                        signupCallback={this.reloadCampaigns}
+                        signupAllowed={this.isSignUpAllowed(promotion)} />
+                , this)}
             </div>
         );
 
