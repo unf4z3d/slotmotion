@@ -1,8 +1,8 @@
 import React from 'react';
-import { RoleAwareComponent } from 'react-router-role-authorization';
+import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
 import { Redirect } from 'react-router-dom';
 
-class ClientRoleAwareComponent extends RoleAwareComponent  {
+class ClientRoleAwareComponent extends CommonRoleAwareComponent  {
 
   constructor(props) {
     super(props);

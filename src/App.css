@@ -432,3 +432,35 @@ a, .primary-color {
 .fullwidth{
   width: 100%;
 }
+
+.form-label{
+  position: absolute; 
+  line-height: 22px; 
+  top: 38px; 
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; 
+  z-index: 1; 
+  transform: scale(0.75) translate(0px, -28px); 
+  transform-origin: left top 0px; 
+  pointer-events: none; 
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.form-switches-inline{
+  margin-top: 37px;
+}
+
+.app-ico{
+  display: inline !important;
+  padding: 0px !important;
+}
+
+.promo-level.signup{
+  border: 2px solid #01f1ee !important;
+}
+
+.promo-level.signup > span{
+  font-size: 13px !important;
+  margin-top: 25px !important;
+  margin-left: -26px !important;
+  color: #01f1ee !important; 
+}

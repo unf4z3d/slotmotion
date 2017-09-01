@@ -3,16 +3,19 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
 import { Link } from 'react-router-dom';
 import { logout } from './../../../helpers/auth';
+import { Redirect } from 'react-router-dom';
 
 /**
  * Dashboard component for client Role.
  */
-class Dashboard extends React.Component  {
+class Dashboard extends CommonRoleAwareComponent  {
     
     handleLogout(){
         logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
+        window.location.reload();
     }
 
     /**
@@ -31,11 +34,13 @@ class Dashboard extends React.Component  {
                             <Link to="/docs-and-files">Documents & Files</Link>
                             <hr />
                         </div>
-                        <div className="col-xs-1">
-                            <Link to="/promotions">Promotions</Link>
-                            <hr />
-                        </div>
-                        <div className="col-xs-7 text-right" style={{marginTop:7}}>
+                        { this.isAdmin() &&
+                            <div className="col-xs-1">
+                                <Link to="/promotions">Promotions</Link>
+                                <hr />
+                            </div>
+                        }
+                        <div className={this.isAdmin() ? "col-xs-7 text-right" : "col-xs-8 text-right"} style={{marginTop:7}}>
                             <div className="header-user-name">
                                 <span className="micro-icons user" />
                                 &nbsp;&nbsp;
@@ -44,7 +49,7 @@ class Dashboard extends React.Component  {
                         </div>
                         <div className="col-xs-1 text-left">                            
                             <IconMenu iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
-                                <MenuItem containerElement={<Link to="/profile">Documents & Files</Link>} primaryText="Profile" />
+                                <MenuItem containerElement={<Link to="/profile"></Link>} primaryText="Profile" />
                                 <MenuItem onClick={this.handleLogout} primaryText="Sign out" />
                             </IconMenu>
                         </div>

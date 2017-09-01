@@ -34,6 +34,7 @@ class Promotions extends ClientRoleAwareComponent  {
                 promotions: this.state.promotions.concat(snap.val())
             })
         })
+        console.log(this.props.user);
     }
 
     /**

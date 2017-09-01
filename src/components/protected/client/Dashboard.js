@@ -6,12 +6,35 @@ import Campaign from './Campaign'
 import DocsAndFiles from './DocsAndFiles'
 import Profile from './Profile'
 import Promotions from './Promotions'
+import { firabaseDB } from './../../../config/constants'
 
 /**
  * Dashboard component for client Role.
  */
 class Dashboard extends ClientRoleAwareComponent  {
     
+    /**
+     * Component constructor
+     * @param {*} props 
+     */
+    constructor(props) {
+        super(props);
+        this.state = {user : this.props.user, signups: []};
+        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+    }
+
+    componentWillMount() {
+        this.profileDB.on('value', snap => {
+            const {user} = this.state;
+            user.profile = snap.val();
+            this.setState({ user })
+        });
+    }
+
+    componentWillUnmount() {
+        this.profileDB.off();
+    }
+
     /**
      * Render method 
      */
@@ -21,10 +44,10 @@ class Dashboard extends ClientRoleAwareComponent  {
                 <MainMenu user={this.props.user} />
                 <div className="container">
                     <Switch>
-                        <Route exact path="/" render={(props) => ( <Promotions user={this.props.user} /> )} />
-                        <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={this.props.user}/> )} />
-                        <Route exact path="/promotions" render={(props) => ( <Promotions user={this.props.user}/> )} />
-                        <Route exact path="/profile" render={(props) => ( <Profile user={this.props.user}/> )} />
+                        <Route exact path="/" render={(props) => ( <Campaign user={this.state.user} /> )} />
+                        <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={this.state.user}/> )} />
+                        <Route exact path="/promotions" render={(props) => ( <Promotions user={this.state.user}/> )} />
+                        <Route exact path="/profile" render={(props) => ( <Profile user={this.state.user}/> )} />
                     </Switch>
                 </div>
             </div>

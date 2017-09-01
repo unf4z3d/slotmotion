@@ -15,6 +15,5 @@ export const firebaseStorage = firebase.storage
 
 
 export const constants = {
-    formatDate : 'dddd, mmmm dS, yyyy' // -> 'dddd, mmmm dS, yyyy, h:MM:ss TT'
+    formatDate : 'mmm d, yyyy' // -> 'dddd, mmmm dS, yyyy, h:MM:ss TT'
 }
-

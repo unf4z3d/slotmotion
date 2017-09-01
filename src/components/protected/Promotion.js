@@ -1,11 +1,7 @@
 import React  from 'react';
-import Paper from 'material-ui/Paper';
-import Chip from 'material-ui/Chip';
-import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import {Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker}  from 'material-ui';
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
-import DatePicker from 'material-ui/DatePicker';
+import CommonRoleAwareComponent from './../commons/CommonRoleAwareComponent';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { firabaseDB, constants, firebaseStorage } from './../../config/constants';
 import dateFormat from 'dateformat'
@@ -13,7 +9,7 @@ import dateFormat from 'dateformat'
 /**
  * Promotion component for client Role.
  */
-class Promotion extends React.Component  {
+class Promotion extends CommonRoleAwareComponent  {
 
     /**
      * Component constructor
@@ -26,9 +22,21 @@ class Promotion extends React.Component  {
             props.value.levels = [{},{},{},{},{}];
         }
 
-        this.state = {promotion: props.value, openLevelDialog: false, selectedLevelIndex:null, selectedLevel:{}};
+        this.state = {
+            promotion: props.value, 
+            openLevelDialog: false, 
+            selectedLevelIndex:null, 
+            selectedLevel:{},
+            editable : this.props.ediatble ? true : false,
+        };
     }
 
+    /**
+     * If the promotion is editable
+     */
+    isEditable = () =>{
+        return this.state.editable && this.isAdmin();
+    }
 
     /**
      * Set and Preview the Active image in the selected level.
@@ -175,7 +183,7 @@ class Promotion extends React.Component  {
             .put(promotion.logoPicture).then((snap) => {
             
             promotion.logoPreviewImage = snap.downloadURL;
-            this.setState({promotion})
+            this.setState({promotion});
             this.uploadLevelsActiveImages();
         })
     }
@@ -204,7 +212,7 @@ class Promotion extends React.Component  {
             const level = promotion.levels[i];
             firebaseStorage().ref().child("promotions").child(promotion.key).child(`level${i + 1}_${type}`)
                 .put(level[type]).then((snap) => {
-                    promotion.levels[i][type] = snap.downloadURL;
+                    promotion.levels[i][type].previewImage = snap.downloadURL;
                     this.setState({promotion})
                     this.uploadLevelImage(promotion, i + 1, type, callback);
             });
@@ -228,6 +236,54 @@ class Promotion extends React.Component  {
                 alert('Success');
             }
         })
+    }
+
+    /**
+     * Is allowed to signup this campaign o promotion.
+     */
+    isSingupAllowed = () =>{
+        return this.props.signupAllowed !== undefined && this.props.signupAllowed;
+    }
+
+    /**
+     * User signup in the campaign.
+     */
+    signUpCampaign = () =>{
+        this.saveUserSignup();
+    }
+
+    /**
+     * Save the campaign in the current user.
+     */
+    saveUserSignup(){
+        const {promotion} = this.state;
+        const now = new Date();
+        const userSignup = {
+            status : 0,
+            createdAtTime : now.getTime(),
+            createdAt : dateFormat(now, constants.formatDate),
+        }
+
+        firabaseDB.child('users').child(this.props.user.uid).child('signups')
+                  .child(promotion.key).set(userSignup)
+                  .then((snap) => 
+        {
+            alert('Success');
+            if(this.props.signupCallback !== undefined){
+                this.props.signupCallback();
+            }
+        })
+    }
+
+    /**
+     * Save the user-campaign relation.
+     */
+    saveCampaignSignup(){
+        /*firabaseDB.child('users').child(this.props.user.id).child().set().then((snap) => {
+            if(this.props.signupCallback !== undefined){
+                this.props.signupCallback();
+            }
+        })*/
     }
 
     /**
@@ -287,8 +343,14 @@ class Promotion extends React.Component  {
                             <div className="col-xs-12">
                                 <div className="promotion-steps">
                                 {[...Array(5)].map((x, i) =>
+                                    this.isSingupAllowed() && i === 4
+                                    ?
+                                    <Paper key={i} className="promo-level signup" zDepth={1} circle={true}>
+                                        <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
+                                    </Paper>
+                                    :
                                     <Paper key={i} style={{backgroundImage: this.getImageLevel(i) }} className="promo-level" zDepth={1} circle={true}>
-                                        <span onClick={ () => this.showDialog(i) } className="promo-edit-level">{this.getImageLevel(i) ? '' : `EDIT LEVEL ${i+1}`}</span>
+                                        <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.getImageLevel(i) ? '' : `EDIT LEVEL ${i+1}`}</span>
                                     </Paper>
                                 )}
                                 </div>
@@ -298,30 +360,30 @@ class Promotion extends React.Component  {
                             <div className="promotion-detail">
                                 <div className="col-xs-8">
                                     <span className="promotion-name">
-                                        <input onChange={this.handleChange} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} /> 
+                                        <input readOnly={this.isEditable} disabled={this.isEditable} onChange={this.handleChange} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} /> 
                                     </span>
                                     {(this.state.promotion.startDate || this.state.promotion.endDate) &&
                                         <div className="promotion-calendars">{this.state.promotion.startDate}&nbsp;&#8226;&nbsp;{this.state.promotion.endDate}</div>
                                     }
                                 </div>
                                 <div className="col-xs-4">
-                                <div className="promotion-download-package">
+                                {/*<div className="promotion-download-package">
                                     <Chip onClick={() => {alert('handleDownload')}} style={{margin: 4}}>
                                         Download Campaign Package
                                     </Chip>
-                                </div>
+                                </div>*/}
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="promotion-detail">
                                 <div className="col-xs-12">
-                                    <textarea onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:100, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
+                                    <textarea readOnly={this.isEditable} disabled={this.isEditable} onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:100, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
                                 </div>
                             </div>
                         </div>
                         <br/>
-                        <div className="row">
+                        {/*<div className="row">
                             <div className="col-xs-12">
                                 <div className="promotion-status">
                                     <Chip style={{backgroundColor:'red', margin: '0 40px 0 0'}}>Pending</Chip>
@@ -331,7 +393,7 @@ class Promotion extends React.Component  {
                                     <Chip style={{position:'absolute', backgroundColor:'red', margin: '-32px 0 0 720px'}}>Pending</Chip>
                                 </div>
                             </div>  
-                        </div>
+                        </div>*/}
                     </div>
 
                     <Dialog

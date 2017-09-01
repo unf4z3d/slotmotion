@@ -14,23 +14,49 @@ class Campaign extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        this.state = {promotions: [], userPromotions: []};
+        this.state = {promotions: [], userSignUp: []};
+        this.promotionsDB = firabaseDB.child('promotions');
+        this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
     }
 
-
-    componentDidMount(){
-        let userRef = firabaseDB.child('promotions');
-        userRef.on('child_added', snap => {
+    /**
+     * Component Life Cycle
+     */
+    componentWillMount(){
+        let {userSignUp} = this.state
+        this.promotionsDB.on('child_added', snap => {
             this.setState({
                 promotions: this.state.promotions.concat(snap.val())
             })
         })
-        let usersPromoRef = firabaseDB.child('user').child('68ff71ae-7283-41f0-9a22-741b483e6930').child('promtions');
-        usersPromoRef.on('child_added', snap => {
+        this.signupsDB.on('child_added', snap => {            
+            userSignUp[snap.key] = snap.val()
             this.setState({
-                userPromotions: this.state.userPromotions.concat(snap.val())
+                userSignUp
             })
         })
+    }
+
+    /**
+     * Component Life Cycle
+     */
+    componentWillUnmount() {
+        this.promotionsDB.off();
+        this.signupsDB.off();
+    }
+
+    /**
+     * Is allowed to signup the campaign.
+     */
+    isSignUpAllowed = (campaing) => {
+        return this.state.userSignUp[campaing.key] === undefined;
+    }
+
+    /**
+     * Callback after signup (Campaign signup)
+     */
+    reloadCampaigns = () => {
+        this.forceUpdate()
     }
 
     /**
@@ -40,7 +66,13 @@ class Campaign extends ClientRoleAwareComponent  {
         const jsx = (
             <div>
                 {this.state.promotions.map((promotion, key) =>
-                    <Promotion value={promotion} user={this.props.user} />
+                    <Promotion 
+                        editable={false} 
+                        key={key} 
+                        value={promotion} 
+                        user={this.props.user}
+                        signupCallback={this.reloadCampaigns}
+                        signupAllowed={this.isSignUpAllowed(promotion)} />
                 , this)}
             </div>
         );

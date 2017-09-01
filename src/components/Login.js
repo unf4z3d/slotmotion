@@ -53,7 +53,7 @@ class Login extends React.Component {
                         <Message error value={this.state.errorMessage} />
                         <br/><br/>  
                         <form onSubmit={this.handleSubmit}>
-                            <TextField defaultValue="oyepez003@gmail.com" ref="username" hintText="Username"/>
+                            <TextField defaultValue="user@yopmail.com" ref="username" hintText="Username"/>
                             <br/><br/>
                             <TextField defaultValue="123456" ref="password" type="password" hintText="Password"/>
                             <br/><br/>

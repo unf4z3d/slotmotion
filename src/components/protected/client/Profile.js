@@ -18,12 +18,9 @@ class Profile extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        this.state = {countries: [], profile : {}};
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSetCountry = this.handleSetCountry.bind(this);
-        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+        this.state = {countries: [], profile : this.props.user.profile};
         this.countriesDB = firabaseDB.child('countries');
+        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
     }
 
     componentWillMount() {
@@ -43,14 +40,14 @@ class Profile extends ClientRoleAwareComponent  {
         this.countriesDB.off();
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         const { profile } = this.state;
         profile[e.target.name] = e.target.value;
         this.setState({ profile });
     }
 
     /**
-     * On change a select in the Api search form
+     * On change the Country.
      */
     handleSetCountry = (event, index, value) => {
         const { profile } = this.state;
@@ -58,7 +55,7 @@ class Profile extends ClientRoleAwareComponent  {
         this.setState({ profile });
     };
 
-    handleSubmit(e){
+    handleSubmit = (e) => {
         e.preventDefault()
         const password = this.refs.password.input.value;
         if(password !== undefined && password !== null && password){
@@ -149,6 +146,7 @@ class Profile extends ClientRoleAwareComponent  {
                                                             name="email"
                                                             onChange={this.handleChange}
                                                             value={this.state.profile.email}
+                                                            disabled={!this.hasRole('STAFF')}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
@@ -156,6 +154,7 @@ class Profile extends ClientRoleAwareComponent  {
                                                             name="role"
                                                             onChange={this.handleChange}
                                                             value={this.state.profile.role}
+                                                            disabled={!this.hasRole('STAFF')}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
