@@ -2,7 +2,7 @@ import React from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import RaisedButton from 'material-ui/RaisedButton';
 import Promotion from './../Promotion';
-import { firabaseDB } from './../../../config/constants'
+import { firabaseDB, constants } from './../../../config/constants'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
@@ -53,6 +53,35 @@ class Promotions extends ClientRoleAwareComponent  {
         this.setState({promotionVisible: false})
     }
 
+    /**
+     * Build the Publish, Delete, Award buttons
+     */
+    promotionActionsFormatter = (cell, row, enumObject, index) =>{
+        return (
+            <div className="text-left">
+                <span>
+                    <RaisedButton 
+                        disabled={row.status === constants.promotionsStatus.publish} 
+                        className="btn-smotion secondary"
+                        label={row.status === constants.promotionsStatus.publish ? 'Published' : 'Publish'} secondary />
+                </span>
+                &nbsp;&nbsp;
+                <span>
+                    <RaisedButton 
+                        disabled={row.status === constants.promotionsStatus.deleted} 
+                        className="btn-smotion" 
+                        label={row.status === constants.promotionsStatus.deleted ? 'Deleted' : 'Delete'} />
+                </span>
+                &nbsp;&nbsp;
+                <span>
+                    <RaisedButton 
+                        disabled={row.status === constants.promotionsStatus.awarded} 
+                        className="btn-smotion primary" 
+                        label={row.status === constants.promotionsStatus.awarded ? 'Awarded' : 'Award'} primary />
+                </span>
+            </div>
+        )
+    }
 
     /**
      * Render method 
@@ -94,12 +123,12 @@ class Promotions extends ClientRoleAwareComponent  {
                 }
                 <div className="smotion-table">
                     <BootstrapTable data={ this.state.promotions } options={{hideSizePerPage: true}} bordered={ false }>
-                        <TableHeaderColumn dataField='name' isKey dataSort>Name</TableHeaderColumn>
-                        <TableHeaderColumn dataField='name' dataSort>Game</TableHeaderColumn>
-                        <TableHeaderColumn dataField='startDate' dataSort>Starts</TableHeaderColumn>
-                        <TableHeaderColumn dataField='endDate' dataSort>Ends</TableHeaderColumn>
-                        <TableHeaderColumn dataField='status' dataSort>Status</TableHeaderColumn>
-                        <TableHeaderColumn></TableHeaderColumn>
+                        <TableHeaderColumn width={100} dataField='name' isKey dataSort>Name</TableHeaderColumn>
+                        <TableHeaderColumn width={100} dataField='name' dataSort>Game</TableHeaderColumn>
+                        <TableHeaderColumn width={100} dataField='startDate' dataSort>Starts</TableHeaderColumn>
+                        <TableHeaderColumn width={100} dataField='endDate' dataSort>Ends</TableHeaderColumn>
+                        <TableHeaderColumn width={100} dataField='status' dataSort>Status</TableHeaderColumn>
+                        <TableHeaderColumn dataAlign="left" dataFormat={ this.promotionActionsFormatter } ></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>

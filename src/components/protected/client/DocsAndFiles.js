@@ -161,7 +161,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         };
 
         firebaseStorage().ref().child("documents").child(file.key).child(file.originName, )
-            .put(file.value).then((snap) => {
+            .put(file.value, metadata).then((snap) => {
                 file.downloadURL = snap.downloadURL;
                 this.putFileData();
         })
@@ -215,8 +215,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
             });
             return value;
         }
-
-        return;
+        
     }
 
     /**

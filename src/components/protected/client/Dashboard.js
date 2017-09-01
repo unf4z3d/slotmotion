@@ -1,6 +1,7 @@
 import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import Promotion from './../Promotion';
+import Countdown from 'react-countdown-now';
 import { firabaseDB } from './../../../config/constants'
 
 /**
@@ -75,6 +76,8 @@ class Dashboard extends ClientRoleAwareComponent  {
                         signupCallback={this.reloadCampaigns}
                         signupAllowed={this.isSignUpAllowed(promotion)} />
                 , this)}
+
+                <Countdown date={Date.now() + 950400000} />
             </div>
         );
 

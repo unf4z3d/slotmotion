@@ -21,5 +21,9 @@ export const constants = {
         declined: 1,
         forfeited: 2,
         active: 3,
+        inactive: 4,
+        publish: 5,
+        deleted: 6,
+        awarded: 7,
     }
 }

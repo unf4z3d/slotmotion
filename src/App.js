@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Login from './components/Login';
 import PasswordRecovery from './components/PasswordRecovery';
-import ClientDashBoard from './components/protected/client/Dashboard';
 import ProtectedApp from './components/protected/App';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

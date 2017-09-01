@@ -82,7 +82,7 @@ class Dashboard extends StaffRoleAwareComponent {
      */
     signUpActionsFormatter = (cell, row, enumObject, index) =>{
         return (
-            <div className="text-right">
+            <div className="text-left">
                 <span>
                     <RaisedButton 
                         disabled={row.status === constants.promotionsStatus.declined} 
@@ -107,7 +107,7 @@ class Dashboard extends StaffRoleAwareComponent {
      */
     activeSignUpActionsFormatter = (cell, row, enumObject, index) =>{
         return (
-            <div className="text-right">
+            <div className="text-left">
                 <span>
                     <RaisedButton 
                     disabled={row.status === constants.promotionsStatus.forfeited} 
