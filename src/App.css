@@ -301,9 +301,19 @@ a{
   text-align: center !important;
 }
 
-.btn-smotion > button > div > div > span, .header, .btn-smotion > label > div > div > span, .header{
+.btn-smotion > button > div > div > span, 
+.btn-smotion > label > div > div > span, 
+.btn-smotion > button > div > span, 
+.btn-smotion > label > div > span, 
+.header{
   font-size: 10px !important;
   color: #222524 !important;
+}
+
+.btn-smotion button:disabled, 
+.btn-smotion label:disabled, 
+{
+  opacity: 0.4 !important;
 }
 
 .btn-smotion.primary > button, .btn-smotion.primary > button{

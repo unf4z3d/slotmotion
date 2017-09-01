@@ -270,7 +270,6 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                         </div>
                     </div>
                 </div>
-                <br/>
                 <div className="smotion-table selection">
                     <BootstrapTable data={ this.state.docs }  options={{hideSizePerPage: true}} pagination bordered={ false } selectRow={{mode: 'checkbox'}}>
                         <TableHeaderColumn dataField='name' isKey dataSort>Name</TableHeaderColumn>

@@ -92,7 +92,6 @@ class Promotions extends ClientRoleAwareComponent  {
                         </div>
                     </div>
                 }
-                <br/>
                 <div className="smotion-table">
                     <BootstrapTable data={ this.state.promotions } options={{hideSizePerPage: true}} bordered={ false }>
                         <TableHeaderColumn dataField='name' isKey dataSort>Name</TableHeaderColumn>
