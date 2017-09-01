@@ -8,23 +8,23 @@ class Dashboard extends StaffRoleAwareComponent {
 
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
     }
-    
+
 
     /**
-     * Render method 
+     * Render method
      */
-    render = ()  => 
-    (
-        <div className="row">
-            Private staff
-        </div>
-    );
+    render = () =>
+        (
+            <div className="row">
+                Private staff
+            </div>
+        );
 }
- 
+
 // export the component
 export default Dashboard;
