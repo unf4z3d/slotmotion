@@ -553,3 +553,18 @@ a, .primary-color {
 .st-lvl-4.Active, .st-lvl-4.Inactive, .st-lvl-4.Published, .st-lvl-4.Deleted, .st-lvl-4.Awarded{
   visibility: hidden;
 }
+
+.input-icon{
+  position: 'relative';
+  display: 'inline-block'
+}
+
+.input-icon svg{
+  z-index: 10000 !important;
+  cursor: pointer !important;
+}
+
+.ico-inline{
+  margin-left: 0px !important;
+  margin-top: 35px !important;
+}

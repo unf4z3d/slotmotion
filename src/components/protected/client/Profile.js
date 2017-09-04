@@ -1,8 +1,7 @@
 import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
-import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import { TextField, MenuItem, RaisedButton, IconButton}   from 'material-ui';
+import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import { ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator';
 import { firabaseDB } from './../../../config/constants'
 import { updatePassword } from './../../../helpers/auth';
@@ -18,7 +17,13 @@ class Profile extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        this.state = {countries: [], profile : this.props.user.profile, loading: true};
+        this.state = {
+            countries: [], 
+            profile : this.props.user.profile, 
+            loading: true, 
+            hidePassword:false, 
+            passwordType:'password',
+        };
         this.countriesDB = firabaseDB.child('countries');
         this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
     }
@@ -78,6 +83,14 @@ class Profile extends ClientRoleAwareComponent  {
             })
     }
 
+    toggleShowPassword = () => {
+        const passwordType = this.state.hidePassword ? 'password' : 'text';
+        this.setState({
+            hidePassword: !this.state.hidePassword,
+            passwordType
+        });
+    }
+
     /**
      * Render method 
      */
@@ -122,10 +135,16 @@ class Profile extends ClientRoleAwareComponent  {
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
-                                                        <TextField floatingLabelFixed floatingLabelText="Password" fullWidth
-                                                            name="password"
-                                                            ref ="password"
-                                                            type="password" />
+                                                        <div className="input-icon">
+                                                            <div className="col-xs-10 no-padding">
+                                                                <TextField floatingLabelFixed floatingLabelText="Password" fullWidth
+                                                                        name="password" ref ="password" type={this.state.passwordType} />
+                                                            </div>
+                                                            <div className="col-xs-2 no-padding">
+                                                                <ImageRemoveRedEye className={this.state.toggleIconClass} onClick={this.toggleShowPassword} className="ico-inline" />
+                                                            </div>
+                                                        </div>
+                                                        
 
                                                         <SelectValidator floatingLabelFixed floatingLabelText="Country" fullWidth
                                                             className="select-form"
