@@ -2,6 +2,7 @@ import React  from 'react';
 import {Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker}  from 'material-ui';
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
 import CommonRoleAwareComponent from './../commons/CommonRoleAwareComponent';
+import Countdown from 'react-countdown-now';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { firabaseDB, constants, firebaseStorage } from './../../config/constants';
 import dateFormat from 'dateformat'
@@ -27,8 +28,34 @@ class Promotion extends CommonRoleAwareComponent  {
             openLevelDialog: false, 
             selectedLevelIndex:null, 
             selectedLevel:{},
-            editable : this.props.editable ? true : false,
+            editable : props.editable ? true : false,
         };
+        this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
+        this.promotionsStatusDB = firabaseDB.child('promotion_status');
+    }
+
+    /**
+     * Component Life Cycle
+     */
+    componentWillMount(){
+        const {promotion} = this.state;
+
+        this.signupsDB.child(promotion.key).on('value', snap => {
+            const signedUp = snap.val();
+            if(signedUp !== null){
+                this.promotionsStatusDB.child(signedUp.status).once('value', snap => {
+                    promotion.status = snap.val();
+                    this.setState({ promotion })
+                })
+            }  
+        })
+    }
+
+    /**
+     * Component Life Cycle
+     */
+    componentWillUnmount() {
+        this.promotionsStatusDB.off();        
     }
 
     /**
@@ -43,9 +70,9 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     chooseActiveLevelImage = e => {
         const { selectedLevel } = this.state;
+        const reader = new FileReader();
         selectedLevel.activeImage = e.target.files[0];
         selectedLevel.activeImageName = selectedLevel.activeImage.name;
-        const reader = new FileReader();
         this.setState({selectedLevel});
 
         reader.onload = e => {            
@@ -137,11 +164,10 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     chooseLogoPicture = e => {
         const { promotion } = this.state;
+        const reader = new FileReader();
         promotion.logoPicture = e.target.files[0];
         promotion.logoPictureName = promotion.logoPicture.name;
         this.setState({promotion});
-
-        const reader = new FileReader();
 
         reader.onload = e => {           
             promotion.logoPreviewImage = `url(${e.target.result})`;
@@ -277,13 +303,65 @@ class Promotion extends CommonRoleAwareComponent  {
     /**
      * Save the user-campaign relation.
      */
-    saveCampaignSignup = (userSignup) => {
+    saveCampaignSignup = userSignup => {
         firabaseDB.child('signups').push(userSignup).then((snap) => {
             alert('success');
             if(this.props.signupCallback !== undefined){
                 this.props.signupCallback();
             }
         })
+    }
+
+    /**
+     * Show the clock in the promotion
+     */
+    started = () => {
+        return this.isEditable() === false && this.state.promotion.startDateTime > Date.now();
+    }
+
+    renderClock = ({ days,hours, minutes, seconds, completed }) => {
+        const times = [
+            days < 10 ? '0'+days : days,
+            hours < 10 ? '0'+hours : hours,
+            minutes < 10 ? '0'+minutes : minutes,
+            seconds < 10 ? '0'+seconds : seconds,
+            'Watch Demo',
+        ]
+
+        //const times = [days,hours,minutes,seconds];
+
+        return (  
+            <div>
+                {       
+                [...Array(5)].map((x, i) =>
+                    <Paper key={i} onClick={i === 4 && (() => {this.handleWathDemo('https://youtu.be/M7lc1UVf-VE')})} className={i === 4 ? 'promo-level watch-demo': 'promo-level clock'} zDepth={1} circle={true}>
+                        <span className="promo-edit-level">{times[i]}</span>
+                    </Paper>
+                )
+                }
+            </div>
+        ) 
+    }
+
+    /**
+     * Render the video player
+     */
+    handleWathDemo = url => {
+        this.props.onWathDemo(url);
+    }
+
+    renderLevelStatus = i => {
+        const status = 'undefined';
+        return <Chip className={'st-lvl-' + i}>{status}</Chip>
+    }
+
+    renderPromotionStatus = () => {
+        let status = null
+        if(this.state.promotion.status){
+            status = this.state.promotion.status.description;
+        }
+
+        return <Chip className={status !== null ? 'st-lvl-4 visible ' + status  : 'st-lvl-4'}>{status}</Chip>
     }
 
     /**
@@ -342,17 +420,28 @@ class Promotion extends CommonRoleAwareComponent  {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="promotion-steps">
-                                {[...Array(5)].map((x, i) =>
-                                    this.isSingupAllowed() && i === 4
-                                    ?
-                                    <Paper key={i} className="promo-level signup" zDepth={1} circle={true}>
-                                        <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
-                                    </Paper>
+                                {
+                                    this.started()
+                                    ?   
+                                        <div>
+                                        <Countdown 
+                                            date={this.state.promotion.startDateTime} 
+                                            renderer={this.renderClock} />
+                                        </div>
                                     :
-                                    <Paper key={i} style={{backgroundImage: this.getImageLevel(i) }} className="promo-level" zDepth={1} circle={true}>
-                                        <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.getImageLevel(i) ? '' : `EDIT LEVEL ${i+1}`}</span>
-                                    </Paper>
-                                )}
+                                        [...Array(5)].map((x, i) =>
+                                            this.isSingupAllowed() && i === 4 
+                                            ?
+                                                <Paper key={i} className="promo-level signup" zDepth={1} circle={true}>
+                                                    <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
+                                                </Paper>
+                                            :
+                                                <Paper key={i} style={{backgroundImage: this.getImageLevel(i) }} className="promo-level" zDepth={1} circle={true}>
+                                                    <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.getImageLevel(i) ? '' : `EDIT LEVEL ${i+1}`}</span>
+                                                </Paper>
+                                        )
+                                }
+
                                 </div>
                             </div>  
                         </div>
@@ -360,7 +449,13 @@ class Promotion extends CommonRoleAwareComponent  {
                             <div className="promotion-detail">
                                 <div className="col-xs-8">
                                     <span className="promotion-name">
-                                        <input readOnly={this.isEditable} disabled={this.isEditable} onChange={this.handleChange} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} /> 
+                                        {
+                                        this.isEditable()
+                                        ?
+                                            <input onChange={this.handleChange} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} /> 
+                                        :
+                                            <input readOnly disabled onChange={this.handleChange} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} /> 
+                                        }
                                     </span>
                                     {(this.state.promotion.startDate || this.state.promotion.endDate) &&
                                         <div className="promotion-calendars">{this.state.promotion.startDate}&nbsp;&#8226;&nbsp;{this.state.promotion.endDate}</div>
@@ -378,22 +473,28 @@ class Promotion extends CommonRoleAwareComponent  {
                         <div className="row">
                             <div className="promotion-detail">
                                 <div className="col-xs-12">
-                                    <textarea readOnly={this.isEditable} disabled={this.isEditable} onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
+                                    {   
+                                        this.isEditable()
+                                        ?
+                                        <textarea onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
+                                        :
+                                        <textarea readOnly disabled onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>
                         <br/>
-                        {/*<div className="row">
-                            <div className="col-xs-12">
-                                <div className="promotion-status">
-                                    <Chip style={{backgroundColor:'red', margin: '0 40px 0 0'}}>Pending</Chip>
-                                    <Chip style={{position:'absolute', backgroundColor:'red', margin: '-32px 50px 0 150px'}}>Pending</Chip>
-                                    <Chip style={{position:'absolute', backgroundColor:'red', margin: '-32px 50px 0 310px'}}>Pending</Chip>
-                                    <Chip style={{position:'absolute', backgroundColor:'red', margin: '-32px 50px 0 470px'}}>Pending</Chip>
-                                    <Chip style={{position:'absolute', backgroundColor:'red', margin: '-32px 0 0 720px'}}>Pending</Chip>
-                                </div>
-                            </div>  
-                        </div>*/}
+                        { this.started() === false &&
+                            <div className="row">
+                                <div className="col-xs-12">
+                                    <div className="promotion-status">                                
+                                        {[...Array(4)].map((x, i) => this.renderLevelStatus(i) )}
+                                        { this.renderPromotionStatus() } 
+                                    </div>
+                                </div>  
+                            </div>
+                        }
                     </div>
 
                     <Dialog

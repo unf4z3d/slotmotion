@@ -204,18 +204,19 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
      * @param {*} cell 
      * @param {*} row 
      */
-    languageFormatter(cell, row){
+    languageFormatter = (cell, row) =>{
         if(cell !== undefined){
             let value = '';
-            cell.map((val, i) =>{
+            cell.map((val, i) => {
                 value += val;
                 if(i !== cell.length - 1){
                     value += ' - ';
                 }
+                return value;
             });
             return value;
         }
-        
+        return '';
     }
 
     /**

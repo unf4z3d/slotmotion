@@ -1,7 +1,8 @@
 import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
+import { Dialog }  from 'material-ui';
+import ReactPlayer from 'react-player'
 import Promotion from './../Promotion';
-import Countdown from 'react-countdown-now';
 import { firabaseDB } from './../../../config/constants'
 
 /**
@@ -15,7 +16,13 @@ class Dashboard extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        this.state = {promotions: [], userSignUp: [], loading: true};
+        this.state = {
+            promotions: [], 
+            userSignUp: [], 
+            loading: true, 
+            demoVisible: false,
+            demoURL: null
+        };
         this.promotionsDB = firabaseDB.child('promotions');
         this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
     }
@@ -62,6 +69,20 @@ class Dashboard extends ClientRoleAwareComponent  {
     }
 
     /**
+     * Show the demo dialog
+     */
+    showDemoDialog = demoURL => {
+        this.setState({
+            demoURL,
+            demoVisible: true
+        });
+    }
+
+    wasSignedUp = promotion => {
+        return this.state.userSignUp[promotion.key] !== undefined;
+    }
+
+    /**
      * Render method 
      */
     render() {
@@ -69,15 +90,46 @@ class Dashboard extends ClientRoleAwareComponent  {
             <div>
                 {this.state.promotions.map((promotion, key) =>
                     <Promotion 
+                        onWathDemo={this.showDemoDialog}
                         editable={false} 
                         key={key} 
                         value={promotion} 
                         user={this.props.user}
+                        signedUp={this.wasSignedUp(promotion)}
                         signupCallback={this.reloadCampaigns}
                         signupAllowed={this.isSignUpAllowed(promotion)} />
                 , this)}
 
-                <Countdown date={Date.now() + 950400000} />
+
+                <Dialog
+                        className="smotion-dialog"
+                        modal
+                        onRequestClose={() => this.setState({demoVisible : false})}
+                        open={this.state.demoVisible}
+                    >
+                    <div className="row">
+                            <div className="col-xs-12">
+                                <div className="bg-gray">
+                                    <div className="row header">
+                                        <div className="col-xs-10 col-xs-offset-1">
+                                            <h6>&nbsp;</h6>
+                                        </div>
+                                        <div className="col-xs-1">
+                                            <a className="close" onClick={() => {this.setState({demoVisible: false})}}>X</a>
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-xs-12 demo-player">
+                                            <ReactPlayer url={this.state.demoURL} playing={true} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </Dialog>
+
+
             </div>
         );
 

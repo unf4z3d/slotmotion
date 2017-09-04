@@ -19,6 +19,7 @@ class Dashboard extends StaffRoleAwareComponent {
         super(props);
         this.state = {usersSignUp: [], activeUsersSignUp: [], cache:{users: [], promotions: []}, loading: true};
         this.signupsDB = firabaseDB.child('signups');
+        this.usersDB = firabaseDB.child('users');
     }
 
     /**
@@ -27,16 +28,26 @@ class Dashboard extends StaffRoleAwareComponent {
     componentWillMount(){
         this.signupsDB.on('child_added', snap => this.signupsDBCallback(snap));
         this.signupsDB.on('child_changed', snap => this.signupsDBCallback(snap));
+        this.setState({loading: false});
     }
 
     signupsDBCallback = (snap) =>{
-
         let signup = snap.val();
         signup.key = snap.key;
-        this.setState({
-            usersSignUp: signup.status === constants.promotionsStatus.pending || signup.status === constants.promotionsStatus.declined ? this.state.usersSignUp.concat(signup) : this.state.usersSignUp,
-            activeUsersSignUp: signup.status === constants.promotionsStatus.active || signup.status === constants.promotionsStatus.forfeited ? this.state.activeUsersSignUp.concat(signup) : this.state.activeUsersSignUp 
-        })
+
+        let {usersSignUp, activeUsersSignUp} = this.state;
+
+        if (signup.status === constants.promotionsStatus.pending 
+            || signup.status === constants.promotionsStatus.declined){
+            usersSignUp = usersSignUp.concat(signup);
+        }
+
+        if (signup.status === constants.promotionsStatus.active 
+            || signup.status === constants.promotionsStatus.forfeited){
+            activeUsersSignUp = activeUsersSignUp.concat(signup);
+        }
+
+        this.setState({usersSignUp, activeUsersSignUp});
 
         firabaseDB.child('users').child(signup.user).once('value').then((snap => {
             let {cache} = this.state;
@@ -47,7 +58,7 @@ class Dashboard extends StaffRoleAwareComponent {
         firabaseDB.child('promotions').child(signup.promotion).once('value').then((snap => {
             let {cache} = this.state;
             cache.promotions[signup.promotion] = snap.val();
-            this.setState({cache, loading: false});
+            this.setState({cache});
         })) 
     }
 
@@ -136,7 +147,12 @@ class Dashboard extends StaffRoleAwareComponent {
 
         firabaseDB.child('signups').child(signup.key).update(signup)
         .then(() => {
-            alert('Success');
+            this.usersDB.child(signup.user)
+                        .child('signups')
+                        .child(signup.promotion)
+                        .set({status: signup.status}).then(() =>{
+                alert('Success');
+            });
         })
         .catch((error) => {
             console.log(`Error ${error.code}: ${error.message}`);
@@ -155,10 +171,10 @@ class Dashboard extends StaffRoleAwareComponent {
                     <div className="col-xs-10">
                         <div className="smotion-table">
                             <BootstrapTable data={ this.state.usersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
-                                <TableHeaderColumn dataAlign="center" width={125} dataField='user' isKey dataFormat={ this.userFormatter } >Client</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width={125} dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Game</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width={125} dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Campaign</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width={125} dataField='createdAt'>Requested</TableHeaderColumn>
+                                <TableHeaderColumn dataAlign="center" width="125" dataField='user' isKey dataFormat={ this.userFormatter } >Client</TableHeaderColumn>
+                                <TableHeaderColumn dataAlign="center" width="125" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Game</TableHeaderColumn>
+                                <TableHeaderColumn dataAlign="center" width="125" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Campaign</TableHeaderColumn>
+                                <TableHeaderColumn dataAlign="center" width="125" dataField='createdAt'>Requested</TableHeaderColumn>
                                 <TableHeaderColumn dataAlign="center" dataFormat={ this.signUpActionsFormatter } ></TableHeaderColumn>
                             </BootstrapTable>
                         </div>

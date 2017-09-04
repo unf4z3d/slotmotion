@@ -14,7 +14,7 @@ class ClientMenu extends CommonRoleAwareComponent  {
     
     handleLogout(){
         logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
-        window.location.reload();
+        //window.location.reload();
     }
 
     /**
