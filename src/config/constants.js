@@ -15,5 +15,15 @@ export const firebaseStorage = firebase.storage
 
 
 export const constants = {
-    formatDate : 'mmm d, yyyy' // -> 'dddd, mmmm dS, yyyy, h:MM:ss TT'
+    formatDate : 'mmm d, yyyy', // -> 'dddd, mmmm dS, yyyy, h:MM:ss TT'
+    promotionsStatus:{
+        pending: 0,
+        declined: 1,
+        forfeited: 2,
+        active: 3,
+        inactive: 4,
+        publish: 5,
+        deleted: 6,
+        awarded: 7,
+    }
 }

@@ -6,7 +6,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
 import { Link } from 'react-router-dom';
 import { logout } from './../../../helpers/auth';
-import { Redirect } from 'react-router-dom';
 
 /**
  * StaffMenu component for staff Role.
@@ -15,7 +14,7 @@ class StaffMenu extends CommonRoleAwareComponent  {
     
     handleLogout(){
         logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
-        window.location.reload();
+        //window.location.reload();
     }
 
     /**

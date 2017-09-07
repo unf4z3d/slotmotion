@@ -161,7 +161,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         };
 
         firebaseStorage().ref().child("documents").child(file.key).child(file.originName, )
-            .put(file.value).then((snap) => {
+            .put(file.value, metadata).then((snap) => {
                 file.downloadURL = snap.downloadURL;
                 this.putFileData();
         })
@@ -204,19 +204,19 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
      * @param {*} cell 
      * @param {*} row 
      */
-    languageFormatter(cell, row){
+    languageFormatter = (cell, row) =>{
         if(cell !== undefined){
             let value = '';
-            cell.map((val, i) =>{
+            cell.map((val, i) => {
                 value += val;
                 if(i !== cell.length - 1){
                     value += ' - ';
                 }
+                return value;
             });
             return value;
         }
-
-        return;
+        return '';
     }
 
     /**
@@ -245,6 +245,19 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         );
     }
 
+    handleFilterByName = () => {
+        this.docsDB.off();
+        this.setState({
+            docs: []
+        })
+        this.docsDB.orderByChild('name').startAt(this.refs.nameFilter.input.value).on('child_added', snap => {
+            this.setState({
+                docs: this.state.docs.concat(snap.val()),
+                loading: false,
+            })
+        })
+    }
+
     /**
      * Render method 
      */
@@ -254,9 +267,9 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                 <div className="row">
                     <div className="col-xs-4">
                         <div className="text-left">
-                            <div style={{position: 'relative', display: 'inline-block'}}>
-                                <ActionSearch style={{position: 'absolute', right: 0, top: 15, width: 20, height: 20}}/>
-                                <TextField hintText="Search by Name" />
+                            <div className="input-icon">
+                                <ActionSearch onClick={this.handleFilterByName} style={{position: 'absolute', right: 0, top: 15, width: 20, height: 20}}/>
+                                <TextField ref="nameFilter" hintText="Search by Name" />
                             </div>
                         </div>
                     </div>
@@ -270,7 +283,6 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                         </div>
                     </div>
                 </div>
-                <br/>
                 <div className="smotion-table selection">
                     <BootstrapTable data={ this.state.docs }  options={{hideSizePerPage: true}} pagination bordered={ false } selectRow={{mode: 'checkbox'}}>
                         <TableHeaderColumn dataField='name' isKey dataSort>Name</TableHeaderColumn>

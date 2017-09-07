@@ -9,7 +9,8 @@ a{
 }
 
 .container{
-  width: 1150px !important;
+  width: 870px !important;
+  max-width: 870px !important;
 }
 
 .App {
@@ -301,9 +302,19 @@ a{
   text-align: center !important;
 }
 
-.btn-smotion > button > div > div > span, .header, .btn-smotion > label > div > div > span, .header{
+.btn-smotion > button > div > div > span, 
+.btn-smotion > label > div > div > span, 
+.btn-smotion > button > div > span, 
+.btn-smotion > label > div > span, 
+.header{
   font-size: 10px !important;
   color: #222524 !important;
+}
+
+.btn-smotion button:disabled, 
+.btn-smotion label:disabled, 
+{
+  opacity: 0.4 !important;
 }
 
 .btn-smotion.primary > button, .btn-smotion.primary > button{
@@ -462,9 +473,98 @@ a, .primary-color {
   border: 2px solid #01f1ee !important;
 }
 
+.promo-level.signup, .promo-level.clock{
+  border: 2px solid #01f1ee !important;
+}
+
+.promo-level.watch-demo{
+  border: 2px solid #eca706 !important;
+}
+
+.promo-level.signup > span, .promo-level.clock > span{
+  color: #01f1ee !important; 
+  margin-left: -26px !important;
+}
+
 .promo-level.signup > span{
   font-size: 13px !important;
   margin-top: 25px !important;
-  margin-left: -26px !important;
-  color: #01f1ee !important; 
+}
+
+.promo-level.clock > span{
+  font-size: 33px !important;
+  font-weight: normal !important;
+  margin-top: 10px !important;
+}
+
+.promo-level.watch-demo {
+  background-color: #13181e !important;
+}
+
+.promo-level.watch-demo > span{
+  color: #eca706 !important; 
+  font-size: 14px !important;
+  font-weight: bold !important;
+  margin-top: 14px !important;
+  text-transform: uppercase;
+}
+
+.demo-player{
+  padding: 10px 55px 30px
+}
+
+.st-lvl-0{
+  margin: 0 40px 0 0 !important;
+  visibility: hidden;
+}
+
+.st-lvl-1{
+  margin: -32px 50px 0 150px !important;
+  visibility: hidden;
+}
+
+.st-lvl-2{
+  margin: -32px 50px 0 310px !important;
+  visibility: hidden;
+}
+
+.st-lvl-3{
+  margin: -32px 50px 0 470px !important;
+  visibility: hidden;
+}
+
+.st-lvl-4{
+  margin: -32px 0 0 720px !important;
+  visibility: hidden;
+}
+
+.visible{
+  visibility: visible;
+}
+
+.st-lvl-4.Pending > span{
+  color: #000 !important;
+}
+
+.st-lvl-4.Declined, .st-lvl-4.Forfeited{
+  background-color: #ff5900 !important;
+}
+
+.st-lvl-4.Active, .st-lvl-4.Inactive, .st-lvl-4.Published, .st-lvl-4.Deleted, .st-lvl-4.Awarded{
+  visibility: hidden;
+}
+
+.input-icon{
+  position: 'relative';
+  display: 'inline-block'
+}
+
+.input-icon svg{
+  z-index: 10000 !important;
+  cursor: pointer !important;
+}
+
+.ico-inline{
+  margin-left: 0px !important;
+  margin-top: 35px !important;
 }
