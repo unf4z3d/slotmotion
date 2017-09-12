@@ -1,6 +1,6 @@
 import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
-import { TextField, MenuItem, RaisedButton, IconButton}   from 'material-ui';
+import { TextField, MenuItem, RaisedButton }   from 'material-ui';
 import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import { ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator';
 import { firabaseDB } from './../../../config/constants'
