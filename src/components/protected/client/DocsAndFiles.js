@@ -326,7 +326,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                             errorMessages={['This field is required']}
                                                         />
                                                     </div>
-                                                    <div className="col-xs-3">
+                                                    <div className="col-xs-3 column-choose-file">
                                                         <RaisedButton
                                                             className="btn-smotion secondary"
                                                             containerElement='label'

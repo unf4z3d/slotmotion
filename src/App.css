@@ -33,7 +33,7 @@ a{
   font-size: large;
 }
 
-.logo, .header-logo{  
+.logo, .header-logo{
   background-image: url("images/logo.png");
 }
 
@@ -113,12 +113,12 @@ a{
 .main-menu > .container > .items > div > a{
   color: white;
   font-family: monospace;
-  font-size: 12px;  
+  font-size: 12px;
 }
 
 .promotion > .panel {
   background-color: #13181e;
-  padding: 15px;    
+  padding: 15px;
 }
 
 .panel-header-label{
@@ -233,11 +233,11 @@ a{
   font-size: 12px;
 }
 
-.user-ico{  
+.user-ico{
   background-image: url("images/user_ico.png");
   height: 45px;
   width: 45px;
-  background-size: 42px; 
+  background-size: 42px;
 }
 
 .label {
@@ -287,7 +287,7 @@ a{
   margin-left: 10px !important;
 }
 
-.btn-smotion {  
+.btn-smotion {
   box-shadow: none !important;
   background-color: transparent !important;
 }
@@ -302,17 +302,17 @@ a{
   text-align: center !important;
 }
 
-.btn-smotion > button > div > div > span, 
-.btn-smotion > label > div > div > span, 
-.btn-smotion > button > div > span, 
-.btn-smotion > label > div > span, 
+.btn-smotion > button > div > div > span,
+.btn-smotion > label > div > div > span,
+.btn-smotion > button > div > span,
+.btn-smotion > label > div > span,
 .header{
   font-size: 10px !important;
   color: #222524 !important;
 }
 
-.btn-smotion button:disabled, 
-.btn-smotion label:disabled, 
+.btn-smotion button:disabled,
+.btn-smotion label:disabled,
 {
   opacity: 0.4 !important;
 }
@@ -334,11 +334,11 @@ a{
 }
 
 .promo-edit-level{
-  position: absolute; 
-  font-size: 10px; 
-  margin-top: 16px; 
-  font-weight: bold; 
-  max-width: 55px; 
+  position: absolute;
+  font-size: 10px;
+  margin-top: 16px;
+  font-weight: bold;
+  max-width: 55px;
   margin-left: -27px;
   cursor: pointer;
 
@@ -354,6 +354,7 @@ a{
   margin: 0 50px 0 40px !important;
   background-repeat: no-repeat;
   background-size: 70px auto;
+  cursor: pointer;
 }
 
 .promo-level:first-child{
@@ -449,14 +450,14 @@ a, .primary-color {
 }
 
 .form-label{
-  position: absolute; 
-  line-height: 22px; 
-  top: 38px; 
-  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; 
-  z-index: 1; 
-  transform: scale(0.75) translate(0px, -28px); 
-  transform-origin: left top 0px; 
-  pointer-events: none; 
+  position: absolute;
+  line-height: 22px;
+  top: 38px;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  z-index: 1;
+  transform: scale(0.75) translate(0px, -28px);
+  transform-origin: left top 0px;
+  pointer-events: none;
   color: rgba(255, 255, 255, 0.3);
 }
 
@@ -482,7 +483,7 @@ a, .primary-color {
 }
 
 .promo-level.signup > span, .promo-level.clock > span{
-  color: #01f1ee !important; 
+  color: #01f1ee !important;
   margin-left: -26px !important;
 }
 
@@ -502,7 +503,7 @@ a, .primary-color {
 }
 
 .promo-level.watch-demo > span{
-  color: #eca706 !important; 
+  color: #eca706 !important;
   font-size: 14px !important;
   font-weight: bold !important;
   margin-top: 14px !important;
@@ -560,11 +561,40 @@ a, .primary-color {
 }
 
 .input-icon svg{
-  z-index: 10000 !important;
+  z-index: 1000 !important;
   cursor: pointer !important;
 }
 
 .ico-inline{
   margin-left: 0px !important;
   margin-top: 35px !important;
+}
+
+.column-choose-file{
+    padding-top: 20px;
+}
+
+.table > tbody > tr > td{
+    vertical-align: middle !important;
+}
+
+.promotion-tooltip label{
+    color: #01fafc;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.promotion-tooltip span{
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.promotion-tooltip hr{
+    margin: 10px 0px;
+    border-color: #13181e;
+}
+
+.promotion-tooltip{
+    padding: 10px 20px;
 }

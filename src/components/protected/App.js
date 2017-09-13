@@ -9,6 +9,7 @@ import DocsAndFiles from './client/DocsAndFiles'
 import Profile from './client/Profile'
 import Promotions from './client/Promotions'
 import { firabaseDB } from './../../config/constants'
+import axios from 'axios'
 
 /**
  * Protected App component.
@@ -29,9 +30,34 @@ class App extends ClientRoleAwareComponent  {
         this.profileDB.on('value', snap => {
             const {user} = this.state;
             user.profile = snap.val();
-            this.setState({ user, loading: false})
+            this.setState({ user })
+            this.getCasinos();
         });
     }
+
+    getCasinos = () => {
+        axios.get('https://ng.cca.sh/clientarea/operators/?auth%5Busr%5D=clientarea&auth%5Bpassw%5D=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
+        .then((response) => {
+            let casinos = [];    
+            const {user} = this.state;
+            for(let key in response.data){
+                const userApi = response.data[key];
+                if(userApi.id === user.profile.apiId){
+                    casinos = userApi.casinos;
+                }
+            }
+            user.casinos = casinos
+            this.setState({
+                loading : false,
+                user
+            });
+        })
+        .catch( (error) => {            
+            this.setState({loading : false});
+        });
+    }
+
+    getCasinos
 
     componentWillUnmount() {
         this.profileDB.off();
@@ -45,8 +71,8 @@ class App extends ClientRoleAwareComponent  {
             <div>
                 {   
                     this.isAdmin() 
-                    ? <StaffMenu user={this.props.user} />
-                    : <ClientMenu user={this.props.user} />
+                    ? <StaffMenu user={this.state.user} />
+                    : <ClientMenu user={this.state.user} />
                 }
                 <div className="container">
                     <Switch>

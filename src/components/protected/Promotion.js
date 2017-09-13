@@ -1,11 +1,14 @@
 import React  from 'react';
-import {Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker}  from 'material-ui';
+import { Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker, Popover }  from 'material-ui';
+import { PopoverAnimationVertical }  from 'material-ui/Popover/';
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
 import CommonRoleAwareComponent from './../commons/CommonRoleAwareComponent';
 import Countdown from 'react-countdown-now';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { firabaseDB, constants, firebaseStorage } from './../../config/constants';
 import dateFormat from 'dateformat'
+import axios from 'axios';
+import { imageUrl } from './../../helpers/index';
 
 /**
  * Promotion component for client Role.
@@ -29,6 +32,8 @@ class Promotion extends CommonRoleAwareComponent  {
             selectedLevelIndex:null, 
             selectedLevel:{},
             editable : props.editable ? true : false,
+            loadingLevels: false,
+            showTooltip: [],
         };
         this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
         this.promotionsStatusDB = firabaseDB.child('promotion_status');
@@ -39,16 +44,61 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     componentWillMount(){
         const {promotion} = this.state;
+        if(promotion.key !== undefined){
+            this.signupsDB.child(promotion.key).on('value', snap => {
+                const signedUp = snap.val();
+                if(signedUp !== null){
+                    this.promotionsStatusDB.child(signedUp.status).once('value', snap => {
+                        promotion.status = snap.val();
+                        this.setState({ promotion });
+                        if(this.props.user.profile.apiId !== undefined){
+                            this.updateLevelStatus();
+                        }
+                    })
+                }  
+            });
+        }
+    }
 
-        this.signupsDB.child(promotion.key).on('value', snap => {
-            const signedUp = snap.val();
-            if(signedUp !== null){
-                this.promotionsStatusDB.child(signedUp.status).once('value', snap => {
-                    promotion.status = snap.val();
+    updateLevelStatus = () => {
+        const { status } = this.state.promotion;
+        if(status !== undefined && status === 2 || status === 3){
+            if(this.props.user.casinos !== undefined){
+                let casinos = '';
+                let { promotion } = this.state;
+                for(let key in this.props.user.casinos){
+                    casinos += `&casino=${this.props.user.casinos[key]}`;
+                }
+
+                axios.get(`https://cca.sh/clientarea/gameplay/?auth%5Busr%5D=clientarea&auth%5Bpassw%5D=a490e2ded90bc3e5e0cab8bb96210fcbac470e24&start=2015-12-05T09:17:18.937Z&${casinos}&groupBy=casino`)
+                .then((response) => {
+                    let totalBet = 0;
+                    for(let i in response.data){
+                        let casino = response.data[i];
+                        for(let j in casino.type){
+                            let casinoDetail = casino.type[j];
+                            if(casinoDetail.type === 'WAGER'){
+                                totalBet+= casinoDetail.bet;
+                            }
+                        }
+                    }
+
+                    for(let i in promotion.levels){
+                        let level = promotion.levels[i];
+                        if(totalBet >= level.bestToReach){
+                            promotion.levels[i].reached = true;
+                        }
+                    }
+
                     this.setState({ promotion })
                 })
-            }  
-        })
+                .catch( (error) => {            
+                    this.setState({loading : false});
+                });
+
+                
+            }
+        }
     }
 
     /**
@@ -97,9 +147,21 @@ class Promotion extends CommonRoleAwareComponent  {
      * Get the level image by the index.
      */
     getImageLevel = index => {
-        return this.state.promotion.levels[index].previewImage !== undefined 
-               ? this.state.promotion.levels[index].previewImage : 
-               '' 
+        let image = '';
+        const { editable } = this.props;
+        if(editable){
+            image = this.state.promotion.levels[index].previewImage !== undefined 
+            ? this.state.promotion.levels[index].previewImage : 
+            '' 
+        }else{
+            const reached = this.state.promotion.levels[index].reached;
+            if(reached !== undefined && reached){
+                image = imageUrl(this.state.promotion.levels[index].activeImage.previewImage);
+            }else{
+                image = imageUrl(this.state.promotion.levels[index].inactiveImage.previewImage);
+            }
+        }
+        return image;
     }
 
     /**
@@ -170,7 +232,7 @@ class Promotion extends CommonRoleAwareComponent  {
         this.setState({promotion});
 
         reader.onload = e => {           
-            promotion.logoPreviewImage = `url(${e.target.result})`;
+            promotion.logoPreviewImage = imageUrl(e.target.result);
             this.setState({promotion});
         }
 
@@ -189,8 +251,7 @@ class Promotion extends CommonRoleAwareComponent  {
         
         this.setState({promotion});
 
-        //this.initUploadFiles();
-        this.putPromotionData();
+        this.initUploadFiles();
     }
 
     /**
@@ -227,7 +288,7 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     uploadLevelsInactiveImages = () => {
         const { promotion } = this.state;
-        this.uploadLevelImage(promotion, 0, 'inactiveImage', this.putDataPromotion);
+        this.uploadLevelImage(promotion, 0, 'inactiveImage', this.putPromotionData);
     }
 
     /**
@@ -253,8 +314,6 @@ class Promotion extends CommonRoleAwareComponent  {
      */ 
     putPromotionData = () => {
         const { promotion } = this.state;
-        console.log(promotion);
-
         firabaseDB.child('promotions').child(promotion.key).set(promotion).then((snap) => {
             if(this.props.onSuccess !== undefined){
                 this.props.onSuccess();
@@ -352,7 +411,7 @@ class Promotion extends CommonRoleAwareComponent  {
 
     renderLevelStatus = i => {
         const status = 'undefined';
-        return <Chip className={'st-lvl-' + i}>{status}</Chip>
+        return <Chip key={i} className={'st-lvl-' + i}>{status}</Chip>
     }
 
     renderPromotionStatus = () => {
@@ -363,6 +422,36 @@ class Promotion extends CommonRoleAwareComponent  {
 
         return <Chip className={status !== null ? 'st-lvl-4 visible ' + status  : 'st-lvl-4'}>{status}</Chip>
     }
+
+    getLogoImage = () => {
+        let image = undefined
+        if(this.props.editable){
+            image = this.state.promotion.logoPreviewImage;
+        }else{
+            image = imageUrl(this.state.promotion.logoPreviewImage);
+        }
+        return image;
+    }
+
+    handleShowTooltip = (event, i) => {
+        // This prevents ghost click.
+        event.preventDefault();
+        let { showTooltip, promotion } = this.state;
+        showTooltip[i] = promotion.levels[i].reached;
+
+        this.setState({
+            anchorEl: event.currentTarget,
+            showTooltip,
+        });
+    };
+
+    
+    handleRequestClose = (i) => {
+        let { showTooltip } = this.state;
+        showTooltip[i] = false;
+
+        this.setState({ showTooltip });
+    };
 
     /**
      * Render method 
@@ -386,9 +475,13 @@ class Promotion extends CommonRoleAwareComponent  {
                                                 label='Upload Logo Picture'>
                                                     <input onChange={this.chooseLogoPicture} style={{display:'none'}} type="file" />
                                             </FlatButton>
-                                        </div>)
+                                        </div>
+                                        )
                                     :
-                                        (<Paper className="promo-logo" style={{backgroundImage: this.state.promotion.logoPreviewImage}} zDepth={1} />)
+                                        (
+                                            <Paper className="promo-logo" style={{backgroundImage: this.getLogoImage()}} zDepth={1} />
+                                        )
+                                        
                                 }
                                 </div>
                             </div> 
@@ -432,16 +525,39 @@ class Promotion extends CommonRoleAwareComponent  {
                                         [...Array(5)].map((x, i) =>
                                             this.isSingupAllowed() && i === 4 
                                             ?
-                                                <Paper key={i} className="promo-level signup" zDepth={1} circle={true}>
+                                                <Paper onMouseEnter={(e) => this.handleShowTooltip(e, i)} key={i} className="promo-level signup" zDepth={1} circle={true}>
                                                     <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
                                                 </Paper>
                                             :
-                                                <Paper key={i} style={{backgroundImage: this.getImageLevel(i) }} className="promo-level" zDepth={1} circle={true}>
-                                                    <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.getImageLevel(i) ? '' : `EDIT LEVEL ${i+1}`}</span>
+                                                <Paper onMouseEnter={(e) => this.handleShowTooltip(e, i)} key={i} style={{backgroundImage: this.getImageLevel(i) }} className="promo-level" zDepth={1} circle={true}>
+                                                    <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.props.editable ? `EDIT LEVEL ${i+1}`: ''}</span>
                                                 </Paper>
                                         )
                                 }
-
+                                {
+                                    [...Array(5)].map((x, i) =>
+                                    (
+                                        <Popover
+                                                open={this.state.showTooltip[i]}
+                                                animated={true}
+                                                useLayerForClickAway={false}
+                                                anchorEl={this.state.anchorEl}
+                                                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                                                onRequestClose={() => this.handleRequestClose(i)}
+                                                animation={PopoverAnimationVertical}
+                                            >
+                                            <div className="promotion-tooltip">
+                                                <label>For you:</label><br/>
+                                                <span>{this.state.promotion.levels[i].discount}% Discount</span>
+                                                <hr/>
+                                                <label>For your players:</label><br/>
+                                                <span>{this.state.promotion.levels[i].freearounds} Freerounds</span>
+                                                
+                                            </div>
+                                        </Popover>
+                                    ))
+                                }
                                 </div>
                             </div>  
                         </div>
@@ -535,7 +651,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                     errorMessages={['This field is required']}
                                                                 />
                                                             </div>
-                                                            <div className="col-xs-3">
+                                                            <div className="col-xs-3 column-choose-file">
                                                                 <RaisedButton
                                                                     className="btn-smotion secondary"
                                                                     containerElement='label'
@@ -552,7 +668,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                     errorMessages={['This field is required']}
                                                                 />
                                                             </div>
-                                                            <div className="col-xs-3">
+                                                            <div className="col-xs-3 column-choose-file">
                                                                 <RaisedButton
                                                                     className="btn-smotion secondary"
                                                                     containerElement='label'

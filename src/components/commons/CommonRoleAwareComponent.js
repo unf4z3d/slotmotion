@@ -42,7 +42,7 @@ class CommonRoleAwareComponent extends RoleAwareComponent  {
   hasRole = (role) => {
     return this.props.user !== undefined 
           && this.props.user.profile !== undefined 
-          && this.props.user.profile.role === role;
+          && this.props.user.profile.userType === role;
   }
 
   /**

@@ -19,7 +19,6 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {errorMessage: null};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     /**
