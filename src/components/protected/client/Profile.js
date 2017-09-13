@@ -141,7 +141,7 @@ class Profile extends ClientRoleAwareComponent  {
                                                                         name="password" ref ="password" type={this.state.passwordType} />
                                                             </div>
                                                             <div className="col-xs-2 no-padding">
-                                                                <ImageRemoveRedEye className={this.state.toggleIconClass} onClick={this.toggleShowPassword} className="ico-inline" />
+                                                                <ImageRemoveRedEye onClick={this.toggleShowPassword} className="ico-inline" />
                                                             </div>
                                                         </div>
                                                         

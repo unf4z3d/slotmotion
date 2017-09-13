@@ -62,7 +62,7 @@ class Promotion extends CommonRoleAwareComponent  {
 
     updateLevelStatus = () => {
         const { status } = this.state.promotion;
-        if(status !== undefined && status === 2 || status === 3){
+        if(status !== undefined && (status === 2 || status === 3)){
             if(this.props.user.casinos !== undefined){
                 let casinos = '';
                 let { promotion } = this.state;
