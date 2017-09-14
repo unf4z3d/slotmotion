@@ -5,7 +5,6 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import CommonMenu from './CommonMenu';
 import { Link } from 'react-router-dom';
-import { logout } from './../../../helpers/auth';
 
 /**
  * StaffMenu component for staff Role.
