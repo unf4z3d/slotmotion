@@ -83,7 +83,7 @@ class Dashboard extends StaffRoleAwareComponent {
      * Get the promotion data.
      */
     promotionFormatter = (cell, row, attr) =>{
-        if(this.state.cache.promotions[cell] !== undefined){
+        if(this.state.cache.promotions[cell]){
             return this.state.cache.promotions[cell][attr];
         }
     }
@@ -150,7 +150,7 @@ class Dashboard extends StaffRoleAwareComponent {
             this.usersDB.child(signup.user)
                         .child('signups')
                         .child(signup.promotion)
-                        .set({status: signup.status}).then(() =>{
+                        .update({status: signup.status}).then(() =>{
                 alert('Success');
             });
         })

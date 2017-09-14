@@ -6,9 +6,9 @@ import CommonRoleAwareComponent from './../commons/CommonRoleAwareComponent';
 import Countdown from 'react-countdown-now';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { firabaseDB, constants, firebaseStorage } from './../../config/constants';
-import dateFormat from 'dateformat'
-import axios from 'axios';
-import { imageUrl } from './../../helpers/index';
+import dateFormat from 'dateformat';
+import { imageUrl, isEmpty, timeSince } from './../../helpers/index';
+import { callGetUserGameplay } from './../../helpers/api';
 
 /**
  * Promotion component for client Role.
@@ -48,8 +48,11 @@ class Promotion extends CommonRoleAwareComponent  {
             this.signupsDB.child(promotion.key).on('value', snap => {
                 const signedUp = snap.val();
                 if(signedUp !== null){
+                    promotion.createdAt = signedUp.createdAt;
+                    promotion.createdAtTime = signedUp.createdAtTime;
                     this.promotionsStatusDB.child(signedUp.status).once('value', snap => {
                         promotion.status = snap.val();
+                        promotion.status.id = signedUp.status;
                         this.setState({ promotion });
                         if(this.props.user.profile.apiId !== undefined){
                             this.updateLevelStatus();
@@ -62,16 +65,15 @@ class Promotion extends CommonRoleAwareComponent  {
 
     updateLevelStatus = () => {
         const { status } = this.state.promotion;
-        if(status !== undefined && (status === 2 || status === 3)){
+        if(status !== undefined && (status.id === 2 || status.id === 3)){
             if(this.props.user.casinos !== undefined){
                 let casinos = '';
                 let { promotion } = this.state;
                 for(let key in this.props.user.casinos){
                     casinos += `&casino=${this.props.user.casinos[key]}`;
                 }
-
-                axios.get(`https://cca.sh/clientarea/gameplay/?auth%5Busr%5D=clientarea&auth%5Bpassw%5D=a490e2ded90bc3e5e0cab8bb96210fcbac470e24&start=2015-12-05T09:17:18.937Z&${casinos}&groupBy=casino`)
-                .then((response) => {
+                const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true)
+                callGetUserGameplay("2015-12-05T09:17:18.937Z", casinos).then((response) => {
                     let totalBet = 0;
                     for(let i in response.data){
                         let casino = response.data[i];
@@ -91,12 +93,9 @@ class Promotion extends CommonRoleAwareComponent  {
                     }
 
                     this.setState({ promotion })
-                })
-                .catch( (error) => {            
+                }).catch( (error) => {            
                     this.setState({loading : false});
-                });
-
-                
+                });                
             }
         }
     }
@@ -243,15 +242,57 @@ class Promotion extends CommonRoleAwareComponent  {
      * Initi the promotion save proccess.
      */
     savePromotion = () => {
-        const { promotion } = this.state;
+        if(this.submitPromotionAllowed()){
+            const { promotion } = this.state;
 
-        if(promotion.key === undefined){
-            promotion.key = firabaseDB.child('promotions').push().key;
+            if(promotion.key === undefined){
+                promotion.key = firabaseDB.child('promotions').push().key;
+            }
+            
+            this.setState({promotion});
+
+            this.initUploadFiles();
+        }
+    }
+
+    submitPromotionAllowed = () =>{
+        const { promotion } = this.state;
+        if(isEmpty(promotion.startDateTime, "Please set the Start Date")){
+            return false;
+        }
+        if(isEmpty(promotion.endDateTime, "Please set the End Date")){
+            return false;
+        }
+        if(isEmpty(promotion.logoPicture, "Please set the Logo Picture")){
+            return false;
+        }
+        if(isEmpty(promotion.name, "Please set the Campaign Name")){
+            return false;
+        }
+        if(isEmpty(promotion.description, "Please set the Campaign Description")){
+            return false;
+        }
+
+        for(let i = 0; i < 5; i++){
+            const currentLevel = i+1;
+            if(isEmpty(promotion.levels[i].activeImage, `Please set the Active Image in the Level ${currentLevel}`)){
+                return false;
+            }
+            if(isEmpty(promotion.levels[i].inactiveImage, `Please set the Inactive Image in the Level ${currentLevel}`)){
+                return false;
+            }
+            if(isEmpty(promotion.levels[i].bestToReach, `Please set the Best to Reach in the Level ${currentLevel}`)){
+                return false;
+            }
+            if(isEmpty(promotion.levels[i].discount, `Please set the Discount in the Level ${currentLevel}`)){
+                return false;
+            }
+            if(isEmpty(promotion.levels[i].freearounds, `Please set the Freerounds in the Level ${currentLevel}`)){
+                return false;
+            }
         }
         
-        this.setState({promotion});
-
-        this.initUploadFiles();
+        return true;
     }
 
     /**
@@ -387,8 +428,6 @@ class Promotion extends CommonRoleAwareComponent  {
             'Watch Demo',
         ]
 
-        //const times = [days,hours,minutes,seconds];
-
         return (  
             <div>
                 {       
@@ -488,7 +527,7 @@ class Promotion extends CommonRoleAwareComponent  {
                             <div className="col-xs-8">
                                 <div className="panel-header-label">
                                     {
-                                        this.state.promotion.startDate === undefined || this.state.promotion.endDate === undefined 
+                                        this.isEditable() 
                                         ?
                                             (<div className="text-right primary-color">
                                                 <a onClick={() => this.refs.startDate.refs.dialogWindow.show()}>
@@ -503,7 +542,17 @@ class Promotion extends CommonRoleAwareComponent  {
                                             </div>)
                                         :
                                             <div>
-                                                {this.state.promotion.game}
+                                                {
+                                                this.started()
+                                                ?
+                                                <div>
+                                                    Releasing in:
+                                                </div>
+                                                :
+                                                <div>
+                                                    Started: {timeSince(this.state.promotion.startDateTime)} ago | Ends {this.state.promotion.endDate}
+                                                </div>
+                                                }
                                             </div>
                                     }
                                    
@@ -512,16 +561,15 @@ class Promotion extends CommonRoleAwareComponent  {
                         </div>
                         <div className="row">
                             <div className="col-xs-12">
-                                <div className="promotion-steps">
                                 {
-                                    this.started()
-                                    ?   
-                                        <div>
-                                        <Countdown 
-                                            date={this.state.promotion.startDateTime} 
-                                            renderer={this.renderClock} />
-                                        </div>
-                                    :
+                                this.started()
+                                ?   
+                                    <div className="promotion-steps clock">
+                                        <Countdown date={this.state.promotion.startDateTime} renderer={this.renderClock} />
+                                    </div>
+                                :
+                                    <div className="promotion-steps">
+                                        {
                                         [...Array(5)].map((x, i) =>
                                             this.isSingupAllowed() && i === 4 
                                             ?
@@ -533,14 +581,17 @@ class Promotion extends CommonRoleAwareComponent  {
                                                     <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.props.editable ? `EDIT LEVEL ${i+1}`: ''}</span>
                                                 </Paper>
                                         )
+                                        }
+                                    </div>
                                 }
                                 {
                                     [...Array(5)].map((x, i) =>
                                     (
                                         <Popover
+                                                key={i}
                                                 open={this.state.showTooltip[i]}
                                                 animated={true}
-                                                useLayerForClickAway={false}
+                                                className="promotion-tooltip-container"
                                                 anchorEl={this.state.anchorEl}
                                                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                                                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -558,7 +609,6 @@ class Promotion extends CommonRoleAwareComponent  {
                                         </Popover>
                                     ))
                                 }
-                                </div>
                             </div>  
                         </div>
                         <div className="row">

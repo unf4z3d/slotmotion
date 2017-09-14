@@ -9,7 +9,7 @@ import DocsAndFiles from './client/DocsAndFiles'
 import Profile from './client/Profile'
 import Promotions from './client/Promotions'
 import { firabaseDB } from './../../config/constants'
-import axios from 'axios'
+import { callGetCasinos } from './../../helpers/api'
 
 /**
  * Protected App component.
@@ -36,7 +36,7 @@ class App extends ClientRoleAwareComponent  {
     }
 
     getCasinos = () => {
-        axios.get('https://ng.cca.sh/clientarea/operators/?auth%5Busr%5D=clientarea&auth%5Bpassw%5D=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
+        callGetCasinos()
         .then((response) => {
             let casinos = [];    
             const {user} = this.state;
@@ -56,8 +56,6 @@ class App extends ClientRoleAwareComponent  {
             this.setState({loading : false});
         });
     }
-
-    getCasinos
 
     componentWillUnmount() {
         this.profileDB.off();

@@ -58,7 +58,7 @@ class Login extends React.Component {
                             <br/><br/>
                             <Checkbox label="Remember me"/>
                             <br/>
-                            <RaisedButton type="submit" fullWidth={true} label="Login" primary={true} />
+                            <RaisedButton className="btn-smotion primary" type="submit" fullWidth={true} label="Login" primary={true} />
                         </form>
                         <br/><br/>
                         <Link to="/forgot-password">Password recovery</Link>

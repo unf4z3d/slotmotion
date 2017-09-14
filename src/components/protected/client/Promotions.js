@@ -36,7 +36,6 @@ class Promotions extends ClientRoleAwareComponent  {
                 loading: false
             })
         })
-        console.log(this.props.user);
     }
 
     /**
@@ -123,11 +122,11 @@ class Promotions extends ClientRoleAwareComponent  {
                 }
                 <div className="smotion-table">
                     <BootstrapTable data={ this.state.promotions } options={{hideSizePerPage: true}} bordered={ false }>
-                        <TableHeaderColumn width={100} dataField='name' isKey dataSort>Name</TableHeaderColumn>
-                        <TableHeaderColumn width={100} dataField='name' dataSort>Game</TableHeaderColumn>
-                        <TableHeaderColumn width={100} dataField='startDate' dataSort>Starts</TableHeaderColumn>
-                        <TableHeaderColumn width={100} dataField='endDate' dataSort>Ends</TableHeaderColumn>
-                        <TableHeaderColumn width={100} dataField='status' dataSort>Status</TableHeaderColumn>
+                        <TableHeaderColumn width="100" dataField='name' isKey dataSort>Name</TableHeaderColumn>
+                        <TableHeaderColumn width="100" dataField='name' dataSort>Game</TableHeaderColumn>
+                        <TableHeaderColumn width="100" dataField='startDate' dataSort>Starts</TableHeaderColumn>
+                        <TableHeaderColumn width="100" dataField='endDate' dataSort>Ends</TableHeaderColumn>
+                        <TableHeaderColumn width="100" dataField='status' dataSort>Status</TableHeaderColumn>
                         <TableHeaderColumn dataAlign="left" dataFormat={ this.promotionActionsFormatter } ></TableHeaderColumn>
                     </BootstrapTable>
                 </div>

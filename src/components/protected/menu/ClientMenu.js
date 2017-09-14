@@ -3,20 +3,15 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
+import CommonMenu from './CommonMenu';
 import { Link } from 'react-router-dom';
 import { logout } from './../../../helpers/auth';
 
 /**
  * ClientMenu component for client Role.
  */
-class ClientMenu extends CommonRoleAwareComponent  {
+class ClientMenu extends CommonMenu  {
     
-    handleLogout(){
-        logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
-        //window.location.reload();
-    }
-
     /**
      * Render method 
      */
@@ -25,12 +20,12 @@ class ClientMenu extends CommonRoleAwareComponent  {
             <div className="main-menu">
                 <div className="container">
                     <div className="items">
-                        <div className="col-xs-1 seleted">
-                            <Link to="/">Dashboard</Link>
+                        <div className={this.getSelectedItem(1) ? "col-xs-1 selected" : "col-xs-1"}>
+                            <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
                             <hr />
                         </div>
-                        <div className="col-xs-2">
-                            <Link to="/docs-and-files">Documents & Files</Link>
+                        <div className={this.getSelectedItem(2) ? "col-xs-2 selected" : "col-xs-2"}>
+                            <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
                             <hr />
                         </div>
                         <div className="col-xs-8 text-right" style={{marginTop:7}}>

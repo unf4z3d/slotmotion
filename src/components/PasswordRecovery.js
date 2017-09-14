@@ -65,7 +65,7 @@ class PasswordRecovery extends React.Component {
                                         <form onSubmit={this.handleSubmit}>
                                             <TextField defaultValue="user@yopmail.com" ref="username" hintText="Username"/>
                                             <br/><br/>
-                                            <RaisedButton type="submit" fullWidth={true} label="Revover" primary={true} />
+                                            <RaisedButton className="btn-smotion primary" type="submit" fullWidth={true} label="Revover" primary={true} />
                                         </form>
                                     </div>
                                 }

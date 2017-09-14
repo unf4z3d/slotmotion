@@ -145,8 +145,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
         file.createdAtTime = now.getTime();
         file.createdAt = dateFormat(now, constants.formatDate)
+        file.name = file.name.toLowerCase();
         
-
         this.uploadFile();
     }
 
@@ -250,7 +250,10 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         this.setState({
             docs: []
         })
-        this.docsDB.orderByChild('name').startAt(this.refs.nameFilter.input.value).on('child_added', snap => {
+
+        const value = this.refs.nameFilter.input.value.toLowerCase();
+
+        this.docsDB.orderByChild('name').startAt(value).endAt(`${value}\uf8ff`).on('child_added', snap => {
             this.setState({
                 docs: this.state.docs.concat(snap.val()),
                 loading: false,
@@ -304,7 +307,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                             <div className="bg-gray">
                                 <div className="row header">
                                     <div className="col-xs-10 col-xs-offset-1">
-                                        <h6>Level Titulo</h6>
+                                        <h6>&nbsp;</h6>
                                     </div>
                                     <div className="col-xs-1">
                                         <a className="close" onClick={this.handleCloseDialog}>X</a>

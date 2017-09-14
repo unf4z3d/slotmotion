@@ -3,14 +3,37 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import CommonMenu from './CommonMenu';
+import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
 import { Link } from 'react-router-dom';
 import { logout } from './../../../helpers/auth';
 
 /**
  * StaffMenu component for staff Role.
  */
-class StaffMenu extends CommonMenu  {
+class StaffMenu extends CommonRoleAwareComponent  {
+    
+    /**
+     * Component constructor
+     * @param {*} props 
+     */
+    constructor(props) {
+        super(props);
+        this.state = { selectedItem : 1 };
+    }
+
+    handleLogout(){
+        logout().catch(error => console.log(`Error ${error.code}: ${error.message}`))
+    }
+
+    handleChangeMenuItem = (i) => {
+        this.setState({
+            selectedItem: i,
+        })
+    }
+
+    getSelectedItem = (i) =>{
+        return i === this.state.selectedItem;
+    }
 
     /**
      * Render method 
@@ -20,15 +43,15 @@ class StaffMenu extends CommonMenu  {
             <div className="main-menu">
                 <div className="container">
                     <div className="items">
-                        <div className={this.getSelectedItem(1) ? "col-xs-1 selected" : "col-xs-1"}>
+                        <div className={this.getSelectedItem(1) ? "col-xs-1 seleted" : "col-xs-1"}>
                             <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
                             <hr />
                         </div>
-                        <div className={this.getSelectedItem(2) ? "col-xs-2 selected" : "col-xs-2"}>
+                        <div className={this.getSelectedItem(2) ? "col-xs-2 seleted" : "col-xs-2"}>
                             <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
                             <hr />
                         </div>
-                        <div className={this.getSelectedItem(3) ? "col-xs-1 selected" : "col-xs-1"}>
+                        <div className={this.getSelectedItem(3) ? "col-xs-1 seleted" : "col-xs-1"}>
                             <Link onClick={() => this.handleChangeMenuItem(3)} to="/promotions">Promotions</Link>
                             <hr />
                         </div>

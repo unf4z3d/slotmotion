@@ -8,6 +8,10 @@ a{
   color: #01d7d2;
 }
 
+a:focus {
+    width:0px;height:0px;outline:0px;
+}
+
 .container{
   width: 870px !important;
   max-width: 870px !important;
@@ -98,7 +102,7 @@ a{
   text-decoration: none;
 }
 
-.main-menu > .container > .items > .seleted > hr{
+.main-menu > .container > .items > .selected > hr{
   border-color: #fdb603;
   border-top-width: 4px;
   margin: 10px 0 0;
@@ -133,7 +137,13 @@ a{
 
 .promotion-steps{
   padding: 20px 0;
+  background-image: url("images/promotion-background.png");
 }
+
+.promotion-steps.clock{
+    padding: 20px 0;
+    background-image: url("images/promotion-clock-background.png");
+  }
 
 .promotion-status{
   position: absolute;
@@ -357,11 +367,11 @@ a{
   cursor: pointer;
 }
 
-.promo-level:first-child{
+.promotion-steps > .promo-level:first-child, .promotion-steps > div > .promo-level:first-child{
   margin: 0 40px 0 0 !important;
 }
 
-.promo-level:last-child{
+.promotion-steps > .promo-level:last-child, .promotion-steps > div > .promo-level:last-child{
   margin: 0 0 0 130px !important;
 }
 
@@ -574,8 +584,9 @@ a, .primary-color {
     padding-top: 20px;
 }
 
-.table > tbody > tr > td{
+.table > tbody > tr > td {
     vertical-align: middle !important;
+    text-transform: capitalize !important;
 }
 
 .promotion-tooltip label{
@@ -597,4 +608,17 @@ a, .primary-color {
 
 .promotion-tooltip{
     padding: 10px 20px;
+}
+
+.promotion-tooltip-container{
+    margin: 5px 0px 0px 50px;
+}
+
+
+.items > div > a {
+    color: #859199 !important;
+}
+
+.items > .selected > a {
+    color: #fff !important;
 }
