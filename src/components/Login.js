@@ -4,6 +4,7 @@ import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import Message from './commons/Message'
 import { Link } from 'react-router-dom';
+import { firabaseDB } from './../config/constants'
 import { login } from './../helpers/auth';
 
 
@@ -32,6 +33,11 @@ class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         login(this.refs.username.input.value, this.refs.password.input.value)
+            .then((user) => {
+                firabaseDB.child(`users/${user.uid}/profile`).update(
+                    { lastLogin: new Date().getTime() }
+                )
+            })
             .catch((error) => {
                 console.log(`Error ${error.code}: ${error.message}`);
                 this.setState(this.setErrorMsg('Invalid username/password.'));

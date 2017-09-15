@@ -252,6 +252,9 @@ class Promotion extends CommonRoleAwareComponent  {
             this.setState({promotion});
 
             this.initUploadFiles();
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -359,7 +362,7 @@ class Promotion extends CommonRoleAwareComponent  {
             if(this.props.onSuccess !== undefined){
                 this.props.onSuccess();
             }else{
-                alert('Success');
+                this.showSuccessMessage('The promotion has been created');
             }
         })
     }
@@ -405,7 +408,7 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     saveCampaignSignup = userSignup => {
         firabaseDB.child('signups').push(userSignup).then((snap) => {
-            alert('success');
+            this.showSuccessMessage('Signup Successful');
             if(this.props.signupCallback !== undefined){
                 this.props.signupCallback();
             }
@@ -438,7 +441,7 @@ class Promotion extends CommonRoleAwareComponent  {
                 )
                 }
             </div>
-        ) 
+        )
     }
 
     /**
@@ -565,7 +568,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                 this.started()
                                 ?   
                                     <div className="promotion-steps clock">
-                                        <Countdown date={this.state.promotion.startDateTime} renderer={this.renderClock} />
+                                        <Countdown date={this.state.promotion.startDateTime} onComplete={() => window.location.reload()} renderer={this.renderClock} />
                                     </div>
                                 :
                                     <div className="promotion-steps">

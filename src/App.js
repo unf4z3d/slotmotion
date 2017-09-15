@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {firebaseAuth} from './config/constants'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {CircularProgress} from 'material-ui';
 
 import './App.css';
 
@@ -42,8 +43,8 @@ class App extends Component {
                     </Switch>
             }
         }else{
-           return <div>Please wait</div>
-        }   
+           return <div><CircularProgress /></div>
+        }
     }
 
     /**

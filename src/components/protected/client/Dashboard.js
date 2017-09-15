@@ -3,7 +3,7 @@ import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import { Dialog }  from 'material-ui';
 import ReactPlayer from 'react-player'
 import Promotion from './../Promotion';
-import { firabaseDB } from './../../../config/constants'
+import { firabaseDB } from './../../../config/constants';
 
 /**
  * Dashboard component for client Role.
@@ -32,7 +32,8 @@ class Dashboard extends ClientRoleAwareComponent  {
      */
     componentWillMount(){
         let {userSignUp} = this.state
-        this.promotionsDB.on('child_added', snap => {
+        this.quitLoading();
+        this.promotionsDB.orderByChild('active').equalTo(true).on('child_added', snap => {
             this.setState({
                 promotions: this.state.promotions.concat(snap.val()),
                 loading: false,
@@ -99,7 +100,13 @@ class Dashboard extends ClientRoleAwareComponent  {
                         signupCallback={this.reloadCampaigns}
                         signupAllowed={this.isSignUpAllowed(promotion)} />
                 , this)}
-
+                
+                {
+                    this.state.promotions.length <= 0 &&
+                    <div>
+                        There is no data to display
+                    </div>
+                }
 
                 <Dialog
                         className="smotion-dialog"

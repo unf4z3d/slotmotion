@@ -2,9 +2,11 @@ import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import { TextField, MenuItem, RaisedButton }   from 'material-ui';
 import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import dateFormat from 'dateformat';
 import { ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator';
 import { firabaseDB } from './../../../config/constants'
 import { updatePassword } from './../../../helpers/auth';
+
 
 /**
  * Profile component for client Role.
@@ -71,15 +73,15 @@ class Profile extends ClientRoleAwareComponent  {
                 })
                 .catch((error) => {
                     console.log(`Error ${error.code}: ${error.message}`);
-                    alert('Error updating password. Please logout and try again.');
+                    this.showErrorMessage('Error updating password. Please logout and try again.');
             })
         }
 
         this.profileDB.update(this.state.profile)
-            .then(() => alert('Success'))
+            .then(() => this.showSuccessMessage('The Profile has been updated.'))
             .catch((error) => {
                 console.log(`Error ${error.code}: ${error.message}`);
-                alert('error');
+                this.showErrorMessage();
             })
     }
 
@@ -107,7 +109,7 @@ class Profile extends ClientRoleAwareComponent  {
                                 <div className="col-xs-9 text-left no-padding">
                                     <label className="label text-uppercase">Sugars@test.com</label><br/>
                                     <label className="label gray text-uppercase">Last Login:</label>
-                                    <label className="label">3rd october 2016</label>
+                                    <label className="label">{dateFormat(this.props.user.profile.lastLogin, 'dS mmmm yyyy')}</label>
                                 </div>
                             </div>
                             <div className="row">
@@ -190,7 +192,7 @@ class Profile extends ClientRoleAwareComponent  {
                             </div>
                         </div>
                         <div className="col-xs-8">
-                            Component
+                        
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,22 @@ import { Link } from 'react-router-dom';
 class ClientMenu extends CommonMenu  {
     
     /**
+     * Overwrited
+     */
+    getSelectedItem = (i) =>{
+        if(i === 1 && window.location.pathname === '/'){
+            return true;
+        }
+        if(i === 2 && window.location.pathname === '/docs-and-files'){
+            return true;
+        }
+        if(i === 3 && window.location.pathname === '/promotions'){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Render method 
      */
     render() {

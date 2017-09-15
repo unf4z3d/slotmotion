@@ -26,12 +26,12 @@ class Dashboard extends StaffRoleAwareComponent {
      * Component Life Cycle
      */
     componentWillMount(){
-        this.signupsDB.on('child_added', snap => this.signupsDBCallback(snap));
-        this.signupsDB.on('child_changed', snap => this.signupsDBCallback(snap));
+        this.signupsDB.on('child_added', snap => this.signupsDBCallback(snap, true));
+        this.signupsDB.on('child_changed', snap => this.signupsDBCallback(snap, false));
         this.setState({loading: false});
     }
 
-    signupsDBCallback = (snap) =>{
+    signupsDBCallback = (snap, concat) =>{
         let signup = snap.val();
         signup.key = snap.key;
 
@@ -39,12 +39,33 @@ class Dashboard extends StaffRoleAwareComponent {
 
         if (signup.status === constants.promotionsStatus.pending 
             || signup.status === constants.promotionsStatus.declined){
-            usersSignUp = usersSignUp.concat(signup);
+            if(concat){
+                usersSignUp = usersSignUp.concat(signup);
+            }else{
+                for(let i in usersSignUp){
+                    if(usersSignUp[i].key === snap.key){
+                        usersSignUp[i] = snap.val();
+                        break;
+                    }
+                }
+            }
         }
 
-        if (signup.status === constants.promotionsStatus.active 
-            || signup.status === constants.promotionsStatus.forfeited){
+        if (signup.status === constants.promotionsStatus.active){
             activeUsersSignUp = activeUsersSignUp.concat(signup);
+        }
+        
+        if (signup.status === constants.promotionsStatus.forfeited){
+            if(concat){
+                activeUsersSignUp = activeUsersSignUp.concat(signup);
+            }else{
+                for(let i in activeUsersSignUp){
+                    if(activeUsersSignUp[i].key === snap.key){
+                        activeUsersSignUp[i] = snap.val();
+                        break;
+                    }
+                }
+            }
         }
 
         this.setState({usersSignUp, activeUsersSignUp});
@@ -135,11 +156,7 @@ class Dashboard extends StaffRoleAwareComponent {
     handleChangeStatusSignUp = (signup, status, index) => {
         signup.status = status;
 
-        if(status === constants.promotionsStatus.forfeited){
-            const { activeUsersSignUp } = this.state;
-            delete activeUsersSignUp[index];
-            this.setState({activeUsersSignUp});
-        }else{
+        if(status === constants.promotionsStatus.active){
             const { usersSignUp } = this.state;
             delete usersSignUp[index];
             this.setState({usersSignUp});
@@ -151,12 +168,12 @@ class Dashboard extends StaffRoleAwareComponent {
                         .child('signups')
                         .child(signup.promotion)
                         .update({status: signup.status}).then(() =>{
-                alert('Success');
+                this.showSuccessMessage("The Signup has been updated.");
             });
         })
         .catch((error) => {
             console.log(`Error ${error.code}: ${error.message}`);
-            alert('error');
+            this.showErrorMessage();
         })
     }
 

@@ -175,7 +175,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         console.log(file);
 
         firabaseDB.child('documents').child(file.key).set(file).then((snap) => {
-            alert('Success');
+            this.showSuccessMessage("The File has been uploaded");
             this.handleCloseDialog();
         })
     }
