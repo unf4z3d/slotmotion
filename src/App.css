@@ -48,23 +48,22 @@ a:focus {
 }
 
 .header-icons{
-  display: flex;
   float: right;
-  margin: 10px;
+  margin: 10px 0px;
 }
 
 .header-icons > a > .twitter{
   background-image: url("images/social_icons.png");
   background-position: 0 -5px;
   height: 45px;
-  width: 55px;
+  width: 50px;
 }
 
 .header-icons > a > .facebook{
   background-image: url("images/social_icons.png");
   background-position: -58px -5px;
   height: 45px;
-  width: 55px;
+  width: 60px;
 }
 
 @media (min-width: 1200px) {
