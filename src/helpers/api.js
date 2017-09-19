@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export function callGetCasinos () {
-    return axios.get('https://ng.cca.sh/clientarea/operators/?auth%5Busr%5D=clientarea&auth%5Bpassw%5D=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
+export function callGetCasinos (user) {
+    return axios.get('https://us-central1-smotion-c187f.cloudfunctions.net/smotion/getCasinos', {headers: {'Authorization': `Bearer ${user.idToken} `}})
 }
 
 export function callGetUserGameplay (date, casinos) {

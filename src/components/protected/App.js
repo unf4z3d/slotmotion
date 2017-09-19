@@ -30,16 +30,22 @@ class App extends ClientRoleAwareComponent  {
         this.profileDB.on('value', snap => {
             const {user} = this.state;
             user.profile = snap.val();
-            this.setState({ user })
-            this.getCasinos();
+
+            user.getIdToken(true).then( idToken => {
+                user.idToken = idToken
+                this.setState({ user })
+                this.getCasinos();    
+            }).catch(error => {
+                this.setState({loading : false});
+            });
         });
     }
 
     getCasinos = () => {
-        callGetCasinos()
+        const {user} = this.state;
+        callGetCasinos(user)
         .then((response) => {
             let casinos = [];    
-            const {user} = this.state;
             for(let key in response.data){
                 const userApi = response.data[key];
                 if(userApi.id === user.profile.apiId){
