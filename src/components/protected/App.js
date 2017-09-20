@@ -9,7 +9,6 @@ import DocsAndFiles from './client/DocsAndFiles'
 import Profile from './client/Profile'
 import Promotions from './client/Promotions'
 import { firabaseDB } from './../../config/constants'
-import { callGetCasinos } from './../../helpers/api'
 
 /**
  * Protected App component.
@@ -33,33 +32,10 @@ class App extends ClientRoleAwareComponent  {
 
             user.getIdToken(true).then( idToken => {
                 user.idToken = idToken
-                this.setState({ user })
-                this.getCasinos();    
+                this.setState({ user, loading: false })  
             }).catch(error => {
                 this.setState({loading : false});
             });
-        });
-    }
-
-    getCasinos = () => {
-        const {user} = this.state;
-        callGetCasinos(user)
-        .then((response) => {
-            let casinos = [];    
-            for(let key in response.data){
-                const userApi = response.data[key];
-                if(userApi.id === user.profile.apiId){
-                    casinos = userApi.casinos;
-                }
-            }
-            user.casinos = casinos
-            this.setState({
-                loading : false,
-                user
-            });
-        })
-        .catch( (error) => {            
-            this.setState({loading : false});
         });
     }
 
