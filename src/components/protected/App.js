@@ -9,7 +9,6 @@ import DocsAndFiles from './client/DocsAndFiles'
 import Profile from './client/Profile'
 import Promotions from './client/Promotions'
 import { firabaseDB } from './../../config/constants'
-import { callGetCasinos } from './../../helpers/api'
 
 /**
  * Protected App component.
@@ -30,30 +29,13 @@ class App extends ClientRoleAwareComponent  {
         this.profileDB.on('value', snap => {
             const {user} = this.state;
             user.profile = snap.val();
-            this.setState({ user })
-            this.getCasinos();
-        });
-    }
 
-    getCasinos = () => {
-        callGetCasinos()
-        .then((response) => {
-            let casinos = [];    
-            const {user} = this.state;
-            for(let key in response.data){
-                const userApi = response.data[key];
-                if(userApi.id === user.profile.apiId){
-                    casinos = userApi.casinos;
-                }
-            }
-            user.casinos = casinos
-            this.setState({
-                loading : false,
-                user
+            user.getIdToken(true).then( idToken => {
+                user.idToken = idToken
+                this.setState({ user, loading: false })  
+            }).catch(error => {
+                this.setState({loading : false});
             });
-        })
-        .catch( (error) => {            
-            this.setState({loading : false});
         });
     }
 

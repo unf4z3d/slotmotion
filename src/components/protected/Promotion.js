@@ -65,38 +65,23 @@ class Promotion extends CommonRoleAwareComponent  {
 
     updateLevelStatus = () => {
         const { status } = this.state.promotion;
-        if(status !== undefined && (status.id === 2 || status.id === 3)){
-            if(this.props.user.casinos !== undefined){
-                let casinos = '';
-                let { promotion } = this.state;
-                for(let key in this.props.user.casinos){
-                    casinos += `&casino=${this.props.user.casinos[key]}`;
+        if(status !== undefined && (status.id === 2 || status.id === 3)){    
+            let { promotion } = this.state;
+            const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true)
+            callGetUserGameplay(this.props.user, signupDate).then((response) => {
+                const totalBet = response.data.totalBet;
+                
+                for(let i in promotion.levels){
+                    let level = promotion.levels[i];
+                    if(totalBet >= level.bestToReach){
+                        promotion.levels[i].reached = true;
+                    }
                 }
-                const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true)
-                callGetUserGameplay("2015-12-05T09:17:18.937Z", casinos).then((response) => {
-                    let totalBet = 0;
-                    for(let i in response.data){
-                        let casino = response.data[i];
-                        for(let j in casino.type){
-                            let casinoDetail = casino.type[j];
-                            if(casinoDetail.type === 'WAGER'){
-                                totalBet+= casinoDetail.bet;
-                            }
-                        }
-                    }
 
-                    for(let i in promotion.levels){
-                        let level = promotion.levels[i];
-                        if(totalBet >= level.bestToReach){
-                            promotion.levels[i].reached = true;
-                        }
-                    }
-
-                    this.setState({ promotion })
-                }).catch( (error) => {            
-                    this.setState({loading : false});
-                });                
-            }
+                this.setState({ promotion })
+            }).catch( (error) => {            
+                this.setState({loading : false});
+            });                
         }
     }
 
