@@ -438,7 +438,7 @@ class Promotion extends CommonRoleAwareComponent  {
 
     renderLevelStatus = i => {
         const status = 'undefined';
-        return <Chip key={i} className={'st-lvl-' + i}>{status}</Chip>
+        return <Chip key={i} className={'st-lvl st-lvl-' + i}>{status}</Chip>
     }
 
     renderPromotionStatus = () => {
@@ -447,7 +447,7 @@ class Promotion extends CommonRoleAwareComponent  {
             status = this.state.promotion.status.description;
         }
 
-        return <Chip className={status !== null ? 'st-lvl-4 visible ' + status  : 'st-lvl-4'}>{status}</Chip>
+        return <Chip className={status !== null ? 'st-lvl st-lvl-4 visible ' + status  : 'st-lvl st-lvl-4'}>{status}</Chip>
     }
 
     getLogoImage = () => {
@@ -464,7 +464,8 @@ class Promotion extends CommonRoleAwareComponent  {
         // This prevents ghost click.
         event.preventDefault();
         let { showTooltip, promotion } = this.state;
-        showTooltip[i] = promotion.levels[i].reached;
+        //showTooltip[i] = promotion.levels[i].reached;
+        showTooltip[i] = true;
 
         this.setState({
             anchorEl: event.currentTarget,
@@ -561,7 +562,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                         [...Array(5)].map((x, i) =>
                                             this.isSingupAllowed() && i === 4 
                                             ?
-                                                <Paper onMouseEnter={(e) => this.handleShowTooltip(e, i)} key={i} className="promo-level signup" zDepth={1} circle={true}>
+                                                <Paper key={i} className="promo-level signup" zDepth={1} circle={true}>
                                                     <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
                                                 </Paper>
                                             :

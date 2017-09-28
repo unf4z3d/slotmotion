@@ -270,9 +270,9 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                 <div className="row">
                     <div className="col-xs-4">
                         <div className="text-left">
-                            <div className="input-icon">
-                                <ActionSearch onClick={this.handleFilterByName} style={{position: 'absolute', right: 0, top: 15, width: 20, height: 20}}/>
-                                <TextField ref="nameFilter" hintText="Search by Name" />
+                            <div className="dark-input input-icon">
+                                <ActionSearch viewBox="7 -7 6 40" onClick={this.handleFilterByName} />
+                                <TextField ref="nameFilter" hintText="search by name" />
                             </div>
                         </div>
                     </div>

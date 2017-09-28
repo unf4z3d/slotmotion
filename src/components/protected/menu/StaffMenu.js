@@ -2,7 +2,7 @@ import React from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import CommonMenu from './CommonMenu';
 import { Link } from 'react-router-dom';
 
@@ -36,27 +36,25 @@ class StaffMenu extends CommonMenu  {
             <div className="main-menu">
                 <div className="container">
                     <div className="items">
-                        <div className={this.getSelectedItem(1) ? "col-xs-1 selected" : "col-xs-1"}>
+                        <div className={this.getSelectedItem(1) ? "col-xs-2 dashboard selected" : "col-xs-2 dashboard"}>
                             <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
                             <hr />
                         </div>
-                        <div className={this.getSelectedItem(2) ? "col-xs-2 selected" : "col-xs-2"}>
+                        <div className={this.getSelectedItem(2) ? "col-xs-3 docs-files selected" : "col-xs-3 docs-files"}>
                             <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
                             <hr />
                         </div>
-                        <div className={this.getSelectedItem(3) ? "col-xs-1 selected" : "col-xs-1"}>
+                        <div className={this.getSelectedItem(3) ? "col-xs-2 promotions selected" : "col-xs-2 promotions"}>
                             <Link onClick={() => this.handleChangeMenuItem(3)} to="/promotions">Promotions</Link>
                             <hr />
                         </div>
-                        <div className="col-xs-7 text-right" style={{marginTop:7}}>
+                        <div className="col-xs-5 text-right user-menu-staff" style={{height: 33}}>
                             <div className="header-user-name">
                                 <span className="micro-icons user" />
                                 &nbsp;&nbsp;
                                 { this.props.user.profile.name }
-                            </div>
-                        </div>
-                        <div className="col-xs-1 text-left">                            
-                            <IconMenu iconButtonElement={<IconButton style={{padding:0, height:35}} ><MoreVertIcon /></IconButton>}>
+                            </div>                        
+                            <IconMenu className="user-icon" iconButtonElement={<IconButton style={{padding:0, height:35}} ><NavigationArrowDropDown /></IconButton>}>
                                 <MenuItem containerElement={<Link to="/profile"></Link>} primaryText="Profile" />
                                 <MenuItem onClick={this.handleLogout} primaryText="Sign out" />
                             </IconMenu>

@@ -61,29 +61,23 @@ class App extends Component {
                                     <div className="col-xs-2">
                                         <div className="logo header-logo"></div>
                                     </div>
-                                    <div className="col-xs-9 no-padding">
-                                        <div className="header-icons">
-                                            <a rel="noopener noreferrer" target="_blank" href="https://www.twitter.com">
-                                                <div className="twitter"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="col-xs-1 no-padding">
+                                    <div className="col-xs-10 no-padding">
                                         <div className="header-icons">
                                             <a rel="noopener noreferrer" target="_blank"
                                                href="https://www.facebook.com">
                                                 <div className="facebook"></div>
                                             </a>
                                         </div>
+                                        <div className="header-icons">
+                                            <a rel="noopener noreferrer" target="_blank" href="https://www.twitter.com">
+                                                <div className="twitter"></div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <br/>
-                        <br/>
-
                         {this.renderDashboardOrLogin()}
-
                     </div>
                 </MuiThemeProvider>
             </Router>
