@@ -107,7 +107,7 @@ class Profile extends ClientRoleAwareComponent  {
                                     <div className="user-ico" />
                                 </div>
                                 <div className="col-xs-9 text-left no-padding">
-                                    <label className="label text-uppercase">Sugars@test.com</label><br/>
+                                    <label className="label text-uppercase">{this.props.user.email}</label><br/>
                                     <label className="label gray text-uppercase">Last Login:</label>
                                     <label className="label">{dateFormat(this.props.user.profile.lastLogin, 'dS mmmm yyyy')}</label>
                                 </div>

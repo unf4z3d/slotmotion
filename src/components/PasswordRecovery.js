@@ -46,7 +46,7 @@ class PasswordRecovery extends React.Component {
     (
         <div className="container">
             <div className="row">
-                <div className="col-md-4 col-md-offset-4">
+                <div className="col-xs-4 col-xs-offset-4">
                 <div className="login-form">
                         <div className="password-title"> 
                             <h2>Password recovery</h2>

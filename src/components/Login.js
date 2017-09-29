@@ -3,11 +3,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import Message from './commons/Message'
-import IconButton from 'material-ui/IconButton';
-import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import NavigationCheck from 'material-ui/svg-icons/navigation/check'
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import { Link } from 'react-router-dom';
 import { firabaseDB } from './../config/constants'
 import { login } from './../helpers/auth';
@@ -56,7 +52,7 @@ class Login extends React.Component {
     (
         <div className="container">
             <div className="row">
-                <div className="col-md-4 col-md-offset-4">
+                <div className="col-xs-4 col-xs-offset-4">
                     <div className="login-form">
                         <div className="login-title"> 
                             <h2>Client area login</h2>
