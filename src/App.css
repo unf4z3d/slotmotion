@@ -1082,3 +1082,11 @@ a, .primary-color {
     font-family: "LatoWebLight";
     font-size: 20px;
 }
+
+.promo-edit-level > img{
+    width: 68px;
+    height: 68px;
+    position: absolute;
+    top: -18px;
+    left: -7px;
+}

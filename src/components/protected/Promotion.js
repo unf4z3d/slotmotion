@@ -142,9 +142,9 @@ class Promotion extends CommonRoleAwareComponent  {
         }else{
             const reached = this.state.promotion.levels[index].reached;
             if(reached !== undefined && reached){
-                image = imageUrl(this.state.promotion.levels[index].activeImage.previewImage);
+                image = this.state.promotion.levels[index].activeImage.previewImage;
             }else{
-                image = imageUrl(this.state.promotion.levels[index].inactiveImage.previewImage);
+                image = this.state.promotion.levels[index].inactiveImage.previewImage;
             }
         }
         return image;
@@ -588,8 +588,10 @@ class Promotion extends CommonRoleAwareComponent  {
                                                     <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
                                                 </Paper>
                                             :
-                                                <Paper onMouseEnter={(e) => this.handleShowTooltip(e, i)} key={i} style={{backgroundImage: this.getImageLevel(i) }} className="promo-level" zDepth={1} circle={true}>
-                                                    <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.props.editable ? `EDIT LEVEL ${i+1}`: ''}</span>
+                                                <Paper onMouseEnter={(e) => this.handleShowTooltip(e, i)} key={i} className="promo-level" zDepth={1} circle={true}>
+                                                    <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">{this.props.editable ? `EDIT LEVEL ${i+1}`: ''}
+                                                        <img src={this.getImageLevel(i)} />
+                                                    </span>
                                                 </Paper>
                                         )
                                         }
