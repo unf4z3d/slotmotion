@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import Message from './commons/Message'
+import NavigationCheck from 'material-ui/svg-icons/navigation/check'
 import { Link } from 'react-router-dom';
 import { firabaseDB } from './../config/constants'
 import { login } from './../helpers/auth';
@@ -51,23 +52,26 @@ class Login extends React.Component {
     (
         <div className="container">
             <div className="row">
-                <div className="col-md-4 col-md-offset-4">
-                    <div className="login-title">
-                        <h2>Client Area Login</h2>
-                        <hr/>
-                        <Message error value={this.state.errorMessage} />
-                        <br/><br/>  
+                <div className="col-xs-4 col-xs-offset-4">
+                    <div className="login-form">
+                        <div className="login-title"> 
+                            <h2>Client area login</h2>
+                            <hr/>
+                        </div>
+                        <Message error value={this.state.errorMessage} />  
                         <form onSubmit={this.handleSubmit}>
-                            <TextField defaultValue="user@yopmail.com" ref="username" hintText="Username"/>
-                            <br/><br/>
-                            <TextField defaultValue="123456" ref="password" type="password" hintText="Password"/>
-                            <br/><br/>
-                            <Checkbox label="Remember me"/>
-                            <br/>
-                            <RaisedButton className="btn-smotion primary" type="submit" fullWidth={true} label="Login" primary={true} />
+                            <TextField className="login-input" ref="username" hintText="Username"/>
+                            <TextField className="login-input" ref="password" type="password" hintText="Password"/>
+                            <Checkbox className="remember-me login-check" label="Remember me"           
+                                      checkedIcon={<NavigationCheck />}
+                                      uncheckedIcon={<NavigationCheck />}/>
+                            <RaisedButton className="btn-smotion primary login-button" type="submit" fullWidth={true} label="Login" primary={true} />
                         </form>
-                        <br/><br/>
-                        <Link to="/forgot-password">Password recovery</Link>
+                        <div className="forgot-pw-link">
+                            <Link className="white-link" to="/forgot-password">
+                            <span className="settings-ico" />
+                            password recovery</Link>
+                        </div>
                     </div>
                 </div>
             </div>

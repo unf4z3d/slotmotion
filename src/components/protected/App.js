@@ -54,7 +54,7 @@ class App extends ClientRoleAwareComponent  {
                     ? <StaffMenu user={this.state.user} />
                     : <ClientMenu user={this.state.user} />
                 }
-                <div className="container">
+                <div className="container app-content">
                     <Switch>
                         <Route exact path="/" render={(props) => ( 
                             this.isAdmin() 

@@ -91,7 +91,7 @@ class Promotions extends ClientRoleAwareComponent  {
                         <RaisedButton 
                             disabled={row.active !== undefined} 
                             onClick={() => {this.handlePublishPromotion(row)}}
-                            className="btn-smotion secondary"
+                            className="btn-smotion secondary btn-min"
                             label={row.active !== undefined ? 'Published' : 'Publish'} secondary />
                     }
                 </span>
@@ -100,7 +100,7 @@ class Promotions extends ClientRoleAwareComponent  {
                     <RaisedButton 
                         disabled={ row.active === false } 
                         onClick={() => {this.handleDeletePromotion(row)}}
-                        className="btn-smotion" 
+                        className="btn-smotion btn-min" 
                         label={row.active === false ? 'Deleted' : 'Delete'} />
                 </span>
             </div>
@@ -121,7 +121,7 @@ class Promotions extends ClientRoleAwareComponent  {
                 {!this.state.promotionVisible &&   
                     <div className="text-right">
                         <div>
-                            <RaisedButton className="btn-smotion primary" onClick={() => this.setState({promotionVisible : true}) } 
+                            <RaisedButton className="btn-smotion primary btn-large" onClick={() => this.setState({promotionVisible : true}) } 
                                 type="submit" 
                                 label="Create New" />
                         </div>
@@ -133,7 +133,7 @@ class Promotions extends ClientRoleAwareComponent  {
                         <div className="text-right">
                             <span>
                                 <RaisedButton 
-                                    className="btn-smotion" 
+                                    className="btn-smotion btn-large" 
                                     disabled={this.state.savingPromotion}
                                     onClick={() => this.setState({promotionVisible : false}) } 
                                     label="Cancel" />
@@ -141,7 +141,7 @@ class Promotions extends ClientRoleAwareComponent  {
                             &nbsp;&nbsp;
                             <span>
                                 <RaisedButton 
-                                    className="btn-smotion secondary"
+                                    className="btn-smotion secondary btn-large"
                                     disabled={this.state.savingPromotion}
                                     onClick={this.handleSavePromotion}
                                     label={this.state.savingPromotion ? 'Saving Data' : 'Save Promotion' } secondary />
@@ -149,11 +149,12 @@ class Promotions extends ClientRoleAwareComponent  {
                         </div>
                         
                         <div>
-                            <br/><br/>
+                            <br/><br/><br/>
                             <Promotion editable={true} ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
                         </div>
                     </div>
                 }
+                <br/><br/><br/>
                 <div className="smotion-table">
                     <BootstrapTable data={ this.state.promotions } options={{hideSizePerPage: true}} bordered={ false }>
                         <TableHeaderColumn width="100" dataField='name' isKey dataSort>Name</TableHeaderColumn>

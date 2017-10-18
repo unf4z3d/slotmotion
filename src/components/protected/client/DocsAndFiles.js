@@ -2,7 +2,6 @@ import React from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import { Dialog, RaisedButton, TextField, Checkbox, MenuItem, IconButton } from 'material-ui';
-import FileCloudDownload from 'material-ui/svg-icons/file/cloud-download';
 import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
 import { firabaseDB, firebaseStorage, constants } from './../../../config/constants'
 import { formatBytes } from './../../../helpers'
@@ -42,6 +41,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
      * Component life cycle
      */
     componentWillMount() {
+
+        this.quitLoading();
 
         this.docsTypeDB.once('value').then((snap => {
             this.setState({docsType: snap.val()});
@@ -186,6 +187,30 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
     handleCloseDialog = () => this.setState({docsDialogVisible : false, file: {}})
     
     /**
+     * Formatter for the Name row
+     * @param {*} cell 
+     * @param {*} row 
+     * @param {*} enumObject 
+     */
+    docFormatter(cell, row){
+        let className = "";
+        switch (row.docType) {
+            case 0:
+                className = "icon-promo-pack";
+                break;
+            case 1:
+                className = "icon-video";
+                break;
+            case 2:
+                className = "icon-game-sheet";
+                break;
+            default:
+                break;
+        }
+        return <div className={className} />
+    }
+
+    /**
      * Formatter for the Type and Category rows
      * @param {*} cell 
      * @param {*} row 
@@ -240,7 +265,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
     downloadFormatter = (cell, row) => {
         return (
             <IconButton className="app-ico" target="_blank" href={row.downloadURL}>
-                <FileCloudDownload />
+                <div className="icon-download" />
             </IconButton>
         );
     }
@@ -270,9 +295,9 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                 <div className="row">
                     <div className="col-xs-4">
                         <div className="text-left">
-                            <div className="input-icon">
-                                <ActionSearch onClick={this.handleFilterByName} style={{position: 'absolute', right: 0, top: 15, width: 20, height: 20}}/>
-                                <TextField ref="nameFilter" hintText="Search by Name" />
+                            <div className="dark-input input-icon">
+                                <ActionSearch viewBox="7 -7 6 40" onClick={this.handleFilterByName} />
+                                <TextField ref="nameFilter" hintText="search by name" />
                             </div>
                         </div>
                     </div>
@@ -280,21 +305,23 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                         <div className="text-right">
                             <div>
                                 { this.isAdmin() &&
-                                    <RaisedButton className="btn-smotion primary" label="Upload New" onClick={() => {this.setState({docsDialogVisible: true})}} />
+                                    <RaisedButton className="btn-smotion primary btn-large" label="Upload New" onClick={() => {this.setState({docsDialogVisible: true})}} />
                                 }
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="smotion-table selection">
+                <br/><br/>
+                <div className="smotion-table selection docs-table">
                     <BootstrapTable data={ this.state.docs }  options={{hideSizePerPage: true}} pagination bordered={ false } selectRow={{mode: 'checkbox'}}>
-                        <TableHeaderColumn dataField='name' isKey dataSort>Name</TableHeaderColumn>
-                        <TableHeaderColumn dataField='docType' dataFormat={ this.descriptionFormatter } formatExtraData={ this.state.docsType } dataSort>Type</TableHeaderColumn>
-                        <TableHeaderColumn dataField='docCategory' dataFormat={ this.descriptionFormatter } formatExtraData={ this.state.docsCategory }dataSort>Category</TableHeaderColumn>
-                        <TableHeaderColumn dataField='language' dataFormat={ this.languageFormatter } dataSort>Language</TableHeaderColumn>
-                        <TableHeaderColumn dataField='createdAt' dataSort>Modified</TableHeaderColumn>
-                        <TableHeaderColumn dataField='size' dataFormat={ this.sizeFormatter } dataSort>Size</TableHeaderColumn>
-                        <TableHeaderColumn dataFormat={ this.downloadFormatter }></TableHeaderColumn>
+                        <TableHeaderColumn width="30" dataField='name' dataFormat={ this.docFormatter } ></TableHeaderColumn>
+                        <TableHeaderColumn width="180" dataField='name' isKey dataSort>Name</TableHeaderColumn>
+                        <TableHeaderColumn width="80" dataField='docType' dataFormat={ this.descriptionFormatter } formatExtraData={ this.state.docsType } dataSort>Type</TableHeaderColumn>
+                        <TableHeaderColumn width="80" dataField='docCategory' dataFormat={ this.descriptionFormatter } formatExtraData={ this.state.docsCategory }dataSort>Category</TableHeaderColumn>
+                        <TableHeaderColumn width="120" dataField='language' dataFormat={ this.languageFormatter } dataSort>Language</TableHeaderColumn>
+                        <TableHeaderColumn width="120" dataField='createdAt' dataSort>Modified</TableHeaderColumn>
+                        <TableHeaderColumn width="80" dataField='size' dataFormat={ this.sizeFormatter } dataSort>Size</TableHeaderColumn>
+                        <TableHeaderColumn width="50" dataFormat={ this.downloadFormatter }></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
 
@@ -331,7 +358,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                     </div>
                                                     <div className="col-xs-3 column-choose-file">
                                                         <RaisedButton
-                                                            className="btn-smotion secondary"
+                                                            className="btn-smotion secondary file-min"
                                                             containerElement='label'
                                                             label='Choose File'>
                                                                 <input onChange={this.chooseFile} style={{display:'none'}} type="file" />

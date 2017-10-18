@@ -46,33 +46,35 @@ class PasswordRecovery extends React.Component {
     (
         <div className="container">
             <div className="row">
-                <div className="col-md-4 col-md-offset-4">
-                    <div className="login-title">
-                    <h2>Password recovery</h2>
-                        <hr/>
-                        <br/><br/>  
-
+                <div className="col-xs-4 col-xs-offset-4">
+                <div className="login-form">
+                        <div className="password-title"> 
+                            <h2>Password recovery</h2>
+                            <hr/>
+                        </div>  
+                        <div className="recovery-pw-form">
                         { this.state.successMessage != null
                         ?
-                            <Message value={this.state.successMessage} />
+                            <div className="recovery-success-message">
+                                <Message value={this.state.successMessage} />
+                                <br/>
+                                <br/>
+                            </div>
                         :
-                            <div>
-                                { this.state.errorMessage != null
-                                ?                                    
-                                    <Message error value={this.state.errorMessage} />
-                                :
-                                    <div>
-                                        <form onSubmit={this.handleSubmit}>
-                                            <TextField defaultValue="user@yopmail.com" ref="username" hintText="Username"/>
-                                            <br/><br/>
-                                            <RaisedButton className="btn-smotion primary" type="submit" fullWidth={true} label="Revover" primary={true} />
-                                        </form>
-                                    </div>
-                                }
+                            <div>      
+                                <Message error value={this.state.errorMessage} />
+                                <div>
+                                    <form onSubmit={this.handleSubmit}>
+                                        <TextField className="login-input" ref="username" hintText="Email"/>
+                                        <RaisedButton className="btn-smotion primary forgot-button" type="submit" fullWidth={true} label="Revover" primary={true} />
+                                    </form>
+                                </div>
                             </div>
                         }
-                        <br/><br/>
-                        <Link to="/">Back to login</Link>
+                        </div>
+                        <div className="back-login-link">
+                            <Link className="white-link" to="/">Back to login</Link>
+                        </div>
                     </div>
                 </div>
             </div>
