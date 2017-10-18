@@ -50,7 +50,7 @@ class Promotions extends ClientRoleAwareComponent  {
      * Callback when promotion is success saved.
      */
     promotionSavedCallback = () => {
-        this.setState({promotionVisible: false})
+        this.setState({promotionVisible: false, savingPromotion: false})
         this.showSuccessMessage('The promotion has been created');
     }
 
@@ -108,8 +108,15 @@ class Promotions extends ClientRoleAwareComponent  {
     }
 
     handleSavePromotion = () => {
-        const success = this.refs.promotion.savePromotion();
-        this.setState({savingPromotion: success})
+        const response = this.refs.promotion.savePromotion();
+        
+        if(!response.success){
+            this.showErrorMessage(response.message);
+        }else{
+            this.showMessage("Please wait");
+        }
+
+        this.setState({savingPromotion: response.success})
     }
 
     /**

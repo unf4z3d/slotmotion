@@ -29,7 +29,9 @@ export function formatBytes(bytes,decimals) {
   */
  export function isEmpty(val, message){
      if(val === undefined || val === null || val === ""){
-        alert(message);
+        if(message !== undefined){
+            alert(message);
+        }
         return true;
      }
  }

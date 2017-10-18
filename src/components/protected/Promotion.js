@@ -195,21 +195,21 @@ class Promotion extends CommonRoleAwareComponent  {
     /**
      * Set the promotion start date 
      */
-    setStartDate = (e, date) => {
+    setStartDate = (e, startDate) => {
         const { promotion } = this.state;
-        promotion.startDate = dateFormat(date, constants.formatDate);
-        promotion.startDateTime = date.getTime();
-        this.setState({promotion});
+        promotion.startDate = dateFormat(startDate, constants.formatDate);
+        promotion.startDateTime = startDate.getTime();
+        this.setState({promotion, startDate});
     }
 
     /**
      * Set the promotion ends date 
      */
-    setEndDate = (e, date) => {
+    setEndDate = (e, endDate) => {
         const { promotion } = this.state;
-        promotion.endDate = dateFormat(date, constants.formatDate);
-        promotion.endDateTime = date.getTime();
-        this.setState({promotion});
+        promotion.endDate = dateFormat(endDate, constants.formatDate);
+        promotion.endDateTime = endDate.getTime();
+        this.setState({promotion, endDate});
     }
 
     /**
@@ -234,7 +234,8 @@ class Promotion extends CommonRoleAwareComponent  {
      * Initi the promotion save proccess.
      */
     savePromotion = () => {
-        if(this.submitPromotionAllowed()){
+        const response = this.submitPromotionAllowed();
+        if(response.success){
             const { promotion } = this.state;
 
             if(promotion.key === undefined){
@@ -244,50 +245,51 @@ class Promotion extends CommonRoleAwareComponent  {
             this.setState({promotion});
 
             this.initUploadFiles();
-            return true;
+            return response;
         }else{
-            return false;
+            return response;
         }
     }
 
     submitPromotionAllowed = () =>{
         const { promotion } = this.state;
-        if(isEmpty(promotion.startDateTime, "Please set the Start Date")){
-            return false;
+        
+        if(isEmpty(promotion.startDateTime)){
+            return {success: false, message: "Please set the Start Date"}
         }
-        if(isEmpty(promotion.endDateTime, "Please set the End Date")){
-            return false;
+        if(isEmpty(promotion.endDateTime)){
+            return {success: false, message: "Please set the End Date"}
         }
-        if(isEmpty(promotion.logoPicture, "Please set the Logo Picture")){
-            return false;
+        if(isEmpty(promotion.logoPicture)){
+            return {success: false, message: "Please set the Logo Picture"}
         }
-        if(isEmpty(promotion.name, "Please set the Campaign Name")){
-            return false;
+        if(isEmpty(promotion.name)){
+            return {success: false, message: "Please set the Campaign Name"}
         }
-        if(isEmpty(promotion.description, "Please set the Campaign Description")){
-            return false;
+        if(isEmpty(promotion.description)){
+            return {success: false, message: "Please set the Campaign Description"}
         }
 
         for(let i = 0; i < 5; i++){
             const currentLevel = i+1;
-            if(isEmpty(promotion.levels[i].activeImage, `Please set the Active Image in the Level ${currentLevel}`)){
-                return false;
+            if(isEmpty(promotion.levels[i].activeImage)){
+                return {success: false, message: `Please set the Active Image in the Level ${currentLevel}`}
             }
-            if(isEmpty(promotion.levels[i].inactiveImage, `Please set the Inactive Image in the Level ${currentLevel}`)){
-                return false;
+            if(isEmpty(promotion.levels[i].inactiveImage)){
+                return {success: false, message: `Please set the Inactive Image in the Level ${currentLevel}`}
             }
-            if(isEmpty(promotion.levels[i].bestToReach, `Please set the Best to Reach in the Level ${currentLevel}`)){
-                return false;
+            if(isEmpty(promotion.levels[i].bestToReach)){
+                return {success: false, message: `Please set the Best to Reach in the Level ${currentLevel}`}
             }
-            if(isEmpty(promotion.levels[i].discount, `Please set the Discount in the Level ${currentLevel}`)){
-                return false;
+            if(isEmpty(promotion.levels[i].discount)){
+                return {success: false, message: `Please set the Discount in the Level ${currentLevel}`}
             }
-            if(isEmpty(promotion.levels[i].freearounds, `Please set the Freerounds in the Level ${currentLevel}`)){
-                return false;
+            if(isEmpty(promotion.levels[i].freearounds)){
+                return {success: false, message: `Please set the Freerounds in the Level ${currentLevel}`}
             }
         }
         
-        return true;
+        return {success: true};
     }
 
     /**
@@ -534,9 +536,20 @@ class Promotion extends CommonRoleAwareComponent  {
                                         )
                                     :
                                         (
-                                            <Paper onClick={this.handleToggleShowDetail} className="promo-logo" style={{backgroundImage: this.getLogoImage()}} zDepth={1} />
+                                            this.isEditable() 
+                                            ?
+                                            (
+                                                <FlatButton
+                                                    labelPosition="after"
+                                                    className="btn-smotion link"
+                                                    containerElement='label'>
+                                                        <Paper onClick={this.handleToggleShowDetail} className="promo-logo" style={{backgroundImage: this.getLogoImage()}} zDepth={1} />
+                                                        <input onChange={this.chooseLogoPicture} style={{display:'none'}} type="file" />
+                                                </FlatButton>
+                                            )
+                                            :
+                                            (<Paper onClick={this.handleToggleShowDetail} className="promo-logo" style={{backgroundImage: this.getLogoImage()}} zDepth={1} />)
                                         )
-                                        
                                 }
                                 </div>
                             </div> 
@@ -548,12 +561,12 @@ class Promotion extends CommonRoleAwareComponent  {
                                             (<div className="text-right primary-color">
                                                 <a onClick={() => this.refs.startDate.refs.dialogWindow.show()}>
                                                     Edit start date
-                                                    <DatePicker value={this.state.promotion.startDate} onChange={this.setStartDate} ref="startDate" style={{display:'none'}} hintText="Start Date" />
+                                                    <DatePicker value={this.state.promotion.startDate} maxDate={this.state.endDate} onChange={this.setStartDate} ref="startDate" style={{display:'none'}} hintText="Start Date" />
                                                 </a>
                                                 &nbsp;&#8226;&nbsp;
                                                 <a onClick={() => this.refs.endDate.refs.dialogWindow.show()}>
-                                                Edit start date
-                                                    <DatePicker value={this.state.promotion.endDate} onChange={this.setEndDate} ref="endDate" style={{display:'none'}} hintText="End Date" />
+                                                    Edit end date
+                                                    <DatePicker value={this.state.promotion.endDate} minDate={this.state.startDate} onChange={this.setEndDate} ref="endDate" style={{display:'none'}} hintText="End Date" />
                                                 </a>
                                             </div>)
                                         :
@@ -600,7 +613,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                             ? 
                                                             `EDIT LEVEL ${i+1}`
                                                             : 
-                                                            (<img src={this.getImageLevel(i)} />)
+                                                            (<img src={this.getImageLevel(i)} alt={`EDIT LEVEL ${i+1}`} />)
                                                         }
                                                     </span>
                                                 </Paper>
