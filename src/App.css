@@ -436,7 +436,7 @@ a:focus {
 }
 
 
-.white-form input, .white-form > .select-form > div > div > div {
+.white-form input, .white-form > .select-form > div > div > div, .select-form > div > div > div {
   color:#767b7e !important;
   font-size: 12px !important;
 }
