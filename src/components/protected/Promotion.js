@@ -231,6 +231,18 @@ class Promotion extends CommonRoleAwareComponent  {
     }
 
     /**
+     * Set the the CampaignPackage
+     */
+    chooseCampaignPackage = e => {
+        const { promotion } = this.state;
+        
+        promotion.campaignPackage = e.target.files[0];
+        promotion.campaignPackageName = promotion.campaignPackage.name;
+       
+        this.setState({promotion});
+    }
+
+    /**
      * Initi the promotion save proccess.
      */
     savePromotion = () => {
@@ -269,6 +281,9 @@ class Promotion extends CommonRoleAwareComponent  {
         if(isEmpty(promotion.description)){
             return {success: false, message: "Please set the Campaign Description"}
         }
+        if(isEmpty(promotion.campaignPackage)){
+            return {success: false, message: "Please set the Campaign Package"}
+        }
 
         for(let i = 0; i < 5; i++){
             const currentLevel = i+1;
@@ -300,7 +315,7 @@ class Promotion extends CommonRoleAwareComponent  {
     }
 
     /**
-     * Upload the logo picture and callback the upload of level images
+     * Upload the logo picture and callback the campaign package process
      */
     uploadLogoPicture = () => {
         const { promotion } = this.state;
@@ -308,6 +323,20 @@ class Promotion extends CommonRoleAwareComponent  {
             .put(promotion.logoPicture).then((snap) => {
             
             promotion.logoPreviewImage = snap.downloadURL;
+            this.setState({promotion});
+            this.uploadCampaignPackage();
+        })
+    }
+
+    /**
+     * Upload the promotion campaign package and callback the level images upload
+     */
+    uploadCampaignPackage = () => {
+        const { promotion } = this.state;
+        firebaseStorage().ref().child("promotions").child(promotion.key).child("campaignPackage")
+            .put(promotion.campaignPackage).then((snap) => {
+            
+            promotion.campaignPackageURL = snap.downloadURL;
             this.setState({promotion});
             this.uploadLevelsActiveImages();
         })
@@ -579,7 +608,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                 </div>
                                                 :
                                                 <div>
-                                                    Started: {timeSince(this.state.promotion.startDateTime)} ago | Ends {this.state.promotion.endDate}
+                                                    Started {timeSince(this.state.promotion.startDateTime)} ago &nbsp;&#8226;&nbsp; Ends {this.state.promotion.endDate}
                                                 </div>
                                                 }
                                             </div>
@@ -613,7 +642,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                             ? 
                                                             `EDIT LEVEL ${i+1}`
                                                             : 
-                                                            (<img src={this.getImageLevel(i)} alt={`EDIT LEVEL ${i+1}`} />)
+                                                            (<img src={this.getImageLevel(i)} alt="" />)
                                                         }
                                                     </span>
                                                 </Paper>
@@ -661,15 +690,44 @@ class Promotion extends CommonRoleAwareComponent  {
                                         }
                                     </span>
                                     {(this.state.promotion.startDate || this.state.promotion.endDate) &&
-                                        <div className="promotion-calendars">{this.state.promotion.startDate}&nbsp;&#8226;&nbsp;{this.state.promotion.endDate}</div>
+                                        <div className="promotion-calendars">
+                                            {
+                                                this.isEditable()
+                                            ?
+                                                <div>
+                                                    {this.state.promotion.startDate}&nbsp;&#8226;&nbsp;{this.state.promotion.endDate}    
+                                                </div>
+                                            :
+                                                <div>
+                                                    Started {timeSince(this.state.promotion.startDateTime)} ago &nbsp;&#8226;&nbsp; Ends {this.state.promotion.endDate}                                                
+                                                </div>
+                                            }
+                                        </div>
                                     }
                                 </div>
                                 <div className="col-xs-4">
-                                {/*<div className="promotion-download-package">
-                                    <Chip onClick={() => {alert('handleDownload')}} style={{margin: 4}}>
-                                        Download Campaign Package
-                                    </Chip>
-                                </div>*/}
+                                <div className="promotion-download-package">
+                                    {
+                                    this.isEditable()
+                                    ?
+                                        <FlatButton
+                                            labelPosition="after"
+                                            containerElement='label'>
+                                            <Chip style={{margin: 4}}>
+                                                Upload Campaign Package
+                                            </Chip>
+                                            <input onChange={this.chooseCampaignPackage} style={{display:'none'}} type="file" />
+                                        </FlatButton>
+                                        
+                                    :
+                                            <Chip style={{margin: 4}}>
+                                                <a target="_new" href={this.state.promotion.campaignPackageURL}>
+                                                    Download Campaign Package
+                                                </a>
+                                            </Chip>
+                                    }
+                                    
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -681,13 +739,12 @@ class Promotion extends CommonRoleAwareComponent  {
                                         ?
                                         <textarea onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
                                         :
-                                        <textarea readOnly disabled onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
+                                        <textarea readOnly disabled onChange={this.handleChange} name="description" className="transparent-input fullwidth" style={{height:'auto', resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
                                     }
                                     
                                 </div>
                             </div>
                         </div>
-                        <br/>
                         { this.started() === false &&
                             <div className="row">
                                 <div className="col-xs-12">

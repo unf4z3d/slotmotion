@@ -247,13 +247,18 @@ a:focus {
 .promotion-calendars{
   font-size: 9px;
   text-transform: uppercase;
-  color: rgb(184,196,210);
+  color: #fff;
   font-family: "LatoWebBold";
 }
 
 .promotion-name{
   font-size: 20px;
   font-family: "LatoWeb";
+  width: 300px;
+}
+
+.promotion-name > input{
+    width: 550px !important;
 }
 
 .promotion-detail{
@@ -273,18 +278,31 @@ a:focus {
 
 .promotion-download-package{
   float: right;
+  cursor: pointer !important;
 }
 
-.promotion-download-package > div{
+.promotion-download-package a{
+    text-decoration: none;
+    color: #00ffff;
+}
+
+.promotion-download-package > div, .promotion-download-package > label > div > div {
   background-color: transparent !important;
   border: solid 1px #00ffff !important;
+  cursor: pointer !important;
 }
 
-.promotion-download-package > div > span{
+.promotion-download-package > label{
+    height: auto !important;
+    background: transparent !important;
+}
+
+.promotion-download-package > div > span, .promotion-download-package > label > div > div > span {
   text-transform: uppercase;
   font-size: 10px !important;
   color: #00ffff !important;
   line-height: 22px !important;
+  text-transform: 'LatoWeb' !important;
 }
 
 /* TABLE*/
@@ -571,8 +589,9 @@ a:focus {
 
 .btn-smotion.link > div > span{
   color: #00ffff !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   padding: 0px !important;
+  cursor: pointer;
 }
 
 .uppercase{
