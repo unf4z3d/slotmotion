@@ -387,9 +387,11 @@ a:focus {
 
 .user-ico{
   background-image: url("images/user_ico.png");
-  height: 45px;
+  height: 50px;
   width: 45px;
-  background-size: 42px;
+  background-size: 48px;
+  position: absolute;
+  top: -6px;
 }
 
 .settings-ico{
@@ -1108,4 +1110,16 @@ a, .primary-color {
     position: absolute;
     top: -18px;
     left: -7px;
+}
+
+.profile-container{
+    margin-top: 40px;
+}
+
+.profile-form{
+    margin-top: 20px;
+}
+
+.profile-last-login{
+    margin-top: 5px;
 }

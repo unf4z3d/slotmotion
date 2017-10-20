@@ -99,7 +99,7 @@ class Profile extends ClientRoleAwareComponent  {
     render() {
         const jsx = (
             <div>
-                <div className="profile">
+                <div className="profile-container">
                     <div className="row">
                         <div className="col-xs-4">
                             <div className="row">
@@ -108,13 +108,15 @@ class Profile extends ClientRoleAwareComponent  {
                                 </div>
                                 <div className="col-xs-9 text-left no-padding">
                                     <label className="label text-uppercase">{this.props.user.email}</label><br/>
-                                    <label className="label gray text-uppercase">Last Login:</label>
-                                    <label className="label">{dateFormat(this.props.user.profile.lastLogin, 'dS mmmm yyyy')}</label>
+                                    <div className="profile-last-login">
+                                        <label className="label gray text-uppercase">Last Login:</label>
+                                        <label className="label">{dateFormat(this.props.user.profile.lastLogin, 'dS mmmm yyyy')}</label>
+                                    </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-xs-12">
-                                    <div className="bg-gray">
+                                    <div className="bg-gray profile-form">
                                         <div className="row">
                                             <div className="col-md-10 col-md-offset-1">
                                                 <ValidatorForm
