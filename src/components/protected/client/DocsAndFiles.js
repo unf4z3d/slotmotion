@@ -313,7 +313,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                 </div>
                 <br/><br/>
                 <div className="smotion-table selection docs-table">
-                    <BootstrapTable data={ this.state.docs }  options={{hideSizePerPage: true}} pagination bordered={ false } selectRow={{mode: 'checkbox'}}>
+                    <BootstrapTable data={ this.state.docs }  options={{hideSizePerPage: true}} pagination bordered={ false } selectRow={{mode: 'checkbox'}} options={{sizePerPage: 1, hideSizePerPage: true}}>
                         <TableHeaderColumn width="30" dataField='name' dataFormat={ this.docFormatter } ></TableHeaderColumn>
                         <TableHeaderColumn width="180" dataField='name' isKey dataSort>Name</TableHeaderColumn>
                         <TableHeaderColumn width="80" dataField='docType' dataFormat={ this.descriptionFormatter } formatExtraData={ this.state.docsType } dataSort>Type</TableHeaderColumn>
