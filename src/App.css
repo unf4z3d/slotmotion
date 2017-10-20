@@ -484,7 +484,7 @@ a:focus {
   opacity: 0.4 !important;
 }
 
-.btn-smotion.primary > button, .btn-smotion.primary > button{
+.btn-smotion.primary > button, .btn-smotion.primary > button, .btn-smotion.primary > button > div > div{
   background-color: #00ffff !important;
 }
 
