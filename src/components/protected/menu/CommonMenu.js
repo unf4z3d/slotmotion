@@ -1,9 +1,6 @@
 import React from 'react';
 import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
-import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import { logout } from './../../../helpers/auth';
 
 /**

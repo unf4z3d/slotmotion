@@ -1,10 +1,6 @@
 import React from 'react';
 import CommonMenu from './CommonMenu';
 import { Link, Route } from 'react-router-dom';
-import IconButton from 'material-ui/IconButton';
-import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
-import MenuItem from 'material-ui/MenuItem';
-
 
 /**
  * ClientMenu component for client Role.
