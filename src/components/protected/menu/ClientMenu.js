@@ -1,6 +1,9 @@
 import React from 'react';
 import CommonMenu from './CommonMenu';
 import { Link, Route } from 'react-router-dom';
+import IconButton from 'material-ui/IconButton';
+import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import MenuItem from 'material-ui/MenuItem';
 
 
 /**
@@ -41,7 +44,9 @@ class ClientMenu extends CommonMenu  {
                                 <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
                                 <hr />
                             </div>
-                            {this.renderUserMenu(history)}
+                            <div className="text-right">
+                                {this.renderUserMenu(history)}
+                            </div>
                         </div>
                     </div>
                     <div className="container-fluid">

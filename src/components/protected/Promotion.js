@@ -1,6 +1,5 @@
 import React  from 'react';
-import { Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker, Popover }  from 'material-ui';
-import { PopoverAnimationVertical }  from 'material-ui/Popover/';
+import { Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker }  from 'material-ui';
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
 import CommonRoleAwareComponent from './../commons/CommonRoleAwareComponent';
 import Countdown from 'react-countdown-now';
@@ -498,29 +497,6 @@ class Promotion extends CommonRoleAwareComponent  {
         return image;
     }
 
-    handleShowTooltip = (event, i) => {
-        // This prevents ghost click.
-        event.preventDefault();
-        if(!this.isEditable()){
-            let { showTooltip } = this.state;
-            //showTooltip[i] = promotion.levels[i].reached;
-            showTooltip[i] = true;
-            
-            this.setState({
-                anchorEl: event.currentTarget,
-                showTooltip,
-            });
-        }
-    };
-
-    
-    handleRequestClose = (i) => {
-        let { showTooltip } = this.state;
-        showTooltip[i] = false;
-
-        this.setState({ showTooltip });
-    };
-
     getPromotionBG = (promotion) => {
         let promotionBG = "";
         for (let i in promotion.levels){
@@ -631,50 +607,47 @@ class Promotion extends CommonRoleAwareComponent  {
                                         [...Array(5)].map((x, i) =>
                                             this.isSingupAllowed() && i === 4 
                                             ?
-                                                <Paper key={i} className="promo-level signup" zDepth={1} circle={true}>
+                                                <Paper key={i} className="promo-level signup app-tooltip" zDepth={1} circle={true}>
                                                     <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
-                                                </Paper>
-                                            :
-                                                <Paper onMouseEnter={(e) => this.handleShowTooltip(e, i)} key={i} className="promo-level" zDepth={1} circle={true}>
-                                                    <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">
-                                                        {
-                                                            this.props.editable && this.getImageLevel(i) === undefined 
-                                                            ? 
-                                                            `EDIT LEVEL ${i+1}`
-                                                            : 
-                                                            (<img src={this.getImageLevel(i)} alt="" />)
-                                                        }
+                                                    <span className="app-tooltip-content promotion-tooltip-container">
+                                                        <div className="promotion-tooltip">
+                                                        <label>For you:</label><br/>
+                                                        <span>{this.state.promotion.levels[i].discount}% Discount</span>
+                                                        <hr/>
+                                                        <label>For your players:</label><br/>
+                                                        <span>{this.state.promotion.levels[i].freearounds} Freerounds</span>
+                                                        </div>
                                                     </span>
                                                 </Paper>
+                                            :
+                                                
+                                                    <Paper className="promo-level app-tooltip" zDepth={1} circle={true}>
+                                                        <span onClick={ () => this.isEditable() ? this.showDialog(i) : false } className="promo-edit-level">
+                                                            {
+                                                                this.props.editable && this.getImageLevel(i) === undefined 
+                                                                ? 
+                                                                `EDIT LEVEL ${i+1}`
+                                                                : 
+                                                                (<img src={this.getImageLevel(i)} alt="" />)
+                                                            }
+                                                        </span>
+                                                        <span className="app-tooltip-content promotion-tooltip-container">
+                                                            <div className="promotion-tooltip">
+                                                            <label>For you:</label><br/>
+                                                            <span>{this.state.promotion.levels[i].discount}% Discount</span>
+                                                            <hr/>
+                                                            <label>For your players:</label><br/>
+                                                            <span>{this.state.promotion.levels[i].freearounds} Freerounds</span>
+                                                            </div>
+                                                        </span>
+                                                    </Paper>
+                                               
+                                               
                                         )
                                         }
                                     </div>
                                 }
-                                {
-                                    [...Array(5)].map((x, i) =>
-                                    (
-                                        <Popover
-                                                key={i}
-                                                open={this.state.showTooltip[i]}
-                                                animated={true}
-                                                className="promotion-tooltip-container"
-                                                anchorEl={this.state.anchorEl}
-                                                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                                                onRequestClose={() => this.handleRequestClose(i)}
-                                                animation={PopoverAnimationVertical}
-                                            >
-                                            <div className="promotion-tooltip">
-                                                <label>For you:</label><br/>
-                                                <span>{this.state.promotion.levels[i].discount}% Discount</span>
-                                                <hr/>
-                                                <label>For your players:</label><br/>
-                                                <span>{this.state.promotion.levels[i].freearounds} Freerounds</span>
-                                                
-                                            </div>
-                                        </Popover>
-                                    ))
-                                }
+                                
                             </div>  
                         </div>
                         <div className="row">

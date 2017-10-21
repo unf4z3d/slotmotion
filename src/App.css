@@ -551,6 +551,7 @@ a:focus {
   background-color: #2b333e !important;
   background-size: 61px 65px !important;
   background-position: 4px 3px !important;
+  border: 1px;
 }
 
 .promotion-steps > .promo-level:first-child, .promotion-steps > div > .promo-level:first-child{
@@ -629,15 +630,16 @@ a, .primary-color {
   display: inline-flex;
   font-size: 10px;
   vertical-align: 12px;
-  margin-right: 25px;
   font-family: "LatoWeb";
+  height: 30px;
+  cursor: pointer;
 }
 
-@-moz-document url-prefix() {
+/*@-moz-document url-prefix() {
     .header-user-name {
         vertical-align: 28px;
     }
-}
+}*/
 
 .micro-icons {
   background-image: url("images/micro_icons.png");
@@ -695,12 +697,11 @@ a, .primary-color {
 
 .promo-level.signup > span, .promo-level.clock > span{
   color: #00ffff !important;
-  margin-left: -26px !important;
 }
 
 .promo-level.signup > span{
   font-size: 13px !important;
-  margin-top: 25px !important;
+  padding-top: 7px !important;
 }
 
 .promo-level.clock > span{
@@ -845,6 +846,7 @@ a, .primary-color {
 
 .promotion-tooltip{
     padding: 10px 20px;
+    text-align: left;
 }
 
 .promotion-tooltip-container{
@@ -913,7 +915,6 @@ a, .primary-color {
 
 .user-menu-client{
     width: 100%;
-    cursor: pointer;
 }
 
 .user-menu-staff{
@@ -1124,7 +1125,7 @@ a, .primary-color {
     margin-top: 5px;
 }
 
-.order > .dropdown, .order > .dropup{
+.order > .dropdown > .caret, .order > .dropup{
     display:none !important;
 }
 
@@ -1140,4 +1141,86 @@ a, .primary-color {
 .page-link{
     min-height: 28px;
     min-width: 33px;
+}
+
+.app-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.app-tooltip .app-tooltip-content {
+    visibility: hidden;
+    background-color:#323a45;
+    position: absolute;
+    z-index: 10000;
+    top: 120%;
+    left: 0%;
+    margin-left: -60px;
+}
+
+.app-tooltip .app-tooltip-content::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #323a45 transparent;
+}
+
+.app-tooltip:hover .app-tooltip-content {
+    visibility: visible;
+}
+
+.app-dropdown {
+    position: relative;
+}
+
+.app-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100000;
+}
+
+.app-dropdown-content a {
+    color: black;
+    padding: 12px 16px !important;
+    text-decoration: none;
+    display: block;
+}
+
+.app-dropdown-content a:hover {background-color: #f1f1f1}
+
+.app-dropdown:hover .app-dropdown-content {
+    display: block;
+}
+
+.user-dropdown-ico{
+    padding: 0px !important;
+    width: 0px !important;
+    height: 0px !important;
+    top: -4px !important;
+    color: #00ffff !important;
+}
+
+.user-dropdown-ico svg{
+    fill: #00ffff !important;
+}
+
+.user-dropdown-menu {
+    top: 29px;
+    right: 0px;
+}
+
+.header-user-name .caret {
+    margin: 6px 5px;
+    border-top: 4px solid;
+}
+
+.header-user-name > .user{
+    margin-right: 5px;
 }
