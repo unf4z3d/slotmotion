@@ -1,7 +1,7 @@
 import React from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import RaisedButton from 'material-ui/RaisedButton';
-import Promotion from './../Promotion';
+import Promotion from './Promotion';
 import { firabaseDB } from './../../../config/constants'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 

@@ -2,7 +2,7 @@ import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import { Dialog }  from 'material-ui';
 import ReactPlayer from 'react-player'
-import Promotion from './../Promotion';
+import Promotion from './Promotion';
 import { firabaseDB } from './../../../config/constants';
 
 /**
