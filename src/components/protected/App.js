@@ -7,7 +7,7 @@ import ClientDashboard from './client/Dashboard'
 import StaffDashboard from './staff/Dashboard'
 import DocsAndFiles from './client/DocsAndFiles'
 import Profile from './client/Profile'
-import Promotions from './client/Promotions'
+import Promotions from './staff/Promotions'
 import { firabaseDB } from './../../config/constants'
 
 /**

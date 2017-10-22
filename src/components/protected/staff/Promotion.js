@@ -1,13 +1,13 @@
 import React  from 'react';
 import { Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker }  from 'material-ui';
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
-import CommonRoleAwareComponent from './../commons/CommonRoleAwareComponent';
+import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
 import Countdown from 'react-countdown-now';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import { firabaseDB, constants, firebaseStorage } from './../../config/constants';
+import { firabaseDB, constants, firebaseStorage } from './../../../config/constants';
 import dateFormat from 'dateformat';
-import { imageUrl, isEmpty, timeSince } from './../../helpers/index';
-import { callGetUserGameplay } from './../../helpers/api';
+import { imageUrl, isEmpty, timeSince } from './../../../helpers/index';
+import { callGetUserGameplay } from './../../../helpers/api';
 
 /**
  * Promotion component for client Role.

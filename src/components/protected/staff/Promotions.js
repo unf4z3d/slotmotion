@@ -1,5 +1,5 @@
 import React from 'react';
-import ClientRoleAwareComponent from './ClientRoleAwareComponent';
+import StaffRoleAwareComponent from './StaffRoleAwareComponent';
 import RaisedButton from 'material-ui/RaisedButton';
 import Promotion from './Promotion';
 import { firabaseDB } from './../../../config/constants'
@@ -10,7 +10,7 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 /**
  * Promotions component for client Role.
  */
-class Promotions extends ClientRoleAwareComponent  {
+class Promotions extends StaffRoleAwareComponent  {
     
     /**
      * Component constructor
