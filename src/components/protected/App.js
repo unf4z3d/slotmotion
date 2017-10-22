@@ -6,7 +6,8 @@ import StaffMenu from './menu/StaffMenu'
 import ClientDashboard from './client/Dashboard'
 import StaffDashboard from './staff/Dashboard'
 import DocsAndFiles from './client/DocsAndFiles'
-import Profile from './client/Profile'
+import ClientProfile from './client/Profile'
+import StaffProfile from './staff/Profile'
 import Promotions from './staff/Promotions'
 import { firabaseDB } from './../../config/constants'
 
@@ -21,6 +22,7 @@ class App extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
+        console.log(this.props.user);
         this.state = {user : this.props.user, signups: [], loading: true};
         this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
     }
@@ -63,7 +65,11 @@ class App extends ClientRoleAwareComponent  {
                         />
                         <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={this.state.user}/> )} />
                         <Route exact path="/promotions" render={(props) => ( <Promotions user={this.state.user}/> )} />
-                        <Route exact path="/profile" render={(props) => ( <Profile user={this.state.user}/> )} />
+                        <Route path="/profile" render={(props) => ( 
+                            this.isAdmin() 
+                            ?  <StaffProfile user={this.state.user}/>
+                            :  <ClientProfile user={this.state.user}/> )} 
+                        />
                     </Switch>
                 </div>
             </div>

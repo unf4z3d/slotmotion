@@ -1,5 +1,5 @@
 import React  from 'react';
-import ClientRoleAwareComponent from './ClientRoleAwareComponent';
+import StaffRoleAwareComponent from './StaffRoleAwareComponent';
 import { TextField, MenuItem, RaisedButton }   from 'material-ui';
 import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import dateFormat from 'dateformat';
@@ -11,7 +11,7 @@ import { updatePassword } from './../../../helpers/auth';
 /**
  * Profile component for client Role.
  */
-class Profile extends ClientRoleAwareComponent  {
+class Profile extends StaffRoleAwareComponent  {
     
     /**
      * Component constructor
@@ -167,16 +167,18 @@ class Profile extends ClientRoleAwareComponent  {
                                                         </SelectValidator>
 
                                                         <TextValidator floatingLabelFixed floatingLabelText="E-mail" fullWidth 
-                                                            name="disabled-email"
+                                                            name="email"
+                                                            onChange={this.handleChange}
                                                             value={this.state.profile.email}
-                                                            disabled={true}
+                                                            disabled={!this.hasRole('STAFF')}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
                                                         <TextValidator floatingLabelFixed floatingLabelText="Role" fullWidth
-                                                            name="disabled-role"
+                                                            name="role"
+                                                            onChange={this.handleChange}
                                                             value={this.state.profile.role}
-                                                            disabled={true}
+                                                            disabled={!this.hasRole('STAFF')}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
