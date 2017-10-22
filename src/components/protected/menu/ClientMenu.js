@@ -2,7 +2,6 @@ import React from 'react';
 import CommonMenu from './CommonMenu';
 import { Link, Route } from 'react-router-dom';
 
-
 /**
  * ClientMenu component for client Role.
  */
@@ -41,7 +40,9 @@ class ClientMenu extends CommonMenu  {
                                 <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
                                 <hr />
                             </div>
-                            {this.renderUserMenu(history)}
+                            <div className="text-right">
+                                {this.renderUserMenu(history)}
+                            </div>
                         </div>
                     </div>
                     <div className="container-fluid">

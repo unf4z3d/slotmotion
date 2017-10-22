@@ -1,5 +1,5 @@
 import React  from 'react';
-import ClientRoleAwareComponent from './ClientRoleAwareComponent';
+import StaffRoleAwareComponent from './StaffRoleAwareComponent';
 import { TextField, MenuItem, RaisedButton }   from 'material-ui';
 import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import dateFormat from 'dateformat';
@@ -11,7 +11,7 @@ import { updatePassword } from './../../../helpers/auth';
 /**
  * Profile component for client Role.
  */
-class Profile extends ClientRoleAwareComponent  {
+class Profile extends StaffRoleAwareComponent  {
     
     /**
      * Component constructor
@@ -81,9 +81,7 @@ class Profile extends ClientRoleAwareComponent  {
         delete this.state.profile.username;
         delete this.state.profile.apiId;
         delete this.state.profile.lastlogin;
-        delete this.state.profile.email;
-        delete this.state.profile.role;
-        
+
         this.profileDB.update(this.state.profile)
             .then(() => this.showSuccessMessage('The Profile has been updated.'))
             .catch((error) => {
@@ -152,7 +150,7 @@ class Profile extends ClientRoleAwareComponent  {
                                                                         name="password" ref ="password" type={this.state.passwordType} />
                                                             </div>
                                                             <div className="col-xs-2 no-padding">
-                                                                <ImageRemoveRedEye onClick={this.toggleShowPassword} className={this.state.hidePassword ? 'ico-inline active': 'ico-inline'} />
+                                                                <ImageRemoveRedEye onClick={this.toggleShowPassword} className="ico-inline" />
                                                             </div>
                                                         </div>
                                                         
@@ -174,16 +172,18 @@ class Profile extends ClientRoleAwareComponent  {
                                                         </SelectValidator>
 
                                                         <TextValidator floatingLabelFixed floatingLabelText="E-mail" fullWidth 
-                                                            name="disabled-email"
+                                                            name="email"
+                                                            onChange={this.handleChange}
                                                             value={this.state.profile.email}
-                                                            disabled={true}
+                                                            disabled={!this.hasRole('STAFF')}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />
                                                         <TextValidator floatingLabelFixed floatingLabelText="Role" fullWidth
-                                                            name="disabled-role"
+                                                            name="role"
+                                                            onChange={this.handleChange}
                                                             value={this.state.profile.role}
-                                                            disabled={true}
+                                                            disabled={!this.hasRole('STAFF')}
                                                             validators={['required']}
                                                             errorMessages={['This field is required']}
                                                         />

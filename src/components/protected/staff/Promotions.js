@@ -1,7 +1,7 @@
 import React from 'react';
-import ClientRoleAwareComponent from './ClientRoleAwareComponent';
+import StaffRoleAwareComponent from './StaffRoleAwareComponent';
 import RaisedButton from 'material-ui/RaisedButton';
-import Promotion from './../Promotion';
+import Promotion from './Promotion';
 import { firabaseDB } from './../../../config/constants'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
@@ -10,7 +10,7 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 /**
  * Promotions component for client Role.
  */
-class Promotions extends ClientRoleAwareComponent  {
+class Promotions extends StaffRoleAwareComponent  {
     
     /**
      * Component constructor
@@ -50,7 +50,7 @@ class Promotions extends ClientRoleAwareComponent  {
      * Callback when promotion is success saved.
      */
     promotionSavedCallback = () => {
-        this.setState({promotionVisible: false})
+        this.setState({promotionVisible: false, savingPromotion: false})
         this.showSuccessMessage('The promotion has been created');
     }
 
@@ -108,8 +108,15 @@ class Promotions extends ClientRoleAwareComponent  {
     }
 
     handleSavePromotion = () => {
-        const success = this.refs.promotion.savePromotion();
-        this.setState({savingPromotion: success})
+        const response = this.refs.promotion.savePromotion();
+        
+        if(!response.success){
+            this.showErrorMessage(response.message);
+        }else{
+            this.showMessage("Please wait");
+        }
+
+        this.setState({savingPromotion: response.success})
     }
 
     /**
@@ -150,7 +157,7 @@ class Promotions extends ClientRoleAwareComponent  {
                         
                         <div>
                             <br/><br/><br/>
-                            <Promotion editable={true} ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
+                            <Promotion ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
                         </div>
                     </div>
                 }

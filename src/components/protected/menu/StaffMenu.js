@@ -45,7 +45,9 @@ class StaffMenu extends CommonMenu  {
                                 <Link onClick={() => this.handleChangeMenuItem(3)} to="/promotions">Promotions</Link>
                                 <hr />
                             </div>
-                            {this.renderUserMenu(history)}
+                            <div className="text-right">
+                                {this.renderUserMenu(history)}
+                            </div>
                         </div>
                     </div>
                     <div className="container-fluid">

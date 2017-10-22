@@ -4,9 +4,8 @@ class StaffRoleAwareComponent extends CommonRoleAwareComponent {
 
     constructor(props) {
         super(props);
-        this.allowedRoles = ['staff'];
-        //this.userRoles = [this.props.user.role];
-        this.userRoles = ['staff'];
+        this.allowedRoles = ['STAFF'];
+        this.userRoles = [this.getUser().profile.userType.toUpperCase()];
     }
 }
 

@@ -2,7 +2,7 @@ import React  from 'react';
 import ClientRoleAwareComponent from './ClientRoleAwareComponent';
 import { Dialog }  from 'material-ui';
 import ReactPlayer from 'react-player'
-import Promotion from './../Promotion';
+import Promotion from './Promotion';
 import { firabaseDB } from './../../../config/constants';
 
 /**
@@ -24,7 +24,7 @@ class Dashboard extends ClientRoleAwareComponent  {
             demoURL: null
         };
         this.promotionsDB = firabaseDB.child('promotions');
-        this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
+        this.signupsDB = firabaseDB.child(`users/${this.getUser().uid}/signups`);
     }
 
     /**
@@ -92,7 +92,6 @@ class Dashboard extends ClientRoleAwareComponent  {
                 {this.state.promotions.map((promotion, key) =>
                     <Promotion 
                         onWathDemo={this.showDemoDialog}
-                        editable={false} 
                         key={key} 
                         value={promotion} 
                         user={this.props.user}

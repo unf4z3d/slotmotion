@@ -5,18 +5,35 @@ import {Snackbar, CircularProgress} from 'material-ui';
 
 class CommonRoleAwareComponent extends RoleAwareComponent  {
 
+
+  /**
+     * Component constructor
+     * @param {*} props 
+     */
+    constructor(props) {
+      super(props);
+      this.user = this.props.user();
+  }
+
   /**
    * Get te current user data.
    */
   getUser = () =>{
-    return this.props.user !== null ? this.props.user : this.props.user
+    return this.user !== null ? this.user : this.props.user;
+  }
+
+  /**
+   * Set te current user data.
+   */
+  setUser = (user) =>{
+    return this.user = user;
   }
 
   /**
    * Return if user is authenticated.
    */
   isAuthenticated = () =>{
-    return this.props.user !== null && this.rolesMatched();
+    return this.getUser() !== null && this.rolesMatched();
   }
 
   /**
@@ -55,9 +72,10 @@ class CommonRoleAwareComponent extends RoleAwareComponent  {
    * Check if the user role is match with the $role param.
    */
   hasRole = (role) => {
-    return this.props.user !== undefined 
-          && this.props.user.profile !== undefined 
-          && this.props.user.profile.userType === role;
+    const user = this.getUser();
+    return user !== undefined 
+          && user.profile !== undefined 
+          && user.profile.userType === role;
   }
 
   /**
