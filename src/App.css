@@ -1235,3 +1235,7 @@ a, .primary-color {
 .ico-inline.active{
     fill: rgb(0, 151, 167) !important;
 }
+
+.active-campigns{
+    margin-top: 70px;
+}

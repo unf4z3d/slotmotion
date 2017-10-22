@@ -183,34 +183,39 @@ class Dashboard extends StaffRoleAwareComponent {
     render = () => {
         const jsx = (
             <div>
-                <div className="signups text-left">
-                    <h4>Sign up requests</h4>
-                    <div className="col-xs-9">
-                        <div className="smotion-table signups-table">
-                            <BootstrapTable data={ this.state.usersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
-                                <TableHeaderColumn dataAlign="center" width="120" dataField='user' isKey dataFormat={ this.userFormatter } >Client</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width="80" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Game</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width="80" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Campaign</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width="80" dataField='createdAt'>Requested</TableHeaderColumn>
-                                <TableHeaderColumn dataAlign="center" width="180" dataFormat={ this.signUpActionsFormatter } ></TableHeaderColumn>
-                            </BootstrapTable>
+                <div className="row">
+                    <div className="signups text-left">
+                        <h4>Sign up requests</h4>
+                        <div className="col-xs-9">
+                            <div className="smotion-table signups-table">
+                                <BootstrapTable data={ this.state.usersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
+                                    <TableHeaderColumn dataAlign="center" width="120" dataField='user' isKey dataFormat={ this.userFormatter } >Client</TableHeaderColumn>
+                                    <TableHeaderColumn dataAlign="center" width="80" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Game</TableHeaderColumn>
+                                    <TableHeaderColumn dataAlign="center" width="80" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Campaign</TableHeaderColumn>
+                                    <TableHeaderColumn dataAlign="center" width="80" dataField='createdAt'>Requested</TableHeaderColumn>
+                                    <TableHeaderColumn dataAlign="center" width="180" dataFormat={ this.signUpActionsFormatter } ></TableHeaderColumn>
+                                </BootstrapTable>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="campaigns text-left">
-                    <br/><br/><br/><br/>
-                    <h4>Active Campaigns</h4>
-                    <div className="col-xs-11">
-                        <div className="smotion-table campaigns-table">
-                            <BootstrapTable data={ this.state.activeUsersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
-                                <TableHeaderColumn width="80" dataField='user' isKey dataFormat={ this.userFormatter }>Client</TableHeaderColumn>
-                                <TableHeaderColumn width="60" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Game</TableHeaderColumn>
-                                <TableHeaderColumn width="60" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Campaign</TableHeaderColumn>
-                                <TableHeaderColumn width="80" dataField='createdAt'>Signed Up</TableHeaderColumn>
-                                <TableHeaderColumn width="80" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'endDate') } >Ends</TableHeaderColumn>
-                                <TableHeaderColumn width="80" dataField='levels'>Levels Claimed</TableHeaderColumn>
-                                <TableHeaderColumn width="70" dataAlign="center" dataFormat={ this.activeSignUpActionsFormatter } ></TableHeaderColumn>
-                            </BootstrapTable>
+                <div className="row">
+                    <div className="active-campigns">
+                        <div className="campaigns text-left">
+                            <h4>Active Campaigns</h4>
+                            <div className="col-xs-11">
+                                <div className="smotion-table campaigns-table">
+                                    <BootstrapTable data={ this.state.activeUsersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
+                                        <TableHeaderColumn width="80" dataField='user' isKey dataFormat={ this.userFormatter }>Client</TableHeaderColumn>
+                                        <TableHeaderColumn width="60" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Game</TableHeaderColumn>
+                                        <TableHeaderColumn width="60" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'name') } >Campaign</TableHeaderColumn>
+                                        <TableHeaderColumn width="80" dataField='createdAt'>Signed Up</TableHeaderColumn>
+                                        <TableHeaderColumn width="80" dataField='promotion' dataFormat={ (c,r) => this.promotionFormatter(c,r,'endDate') } >Ends</TableHeaderColumn>
+                                        <TableHeaderColumn width="80" dataField='levels'>Levels Claimed</TableHeaderColumn>
+                                        <TableHeaderColumn width="70" dataAlign="center" dataFormat={ this.activeSignUpActionsFormatter } ></TableHeaderColumn>
+                                    </BootstrapTable>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

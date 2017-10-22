@@ -2,12 +2,10 @@ import React  from 'react';
 import { Paper, Chip, Dialog, RaisedButton, FlatButton, DatePicker }  from 'material-ui';
 import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
 import CommonRoleAwareComponent from './../../commons/CommonRoleAwareComponent';
-import Countdown from 'react-countdown-now';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { firabaseDB, constants, firebaseStorage } from './../../../config/constants';
 import dateFormat from 'dateformat';
-import { imageUrl, isEmpty, timeSince } from './../../../helpers/index';
-import { callGetUserGameplay } from './../../../helpers/api';
+import { imageUrl, isEmpty } from './../../../helpers/index';
 
 /**
  * Promotion component for staff Role.
@@ -397,8 +395,8 @@ class Promotion extends CommonRoleAwareComponent  {
                                                 }
                                             </span>
                                             {
-                                                this.state.promotion.levels[i].discount != undefined 
-                                             && this.state.promotion.levels[i].freearounds != undefined 
+                                                this.state.promotion.levels[i].discount !== undefined 
+                                             && this.state.promotion.levels[i].freearounds !== undefined 
                                              &&
                                                 <span className="app-tooltip-content promotion-tooltip-container">
                                                     <div className="promotion-tooltip">
