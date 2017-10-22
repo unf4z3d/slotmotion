@@ -27,7 +27,7 @@ class Promotion extends ClientRoleAwareComponent  {
 
         this.state = {
             promotion: props.value, 
-            loadingLevels: false,
+            loadingLevelProgress: false,
             selectedLevelIndex:null,
             selectedLevel:{},
             showDetail: 'none',
@@ -61,17 +61,26 @@ class Promotion extends ClientRoleAwareComponent  {
     }
 
     /**
+     * Component Life Cycle
+     */
+    componentWillUnmount() {
+        this.signupsDB.off();
+        this.promotionsStatusDB.off();        
+    }
+
+    /**
      * Refresh the current status of reached levels.
      */
     refreshLevelStatus = () => {
         const { status } = this.state.promotion;
         if(status !== undefined && (status.id === 2 || status.id === 3)){    
+            this.setState({loadingLevelProgress : true});
             let { promotion } = this.state;
             //const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true)
             const signupDate = "2015-12-05T09:17:18.937Z";
             callGetUserGameplay(this.props.user, signupDate).then((response) => {
                 const totalBet = response.data.totalBet;
-                
+
                 for(let i in promotion.levels){
                     let level = promotion.levels[i];
                     if(totalBet >= level.bestToReach){
@@ -79,18 +88,11 @@ class Promotion extends ClientRoleAwareComponent  {
                     }
                 }
 
-                this.setState({ promotion })
+                this.setState({ promotion, loadingLevelProgress: false})
             }).catch( (error) => {            
-                this.setState({loading : false});
+                this.setState({loading : false, loadingLevelProgress: false});
             });                
         }
-    }
-
-    /**
-     * Component Life Cycle
-     */
-    componentWillUnmount() {
-        this.promotionsStatusDB.off();        
     }
 
     /**
@@ -313,7 +315,7 @@ class Promotion extends ClientRoleAwareComponent  {
                                                 </Paper>
                                             :
                                                 
-                                                    <Paper className="promo-level app-tooltip" zDepth={1} circle={true}>
+                                                    <Paper key={i} className="promo-level app-tooltip" zDepth={1} circle={true}>
                                                         <span className="promo-edit-level">
                                                             <img src={this.getImageLevel(i)} alt="" />
                                                         </span>
@@ -333,7 +335,10 @@ class Promotion extends ClientRoleAwareComponent  {
                                         }
                                     </div>
                                 }
-                                
+                                { 
+                                this.state.loadingLevelProgress &&
+                                    <div className="loading-level-progress">Loading progress, please wait.</div>
+                                }    
                             </div>  
                         </div>
                         <div className="row">

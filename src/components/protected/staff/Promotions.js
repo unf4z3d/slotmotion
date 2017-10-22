@@ -157,7 +157,7 @@ class Promotions extends StaffRoleAwareComponent  {
                         
                         <div>
                             <br/><br/><br/>
-                            <Promotion editable={true} ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
+                            <Promotion ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
                         </div>
                     </div>
                 }

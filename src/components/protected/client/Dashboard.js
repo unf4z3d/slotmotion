@@ -92,7 +92,6 @@ class Dashboard extends ClientRoleAwareComponent  {
                 {this.state.promotions.map((promotion, key) =>
                     <Promotion 
                         onWathDemo={this.showDemoDialog}
-                        editable={false} 
                         key={key} 
                         value={promotion} 
                         user={this.props.user}
