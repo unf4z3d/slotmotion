@@ -22,20 +22,20 @@ class App extends ClientRoleAwareComponent  {
      */
     constructor(props) {
         super(props);
-        console.log(this.props.user);
-        this.state = {user : this.props.user, signups: [], loading: true};
-        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+        this.state = {signups: [], loading: true};
+        this.profileDB = firabaseDB.child(`users/${this.getUser().uid}/profile`);
     }
 
     componentWillMount() {
         this.profileDB.on('value', snap => {
-            const {user} = this.state;
+            const user = this.user;
             user.profile = snap.val();
-
             user.getIdToken(true).then( idToken => {
                 user.idToken = idToken
-                this.setState({ user, loading: false })  
+                this.setUser(user);
+                this.setState({loading: false })  
             }).catch(error => {
+                alert(error);
                 this.setState({loading : false});
             });
         });
@@ -53,22 +53,22 @@ class App extends ClientRoleAwareComponent  {
             <div>
                 {   
                     this.isAdmin() 
-                    ? <StaffMenu user={this.state.user} />
-                    : <ClientMenu user={this.state.user} />
+                    ? <StaffMenu user={() => this.user} />
+                    : <ClientMenu user={() => this.user} />
                 }
                 <div className="container app-content">
                     <Switch>
                         <Route exact path="/" render={(props) => ( 
                             this.isAdmin() 
-                            ?  <StaffDashboard user={this.state.user} />
-                            :  <ClientDashboard user={this.state.user} /> )} 
+                            ?  <StaffDashboard user={() => this.user} />
+                            :  <ClientDashboard user={() => this.user} /> )} 
                         />
-                        <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={this.state.user}/> )} />
-                        <Route exact path="/promotions" render={(props) => ( <Promotions user={this.state.user}/> )} />
+                        <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={() => this.user}/> )} />
+                        <Route exact path="/promotions" render={(props) => ( <Promotions user={() => this.user}/> )} />
                         <Route path="/profile" render={(props) => ( 
                             this.isAdmin() 
-                            ?  <StaffProfile user={this.state.user}/>
-                            :  <ClientProfile user={this.state.user}/> )} 
+                            ?  <StaffProfile user={() => this.user}/>
+                            :  <ClientProfile user={() => this.user}/> )} 
                         />
                     </Switch>
                 </div>

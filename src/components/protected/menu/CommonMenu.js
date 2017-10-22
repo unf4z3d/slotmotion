@@ -47,7 +47,7 @@ class StaffMenu extends CommonRoleAwareComponent  {
         <div>
             <span className="header-user-name app-dropdown">
                 <span className="micro-icons user" />
-                { this.props.user.profile.name }
+                { this.getUser().profile.name }
                 <span className="caret"></span>
                 <div className="app-dropdown-content user-dropdown-menu">
                     <MenuItem className="user-menu-item" primaryText="Profile" onClick={() => { history.push('/profile') }} />

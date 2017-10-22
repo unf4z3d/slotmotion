@@ -21,13 +21,13 @@ class Profile extends ClientRoleAwareComponent  {
         super(props);
         this.state = {
             countries: [], 
-            profile : this.props.user.profile, 
+            profile : this.getUser().profile, 
             loading: true, 
             hidePassword:false, 
             passwordType:'password',
         };
         this.countriesDB = firabaseDB.child('countries');
-        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+        this.profileDB = firabaseDB.child(`users/${this.getUser().uid}/profile`);
     }
 
     componentWillMount() {
@@ -67,7 +67,7 @@ class Profile extends ClientRoleAwareComponent  {
         e.preventDefault()
         const password = this.refs.password.input.value;
         if(password !== undefined && password !== null && password){
-            updatePassword(this.props.user, password)
+            updatePassword(this.getUser(), password)
                 .then(() => {
                     this.refs.password.input.value = null
                 })
@@ -77,6 +77,13 @@ class Profile extends ClientRoleAwareComponent  {
             })
         }
 
+        delete this.state.profile.userType;
+        delete this.state.profile.username;
+        delete this.state.profile.apiId;
+        delete this.state.profile.lastlogin;
+        delete this.state.profile.email;
+        delete this.state.profile.role;
+        
         this.profileDB.update(this.state.profile)
             .then(() => this.showSuccessMessage('The Profile has been updated.'))
             .catch((error) => {
@@ -107,10 +114,10 @@ class Profile extends ClientRoleAwareComponent  {
                                     <div className="user-ico" />
                                 </div>
                                 <div className="col-xs-9 text-left no-padding">
-                                    <label className="label text-uppercase">{this.props.user.email}</label><br/>
+                                    <label className="label text-uppercase">{this.getUser().email}</label><br/>
                                     <div className="profile-last-login">
                                         <label className="label gray text-uppercase">Last Login:</label>
-                                        <label className="label">{dateFormat(this.props.user.profile.lastLogin, 'dS mmmm yyyy')}</label>
+                                        <label className="label">{dateFormat(this.getUser().profile.lastLogin, 'dS mmmm yyyy')}</label>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +152,7 @@ class Profile extends ClientRoleAwareComponent  {
                                                                         name="password" ref ="password" type={this.state.passwordType} />
                                                             </div>
                                                             <div className="col-xs-2 no-padding">
-                                                                <ImageRemoveRedEye onClick={this.toggleShowPassword} className="ico-inline" />
+                                                                <ImageRemoveRedEye onClick={this.toggleShowPassword} className={this.state.hidePassword ? 'ico-inline active': 'ico-inline'} />
                                                             </div>
                                                         </div>
                                                         

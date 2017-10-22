@@ -1231,3 +1231,7 @@ a, .primary-color {
     color: #fff;
     margin-top: 10px;
 }
+
+.ico-inline.active{
+    fill: rgb(0, 151, 167) !important;
+}

@@ -21,13 +21,13 @@ class Profile extends StaffRoleAwareComponent  {
         super(props);
         this.state = {
             countries: [], 
-            profile : this.props.user.profile, 
+            profile : this.getUser().profile, 
             loading: true, 
             hidePassword:false, 
             passwordType:'password',
         };
         this.countriesDB = firabaseDB.child('countries');
-        this.profileDB = firabaseDB.child(`users/${this.props.user.uid}/profile`);
+        this.profileDB = firabaseDB.child(`users/${this.getUser().uid}/profile`);
     }
 
     componentWillMount() {
@@ -67,7 +67,7 @@ class Profile extends StaffRoleAwareComponent  {
         e.preventDefault()
         const password = this.refs.password.input.value;
         if(password !== undefined && password !== null && password){
-            updatePassword(this.props.user, password)
+            updatePassword(this.getUser(), password)
                 .then(() => {
                     this.refs.password.input.value = null
                 })
@@ -76,6 +76,11 @@ class Profile extends StaffRoleAwareComponent  {
                     this.showErrorMessage('Error updating password. Please logout and try again.');
             })
         }
+
+        delete this.state.profile.userType;
+        delete this.state.profile.username;
+        delete this.state.profile.apiId;
+        delete this.state.profile.lastlogin;
 
         this.profileDB.update(this.state.profile)
             .then(() => this.showSuccessMessage('The Profile has been updated.'))
@@ -107,10 +112,10 @@ class Profile extends StaffRoleAwareComponent  {
                                     <div className="user-ico" />
                                 </div>
                                 <div className="col-xs-9 text-left no-padding">
-                                    <label className="label text-uppercase">{this.props.user.email}</label><br/>
+                                    <label className="label text-uppercase">{this.getUser().email}</label><br/>
                                     <div className="profile-last-login">
                                         <label className="label gray text-uppercase">Last Login:</label>
-                                        <label className="label">{dateFormat(this.props.user.profile.lastLogin, 'dS mmmm yyyy')}</label>
+                                        <label className="label">{dateFormat(this.getUser().profile.lastLogin, 'dS mmmm yyyy')}</label>
                                     </div>
                                 </div>
                             </div>

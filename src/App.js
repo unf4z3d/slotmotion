@@ -19,7 +19,7 @@ class App extends Component {
      */
     constructor(props) {
         super(props);
-        this.state = {user: null, loading: true};
+        this.state = {loading: true};
     }
 
     /**
@@ -27,14 +27,15 @@ class App extends Component {
      */
     componentWillMount() {
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
-            this.setState({user, loading: false});
+            this.user = user;
+            this.setState({loading: false});
         })
     }
 
     renderDashboardOrLogin = () => {
         if(!this.state.loading){
-            if (this.state.user != null) {
-                return <ProtectedApp user={this.state.user}/>
+            if (this.user != null) {
+                return <ProtectedApp user={() => this.user}/>
             } else {
                 return <Switch>
                             <Route exact path="/" component={Login}/>

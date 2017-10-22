@@ -32,7 +32,7 @@ class Promotion extends ClientRoleAwareComponent  {
             selectedLevel:{},
             showDetail: 'none',
         };
-        this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
+        this.signupsDB = firabaseDB.child(`users/${this.getUser().uid}/signups`);
         this.promotionsStatusDB = firabaseDB.child('promotion_status');
     }
 
@@ -51,7 +51,7 @@ class Promotion extends ClientRoleAwareComponent  {
                         promotion.status = snap.val();
                         promotion.status.id = signedUp.status;
                         this.setState({ promotion });
-                        if(this.props.user.profile.apiId !== undefined){
+                        if(this.getUser().profile.apiId !== undefined){
                             this.refreshLevelStatus();
                         }
                     })
@@ -78,7 +78,7 @@ class Promotion extends ClientRoleAwareComponent  {
             let { promotion } = this.state;
             //const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true)
             const signupDate = "2015-12-05T09:17:18.937Z";
-            callGetUserGameplay(this.props.user, signupDate).then((response) => {
+            callGetUserGameplay(this.getUser(), signupDate).then((response) => {
                 const totalBet = response.data.totalBet;
 
                 for(let i in promotion.levels){
@@ -142,12 +142,12 @@ class Promotion extends ClientRoleAwareComponent  {
             createdAt : dateFormat(now, constants.formatDate),
         }
 
-        firabaseDB.child('users').child(this.props.user.uid).child('signups')
+        firabaseDB.child('users').child(this.getUser().uid).child('signups')
                   .child(promotion.key).set(userSignup)
                   .then((snap) => 
         {
             userSignup.promotion = promotion.key;
-            userSignup.user = this.props.user.uid;
+            userSignup.user = this.getUser().uid;
             this.saveCampaignSignup(userSignup);
         })
     }

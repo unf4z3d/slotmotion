@@ -24,7 +24,7 @@ class Dashboard extends ClientRoleAwareComponent  {
             demoURL: null
         };
         this.promotionsDB = firabaseDB.child('promotions');
-        this.signupsDB = firabaseDB.child(`users/${this.props.user.uid}/signups`);
+        this.signupsDB = firabaseDB.child(`users/${this.getUser().uid}/signups`);
     }
 
     /**

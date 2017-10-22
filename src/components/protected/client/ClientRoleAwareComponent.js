@@ -4,8 +4,10 @@ class ClientRoleAwareComponent extends CommonRoleAwareComponent  {
 
   constructor(props) {
     super(props);
-    this.allowedRoles = ['client'];
-    this.userRoles = ['client'];
+    this.allowedRoles = ['CLIENT'];
+    if(this.getUser() !== null){
+      this.userRoles = ['CLIENT'];
+    }
   }
   
 }

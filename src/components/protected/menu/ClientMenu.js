@@ -8,6 +8,14 @@ import { Link, Route } from 'react-router-dom';
 class ClientMenu extends CommonMenu  {
     
     /**
+     * Component constructor
+     * @param {*} props 
+     */
+    constructor(props) {
+        super(props);
+    }
+
+    /**
      * Overwrited
      */
     getSelectedItem = (i) =>{
