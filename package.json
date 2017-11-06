@@ -1,13 +1,13 @@
 {
   "name": "smotion",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
     "dateformat": "^2.0.0",
-    "firebase": "^4.3.0",
+    "firebase": "^4.6.1",
     "material-ui": "^0.19.0",
-    "react": "^15.6.1",
+    "react": "^15.6.2",
     "react-bootstrap-table": "^4.0.2",
     "react-dom": "^15.6.1",
     "react-material-ui-form-validator": "^0.5.0",

@@ -1,12 +1,12 @@
 import firebase from 'firebase'
 
 firebase.initializeApp({
-    apiKey: "AIzaSyBYbgaJR_sigGpiExx-5dJ1sZ-0na4brI4",
-    authDomain: "smotion-c187f.firebaseapp.com",
-    databaseURL: "https://smotion-c187f.firebaseio.com",
-    projectId: "smotion-c187f",
-    storageBucket: "smotion-c187f.appspot.com",
-    messagingSenderId: "216704113839"
+    apiKey: "AIzaSyAtEOpaOt6xSIzkn7mYE7D_frYJbBlX3tw",
+    authDomain: "slotmotion-42759.firebaseapp.com",
+    databaseURL: "https://slotmotion-42759.firebaseio.com/",
+    projectId: "slotmotion-42759",
+    storageBucket: "slotmotion-42759.appspot.com",
+    messagingSenderId: "214176741118"
 })
 
 export const firabaseDB = firebase.database().ref()
