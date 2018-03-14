@@ -55,7 +55,7 @@ app.use(validateFirebaseIdToken);
 app.get('/userGamePlay', (req, res) => {
     console.log('Running userGamePlay controller');
     // Get all casinos per user.
-    axios.get('https://ng.cca.sh/clientarea/operators/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
+    axios.get('https://de.cca.sh/clientarea/operators/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
     .then(function(response){
         
         // Filter casinos per the authenticated user
@@ -77,7 +77,7 @@ app.get('/userGamePlay', (req, res) => {
                     strCasinos += '&casino=' + casinos[key];
                 }
                 
-                const gamePlayEndpoint = "https://cca.sh/clientarea/gameplay/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24&start="+ req.param('signupDate') +"&" + strCasinos +"&groupBy=casino";
+                const gamePlayEndpoint = "https://de.cca.sh/clientarea/gameplay/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24&start="+ req.param('signupDate') +"&" + strCasinos +"&groupBy=casino";
                 console.log('Endpoint:', gamePlayEndpoint);
                 // Get user gameplay for each casino.
                 axios.get(gamePlayEndpoint)
@@ -89,7 +89,7 @@ app.get('/userGamePlay', (req, res) => {
                         for(let j in casino.type){
                             let casinoDetail = casino.type[j];
                             if(casinoDetail.type === 'WAGER'){
-                                totalBet+= casinoDetail.bet;
+                                totalBet+= casinoDetail.rounds;
                             }
                         }
                     }

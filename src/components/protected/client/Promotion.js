@@ -75,8 +75,7 @@ class Promotion extends ClientRoleAwareComponent  {
         if(status !== undefined && (status.id === 2 || status.id === 3)){    
             this.setState({loadingLevelProgress : true});
             let { promotion } = this.state;
-            //const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true)
-            const signupDate = "2015-12-05T09:17:18.937Z";
+            const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true);
             callGetUserGameplay(this.getUser(), signupDate).then((response) => {
                 const totalBet = response.data.totalBet;
 
