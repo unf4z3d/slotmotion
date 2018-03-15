@@ -12,14 +12,14 @@ class Dashboard extends ClientRoleAwareComponent  {
 
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
         this.state = {
-            promotions: [], 
-            userSignUp: [], 
-            loading: true, 
+            promotions: [],
+            userSignUp: [],
+            loading: true,
             demoVisible: false,
             demoURL: null
         };
@@ -39,7 +39,7 @@ class Dashboard extends ClientRoleAwareComponent  {
                 loading: false,
             })
         })
-        this.signupsDB.on('child_added', snap => {            
+        this.signupsDB.on('child_added', snap => {
             userSignUp[snap.key] = snap.val()
             this.setState({
                 userSignUp
@@ -84,22 +84,22 @@ class Dashboard extends ClientRoleAwareComponent  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
             <div>
                 {this.state.promotions.map((promotion, key) =>
-                    <Promotion 
+                    <Promotion
                         onWathDemo={this.showDemoDialog}
-                        key={key} 
-                        value={promotion} 
+                        key={key}
+                        value={promotion}
                         user={this.props.user}
                         signedUp={this.wasSignedUp(promotion)}
                         signupCallback={this.reloadCampaigns}
                         signupAllowed={this.isSignUpAllowed(promotion)} />
                 , this)}
-                
+
                 {
                     this.state.promotions.length <= 0 &&
                     <div>
@@ -114,19 +114,19 @@ class Dashboard extends ClientRoleAwareComponent  {
                         open={this.state.demoVisible}
                     >
                     <div className="row">
-                            <div className="col-xs-12">
+                            <div className="col-12">
                                 <div className="bg-gray">
                                     <div className="row header">
-                                        <div className="col-xs-10 col-xs-offset-1">
+                                        <div className="col-10 offset-1">
                                             <h6>&nbsp;</h6>
                                         </div>
-                                        <div className="col-xs-1">
+                                        <div className="col-1">
                                             <a className="close" onClick={() => {this.setState({demoVisible: false})}}>X</a>
                                         </div>
                                     </div>
 
                                     <div className="row">
-                                        <div className="col-xs-12 demo-player">
+                                        <div className="col-12 demo-player">
                                             <ReactPlayer url={this.state.demoURL} playing={true} />
                                         </div>
                                     </div>
@@ -142,6 +142,6 @@ class Dashboard extends ClientRoleAwareComponent  {
         return this.renderIfAuth(jsx);
     }
 }
- 
+
 // export the component
 export default Dashboard;

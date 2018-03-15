@@ -25,25 +25,27 @@ class StaffMenu extends CommonMenu  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
-        const jsx = (        
-            <Route render={({ history}) => (    
+        const jsx = (
+            <Route render={({ history}) => (
                 <div className="main-menu">
                     <div className="container">
                         <div className="items">
-                            <div className={this.getSelectedItem(1) ? "col-xs-2 menu-item dashboard selected" : "col-xs-2 menu-item dashboard"}>
-                                <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
-                                <hr />
-                            </div>
-                            <div className={this.getSelectedItem(2) ? "col-xs-3 menu-item docs-files selected" : "col-xs-3 menu-item docs-files"}>
-                                <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
-                                <hr />
-                            </div>
-                            <div className={this.getSelectedItem(3) ? "col-xs-2 menu-item promotions selected" : "col-xs-2 menu-item promotions"}>
-                                <Link onClick={() => this.handleChangeMenuItem(3)} to="/promotions">Promotions</Link>
-                                <hr />
+                            <div className="row">
+                                <div className={this.getSelectedItem(1) ? "col-2 menu-item dashboard selected" : "col-2 menu-item dashboard"}>
+                                    <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
+                                    <hr />
+                                </div>
+                                <div className={this.getSelectedItem(2) ? "col-3 menu-item docs-files selected" : "col-3 menu-item docs-files"}>
+                                    <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
+                                    <hr />
+                                </div>
+                                <div className={this.getSelectedItem(3) ? "col-2 menu-item promotions selected" : "col-2 menu-item promotions"}>
+                                    <Link onClick={() => this.handleChangeMenuItem(3)} to="/promotions">Promotions</Link>
+                                    <hr />
+                                </div>
                             </div>
                             <div className="text-right">
                                 {this.renderUserMenu(history)}
@@ -61,6 +63,6 @@ class StaffMenu extends CommonMenu  {
         return jsx;
     }
 }
- 
+
 // export the component
 export default StaffMenu;

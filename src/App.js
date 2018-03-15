@@ -8,8 +8,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {firebaseAuth} from './config/constants'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import {CircularProgress} from 'material-ui';
-
 import './App.css';
+
+const pkgJson = require('../package.json');
 
 class App extends Component {
 
@@ -59,10 +60,10 @@ class App extends Component {
                         <div className="App-header">
                             <div className="container">
                                 <div className="row">
-                                    <div className="col-xs-2">
+                                    <div className="col-2">
                                         <div className="logo header-logo"></div>
                                     </div>
-                                    <div className="col-xs-10 no-padding">
+                                    <div className="col-10 no-padding">
                                         <div className="header-icons">
                                             <a rel="noopener noreferrer" target="_blank"
                                                href="https://www.facebook.com">
@@ -79,6 +80,9 @@ class App extends Component {
                             </div>
                         </div>
                         {this.renderDashboardOrLogin()}
+                        <div className="footer">
+                            {pkgJson.name} v{pkgJson.version}
+                        </div>
                     </div>
                 </MuiThemeProvider>
             </Router>

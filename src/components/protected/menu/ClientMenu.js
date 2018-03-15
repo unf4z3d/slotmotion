@@ -6,7 +6,7 @@ import { Link, Route } from 'react-router-dom';
  * ClientMenu component for client Role.
  */
 class ClientMenu extends CommonMenu  {
-    
+
     /**
      * Overwrited
      */
@@ -24,7 +24,7 @@ class ClientMenu extends CommonMenu  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
@@ -32,13 +32,15 @@ class ClientMenu extends CommonMenu  {
                 <div className="main-menu">
                     <div className="container">
                         <div className="items">
-                            <div className={this.getSelectedItem(1) ? "col-xs-2 menu-item dashboard selected" : "col-xs-2 menu-item dashboard"}>
-                                <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
-                                <hr />
-                            </div>
-                            <div className={this.getSelectedItem(2) ? "col-xs-3 menu-item docs-files selected" : "col-xs-3 menu-item docs-files"}>
-                                <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
-                                <hr />
+                            <div className="row">
+                                <div className={this.getSelectedItem(1) ? "col-2 menu-item dashboard selected" : "col-2 menu-item dashboard"}>
+                                    <Link onClick={() => this.handleChangeMenuItem(1)} to="/">Dashboard</Link>
+                                    <hr />
+                                </div>
+                                <div className={this.getSelectedItem(2) ? "col-3 menu-item docs-files selected" : "col-3 menu-item docs-files"}>
+                                    <Link onClick={() => this.handleChangeMenuItem(2)}  to="/docs-and-files">Documents & Files</Link>
+                                    <hr />
+                                </div>
                             </div>
                             <div className="text-right">
                                 {this.renderUserMenu(history)}
@@ -51,12 +53,12 @@ class ClientMenu extends CommonMenu  {
                     <br/>
                 </div>
             )} />
-            
+
         );
 
         return jsx;
     }
 }
- 
+
 // export the component
 export default ClientMenu;

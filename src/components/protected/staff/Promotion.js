@@ -14,7 +14,7 @@ class Promotion extends CommonRoleAwareComponent  {
 
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -24,11 +24,11 @@ class Promotion extends CommonRoleAwareComponent  {
         }
 
         this.state = {
-            promotion: props.value, 
-            openLevelDialog: false, 
-            selectedLevelIndex:null, 
+            promotion: props.value,
+            openLevelDialog: false,
+            selectedLevelIndex:null,
             selectedLevel:{},
-        }; 
+        };
     }
 
     /**
@@ -41,7 +41,7 @@ class Promotion extends CommonRoleAwareComponent  {
         selectedLevel.activeImageName = selectedLevel.activeImage.name;
         this.setState({selectedLevel});
 
-        reader.onload = e => {            
+        reader.onload = e => {
             selectedLevel.previewImage = e.target.result;
             this.setState({selectedLevel : this.state.selectedLevel});
         }
@@ -64,15 +64,15 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     getImageLevel = index => {
         let image = undefined;
-        
-        image = this.state.promotion.levels[index].previewImage !== undefined 
-            ? this.state.promotion.levels[index].previewImage : 
-            '' 
-        
+
+        image = this.state.promotion.levels[index].previewImage !== undefined
+            ? this.state.promotion.levels[index].previewImage :
+            ''
+
         if(image === ''){
             image = undefined;
         }
-        
+
         return image;
     }
 
@@ -111,10 +111,10 @@ class Promotion extends CommonRoleAwareComponent  {
         const { promotion } = this.state;
         const selectedLevel = promotion.levels[index];
         this.setState({openLevelDialog : true, selectedLevelIndex: index, selectedLevel});
-    } 
+    }
 
     /**
-     * Set the promotion start date 
+     * Set the promotion start date
      */
     setStartDate = (e, startDate) => {
         const { promotion } = this.state;
@@ -124,7 +124,7 @@ class Promotion extends CommonRoleAwareComponent  {
     }
 
     /**
-     * Set the promotion ends date 
+     * Set the promotion ends date
      */
     setEndDate = (e, endDate) => {
         const { promotion } = this.state;
@@ -143,7 +143,7 @@ class Promotion extends CommonRoleAwareComponent  {
         promotion.logoPictureName = promotion.logoPicture.name;
         this.setState({promotion});
 
-        reader.onload = e => {           
+        reader.onload = e => {
             promotion.logoPreviewImage = imageUrl(e.target.result);
             this.setState({promotion});
         }
@@ -156,10 +156,10 @@ class Promotion extends CommonRoleAwareComponent  {
      */
     chooseCampaignPackage = e => {
         const { promotion } = this.state;
-        
+
         promotion.campaignPackage = e.target.files[0];
         promotion.campaignPackageName = promotion.campaignPackage.name;
-       
+
         this.setState({promotion});
     }
 
@@ -174,7 +174,7 @@ class Promotion extends CommonRoleAwareComponent  {
             if(promotion.key === undefined){
                 promotion.key = firabaseDB.child('promotions').push().key;
             }
-            
+
             this.setState({promotion});
 
             this.initUploadFiles();
@@ -186,7 +186,7 @@ class Promotion extends CommonRoleAwareComponent  {
 
     submitPromotionAllowed = () =>{
         const { promotion } = this.state;
-        
+
         if(isEmpty(promotion.startDateTime)){
             return {success: false, message: "Please set the Start Date"}
         }
@@ -224,7 +224,7 @@ class Promotion extends CommonRoleAwareComponent  {
                 return {success: false, message: `Please set the Freerounds in the Level ${currentLevel}`}
             }
         }
-        
+
         return {success: true};
     }
 
@@ -242,7 +242,7 @@ class Promotion extends CommonRoleAwareComponent  {
         const { promotion } = this.state;
         firebaseStorage().ref().child("promotions").child(promotion.key).child("logoPicture")
             .put(promotion.logoPicture).then((snap) => {
-            
+
             promotion.logoPreviewImage = snap.downloadURL;
             this.setState({promotion});
             this.uploadCampaignPackage();
@@ -256,7 +256,7 @@ class Promotion extends CommonRoleAwareComponent  {
         const { promotion } = this.state;
         firebaseStorage().ref().child("promotions").child(promotion.key).child("campaignPackage")
             .put(promotion.campaignPackage).then((snap) => {
-            
+
             promotion.campaignPackageURL = snap.downloadURL;
             this.setState({promotion});
             this.uploadLevelsActiveImages();
@@ -299,7 +299,7 @@ class Promotion extends CommonRoleAwareComponent  {
     /**
      * Push the promotion data to firebase.
      * Run onSuccess prop if was setted.
-     */ 
+     */
     putPromotionData = () => {
         const { promotion } = this.state;
         firabaseDB.child('promotions').child(promotion.key).set(promotion).then((snap) => {
@@ -327,14 +327,14 @@ class Promotion extends CommonRoleAwareComponent  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
             <div className="promotion">
                     <div className="panel">
                         <div className="row">
-                            <div className="col-xs-4">
+                            <div className="col-4">
                                 <div className="panel-header-image">
                                 {
                                     this.state.promotion.logoPreviewImage === undefined
@@ -362,8 +362,8 @@ class Promotion extends CommonRoleAwareComponent  {
                                         )
                                 }
                                 </div>
-                            </div> 
-                            <div className="col-xs-8">
+                            </div>
+                            <div className="col-8">
                                 <div className="panel-header-label">
                                     <div className="text-right primary-color">
                                         <a onClick={() => this.refs.startDate.refs.dialogWindow.show()}>
@@ -377,26 +377,26 @@ class Promotion extends CommonRoleAwareComponent  {
                                         </a>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                         <div className="row">
-                            <div className="col-xs-12">
+                            <div className="col-12">
                                 <div className={this.getPromotionBG(this.state.promotion)}>
                                     {
                                     [...Array(5)].map((x, i) =>
                                         <Paper className="promo-level app-tooltip" zDepth={1} circle={true}>
                                             <span onClick={ () => this.showDialog(i) } className="promo-edit-level">
                                                 {
-                                                    this.getImageLevel(i) === undefined 
-                                                    ? 
+                                                    this.getImageLevel(i) === undefined
+                                                    ?
                                                     `EDIT LEVEL ${i+1}`
-                                                    : 
+                                                    :
                                                     (<img src={this.getImageLevel(i)} alt="" />)
                                                 }
                                             </span>
                                             {
-                                                this.state.promotion.levels[i].discount !== undefined 
-                                             && this.state.promotion.levels[i].freearounds !== undefined 
+                                                this.state.promotion.levels[i].discount !== undefined
+                                             && this.state.promotion.levels[i].freearounds !== undefined
                                              &&
                                                 <span className="app-tooltip-content promotion-tooltip-container">
                                                     <div className="promotion-tooltip">
@@ -412,23 +412,23 @@ class Promotion extends CommonRoleAwareComponent  {
                                     )
                                     }
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                         <div className="row">
                             <div className="promotion-detail" style={{display: this.state.showDetail }}>
-                                <div className="col-xs-8">
+                                <div className="col-8">
                                     <span className="promotion-name">
-                                        <input onChange={this.handleChangeInput} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} /> 
+                                        <input onChange={this.handleChangeInput} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} />
                                     </span>
                                     {(this.state.promotion.startDate || this.state.promotion.endDate) &&
                                         <div className="promotion-calendars">
                                             <div>
-                                                {this.state.promotion.startDate}&nbsp;&#8226;&nbsp;{this.state.promotion.endDate}    
+                                                {this.state.promotion.startDate}&nbsp;&#8226;&nbsp;{this.state.promotion.endDate}
                                             </div>
                                         </div>
                                     }
                                 </div>
-                                <div className="col-xs-4">
+                                <div className="col-4">
                                 <div className="promotion-download-package">
                                     <FlatButton
                                         labelPosition="after"
@@ -444,7 +444,7 @@ class Promotion extends CommonRoleAwareComponent  {
                         </div>
                         <div className="row">
                             <div className="promotion-detail description" style={{display: this.state.showDetail }}>
-                                <div className="col-xs-12">
+                                <div className="col-12">
                                     <textarea onChange={this.handleChangeInput} name="description" className="transparent-input fullwidth" style={{height:110, resize:'none'}} placeholder="Edit description text" value={this.state.promotion.description} />
                                 </div>
                             </div>
@@ -457,31 +457,31 @@ class Promotion extends CommonRoleAwareComponent  {
                         onRequestClose={() => this.setState({openLevelDialog : false})}
                         open={this.state.openLevelDialog}
                     >
-                        
-                        
+
+
                         <div className="row">
-                                <div className="col-xs-12">
+                                <div className="col-12">
                                     <div className="bg-gray">
                                         <div className="row header">
-                                            <div className="col-xs-10 col-xs-offset-1">
+                                            <div className="col-10 offset-1">
                                                 <h6>Level {this.state.selectedLevelIndex + 1}</h6>
                                             </div>
-                                            <div className="col-xs-1">
+                                            <div className="col-1">
                                                 <a className="close" onClick={() => {this.setState({openLevelDialog: false})}}>x</a>
                                             </div>
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-xs-10 col-xs-offset-1">
+                                            <div className="col-10 offset-1">
                                                 <ValidatorForm
                                                     ref="form"
                                                     onSubmit={this.handleApplyLevelInfo}
                                                 >
                                                     <div className="white-form">
-                    
+
                                                         <div className="row">
-                                                            <div className="col-xs-9">
-                                                                <TextValidator floatingLabelFixed floatingLabelText="Active Level Image" fullWidth 
+                                                            <div className="col-9">
+                                                                <TextValidator floatingLabelFixed floatingLabelText="Active Level Image" fullWidth
                                                                     name="activeImgName"
                                                                     disabled={true}
                                                                     value={this.state.selectedLevel.activeImageName}
@@ -489,7 +489,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                     errorMessages={['This field is required']}
                                                                 />
                                                             </div>
-                                                            <div className="col-xs-3 column-choose-file">
+                                                            <div className="col-3 column-choose-file">
                                                                 <RaisedButton
                                                                     className="btn-smotion secondary file-min"
                                                                     containerElement='label'
@@ -497,8 +497,8 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                         <input onChange={this.chooseActiveLevelImage} style={{display:'none'}} type="file" />
                                                                 </RaisedButton>
                                                             </div>
-                                                            <div className="col-xs-9">
-                                                                <TextValidator floatingLabelFixed floatingLabelText="Inactive Level Image" fullWidth 
+                                                            <div className="col-9">
+                                                                <TextValidator floatingLabelFixed floatingLabelText="Inactive Level Image" fullWidth
                                                                     name="inactiveImgName"
                                                                     disabled={true}
                                                                     value={this.state.selectedLevel.inactiveImageName}
@@ -506,7 +506,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                     errorMessages={['This field is required']}
                                                                 />
                                                             </div>
-                                                            <div className="col-xs-3 column-choose-file">
+                                                            <div className="col-3 column-choose-file">
                                                                 <RaisedButton
                                                                     className="btn-smotion secondary file-min"
                                                                     containerElement='label'
@@ -516,8 +516,8 @@ class Promotion extends CommonRoleAwareComponent  {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-xs-4">
-                                                                <TextValidator floatingLabelFixed floatingLabelText="Bets To Reach" fullWidth 
+                                                            <div className="col-4">
+                                                                <TextValidator floatingLabelFixed floatingLabelText="Bets To Reach" fullWidth
                                                                     name="bestToReach"
                                                                     onChange={this.handleChangeLevel}
                                                                     value={this.state.selectedLevel.bestToReach}
@@ -525,8 +525,8 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                     errorMessages={['This field is required']}
                                                                 />
                                                             </div>
-                                                            <div className="col-xs-4">
-                                                                <TextValidator floatingLabelFixed floatingLabelText="Discount %" fullWidth 
+                                                            <div className="col-4">
+                                                                <TextValidator floatingLabelFixed floatingLabelText="Discount %" fullWidth
                                                                     name="discount"
                                                                     onChange={this.handleChangeLevel}
                                                                     value={this.state.selectedLevel.discount}
@@ -534,8 +534,8 @@ class Promotion extends CommonRoleAwareComponent  {
                                                                     errorMessages={['This field is required']}
                                                                 />
                                                             </div>
-                                                            <div className="col-xs-4">
-                                                                <TextValidator floatingLabelFixed floatingLabelText="Freerounds" fullWidth 
+                                                            <div className="col-4">
+                                                                <TextValidator floatingLabelFixed floatingLabelText="Freerounds" fullWidth
                                                                     name="freearounds"
                                                                     onChange={this.handleChangeLevel}
                                                                     value={this.state.selectedLevel.freearounds}
@@ -545,7 +545,7 @@ class Promotion extends CommonRoleAwareComponent  {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-xs-4 col-xs-offset-4">
+                                                            <div className="col-4 offset-4">
                                                                 <RaisedButton className="btn-smotion primary btn-submit" type="submit" label="Apply" primary={true} />
                                                             </div>
                                                         </div>
@@ -565,6 +565,6 @@ class Promotion extends CommonRoleAwareComponent  {
         return jsx;
     }
 }
- 
+
 // export the component
 export default Promotion;

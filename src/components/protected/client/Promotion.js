@@ -15,7 +15,7 @@ class Promotion extends ClientRoleAwareComponent  {
 
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class Promotion extends ClientRoleAwareComponent  {
         }
 
         this.state = {
-            promotion: props.value, 
+            promotion: props.value,
             loadingLevelProgress: false,
             selectedLevelIndex:null,
             selectedLevel:{},
@@ -43,7 +43,7 @@ class Promotion extends ClientRoleAwareComponent  {
         if(promotion.key !== undefined){
             this.signupsDB.child(promotion.key).on('value', snap => {
                 const signedUp = snap.val();
-                if(signedUp !== null){
+                if(signedUp !== null) {
                     promotion.createdAt = signedUp.createdAt;
                     promotion.createdAtTime = signedUp.createdAtTime;
                     this.promotionsStatusDB.child(signedUp.status).once('value', snap => {
@@ -54,7 +54,7 @@ class Promotion extends ClientRoleAwareComponent  {
                             this.refreshLevelStatus();
                         }
                     })
-                }  
+                }
             });
         }
     }
@@ -64,7 +64,7 @@ class Promotion extends ClientRoleAwareComponent  {
      */
     componentWillUnmount() {
         this.signupsDB.off();
-        this.promotionsStatusDB.off();        
+        this.promotionsStatusDB.off();
     }
 
     /**
@@ -72,7 +72,7 @@ class Promotion extends ClientRoleAwareComponent  {
      */
     refreshLevelStatus = () => {
         const { status } = this.state.promotion;
-        if(status !== undefined && (status.id === 2 || status.id === 3)){    
+        if(status !== undefined && (status.id === 2 || status.id === 3)){
             this.setState({loadingLevelProgress : true});
             let { promotion } = this.state;
             const signupDate = dateFormat(promotion.createdAtTime, "isoUtcDateTime", true);
@@ -87,9 +87,9 @@ class Promotion extends ClientRoleAwareComponent  {
                 }
 
                 this.setState({ promotion, loadingLevelProgress: false})
-            }).catch( (error) => {            
+            }).catch( (error) => {
                 this.setState({loading : false, loadingLevelProgress: false});
-            });                
+            });
         }
     }
 
@@ -98,19 +98,19 @@ class Promotion extends ClientRoleAwareComponent  {
      * Get the level image by the index.
      */
     getImageLevel = index => {
-        let image = undefined;    
+        let image = undefined;
         const reached = this.state.promotion.levels[index].reached;
-    
+
         if(reached !== undefined && reached){
             image = this.state.promotion.levels[index].activeImage.previewImage;
         }else{
             image = this.state.promotion.levels[index].inactiveImage.previewImage;
         }
-    
+
         if(image === ''){
             image = undefined;
         }
-        
+
         return image;
     }
 
@@ -142,7 +142,7 @@ class Promotion extends ClientRoleAwareComponent  {
 
         firabaseDB.child('users').child(this.getUser().uid).child('signups')
                   .child(promotion.key).set(userSignup)
-                  .then((snap) => 
+                  .then((snap) =>
         {
             userSignup.promotion = promotion.key;
             userSignup.user = this.getUser().uid;
@@ -181,9 +181,9 @@ class Promotion extends ClientRoleAwareComponent  {
             'Watch Demo',
         ]
 
-        return (  
+        return (
             <div>
-                {       
+                {
                 [...Array(5)].map((x, i) =>
                     <Paper key={i} onClick={i === 4 && (() => {this.handleWathDemo('https://youtu.be/M7lc1UVf-VE')})} className={i === 4 ? 'promo-level watch-demo': 'promo-level clock'} zDepth={1} circle={true}>
                         <span className="promo-edit-level">{times[i]}</span>
@@ -216,7 +216,7 @@ class Promotion extends ClientRoleAwareComponent  {
     }
 
     getLogoImage = () => {
-        
+
         return imageUrl(this.state.promotion.logoPreviewImage);
     }
 
@@ -237,14 +237,14 @@ class Promotion extends ClientRoleAwareComponent  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
             <div className="promotion">
                     <div className="panel">
                         <div className="row">
-                            <div className="col-xs-4">
+                            <div className="col-4">
                                 <div className="panel-header-image">
                                 {
                                     this.state.promotion.logoPreviewImage === undefined
@@ -266,8 +266,8 @@ class Promotion extends ClientRoleAwareComponent  {
                                         )
                                 }
                                 </div>
-                            </div> 
-                            <div className="col-xs-8">
+                            </div>
+                            <div className="col-8">
                                 <div className="panel-header-label">
                                     <div>
                                         {
@@ -283,13 +283,13 @@ class Promotion extends ClientRoleAwareComponent  {
                                         }
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                         <div className="row">
-                            <div className="col-xs-12">
+                            <div className="col-12">
                                 {
                                 this.started()
-                                ?   
+                                ?
                                     <div className="promotion-steps clock">
                                         <Countdown date={this.state.promotion.startDateTime} onComplete={() => window.location.reload()} renderer={this.renderClock} />
                                     </div>
@@ -297,7 +297,7 @@ class Promotion extends ClientRoleAwareComponent  {
                                     <div className={this.getPromotionBG(this.state.promotion)}>
                                         {
                                         [...Array(5)].map((x, i) =>
-                                            this.isSingupAllowed() && i === 4 
+                                            this.isSingupAllowed() && i === 4
                                             ?
                                                 <Paper key={i} className="promo-level signup app-tooltip" zDepth={1} circle={true}>
                                                     <span onClick={ () => this.signUpCampaign() } className="promo-edit-level">SIGNUP</span>
@@ -312,7 +312,7 @@ class Promotion extends ClientRoleAwareComponent  {
                                                     </span>
                                                 </Paper>
                                             :
-                                                
+
                                                     <Paper key={i} className="promo-level app-tooltip" zDepth={1} circle={true}>
                                                         <span className="promo-edit-level">
                                                             <img src={this.getImageLevel(i)} alt="" />
@@ -327,21 +327,21 @@ class Promotion extends ClientRoleAwareComponent  {
                                                             </div>
                                                         </span>
                                                     </Paper>
-                                               
-                                               
+
+
                                         )
                                         }
                                     </div>
                                 }
-                                { 
+                                {
                                 this.state.loadingLevelProgress &&
                                     <div className="loading-level-progress">Loading progress, please wait.</div>
-                                }    
-                            </div>  
+                                }
+                            </div>
                         </div>
-                        <div className="row">
-                            <div className="promotion-detail" style={{display: this.state.showDetail }}>
-                                <div className="col-xs-8">
+                        <div className="promotion-detail" style={{display: this.state.showDetail }}>
+                            <div className="row">
+                                <div className="col-8">
                                     <span className="promotion-name">
                                         <div className="transparent-input">
                                             {this.state.promotion.name}
@@ -350,25 +350,25 @@ class Promotion extends ClientRoleAwareComponent  {
                                     {(this.state.promotion.startDate || this.state.promotion.endDate) &&
                                         <div className="promotion-calendars">
                                             <div>
-                                                Started {timeSince(this.state.promotion.startDateTime)} ago &nbsp;&#8226;&nbsp; Ends {this.state.promotion.endDate}                                                
+                                                Started {timeSince(this.state.promotion.startDateTime)} ago &nbsp;&#8226;&nbsp; Ends {this.state.promotion.endDate}
                                             </div>
                                         </div>
                                     }
                                 </div>
-                                <div className="col-xs-4">
-                                <div className="promotion-download-package">
-                                    <Chip style={{margin: 4}}>
-                                        <a target="_new" href={this.state.promotion.campaignPackageURL}>
-                                            Download Campaign Package
-                                        </a>
-                                    </Chip>
-                                </div>
+                                <div className="col-4">
+                                    <div className="promotion-download-package">
+                                        <Chip style={{margin: 4}}>
+                                            <a target="_new" href={this.state.promotion.campaignPackageURL}>
+                                                Download Campaign Package
+                                            </a>
+                                        </Chip>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="promotion-detail description" style={{display: this.state.showDetail }}>
-                                <div className="col-xs-12">
+                        <div className="promotion-detail description" style={{display: this.state.showDetail }}>
+                            <div className="row">
+                                <div className="col-12">
                                     <div className="transparent-input fullwidth" style={{height:'auto', resize:'none'}} >
                                         {this.state.promotion.description}
                                     </div>
@@ -377,12 +377,12 @@ class Promotion extends ClientRoleAwareComponent  {
                         </div>
                         { this.started() === false &&
                             <div className="row">
-                                <div className="col-xs-12">
-                                    <div className="promotion-status">                                
+                                <div className="col-12">
+                                    <div className="promotion-status">
                                         {[...Array(4)].map((x, i) => this.renderLevelStatus(i) )}
-                                        { this.renderPromotionStatus() } 
+                                        { this.renderPromotionStatus() }
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                         }
                     </div>
@@ -392,6 +392,6 @@ class Promotion extends ClientRoleAwareComponent  {
         return jsx;
     }
 }
- 
+
 // export the component
 export default Promotion;

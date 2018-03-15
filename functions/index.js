@@ -56,12 +56,11 @@ app.get('/userGamePlay', (req, res) => {
     console.log('Running userGamePlay controller');
     // Get all casinos per user.
     axios.get('https://de.cca.sh/clientarea/operators/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
-    .then(function(response){
-        
+    .then(function(response) {
         // Filter casinos per the authenticated user
         admin.database().ref('users').child(req.user.uid).on('value', snap => {
             const user = snap.val();
-            let casinos = []; 
+            let casinos = [];
 
             for(let key in response.data){
                 const casino = response.data[key];
@@ -72,18 +71,18 @@ app.get('/userGamePlay', (req, res) => {
 
             if(casinos.length > 0){
                 let strCasinos = '';
-                
+
                 for(let key in casinos){
                     strCasinos += '&casino=' + casinos[key];
                 }
-                
+
                 const gamePlayEndpoint = "https://de.cca.sh/clientarea/gameplay/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24&start="+ req.param('signupDate') +"&" + strCasinos +"&groupBy=casino";
                 console.log('Endpoint:', gamePlayEndpoint);
                 // Get user gameplay for each casino.
                 axios.get(gamePlayEndpoint)
                 .then(function(response){
                     let totalBet = 0;
-                    
+
                     for(let i in response.data){
                         let casino = response.data[i];
                         for(let j in casino.type){
@@ -93,20 +92,20 @@ app.get('/userGamePlay', (req, res) => {
                             }
                         }
                     }
-    
+
                     res.status(200).send({ totalBet });
-                }).catch( function(error){            
+                }).catch( function(error){
                     console.error(error);
-                
+
                     res.status(500).send('Internal Server Error');
                 });
             }else{
-                
+
                 res.status(200).send([]);
             }
-        })  
+        })
     })
-    .catch( function(error){            
+    .catch( function(error){
         console.error(error);
 
         res.status(500).send('Internal Server Error');

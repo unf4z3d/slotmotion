@@ -37,7 +37,7 @@ class Dashboard extends StaffRoleAwareComponent {
 
         let {usersSignUp, activeUsersSignUp} = this.state;
 
-        if (signup.status === constants.promotionsStatus.pending 
+        if (signup.status === constants.promotionsStatus.pending
             || signup.status === constants.promotionsStatus.declined){
             if(concat){
                 usersSignUp = usersSignUp.concat(signup);
@@ -54,7 +54,7 @@ class Dashboard extends StaffRoleAwareComponent {
         if (signup.status === constants.promotionsStatus.active){
             activeUsersSignUp = activeUsersSignUp.concat(signup);
         }
-        
+
         if (signup.status === constants.promotionsStatus.forfeited){
             if(concat){
                 activeUsersSignUp = activeUsersSignUp.concat(signup);
@@ -80,7 +80,7 @@ class Dashboard extends StaffRoleAwareComponent {
             let {cache} = this.state;
             cache.promotions[signup.promotion] = snap.val();
             this.setState({cache});
-        })) 
+        }))
     }
 
     /**
@@ -116,18 +116,18 @@ class Dashboard extends StaffRoleAwareComponent {
         return (
             <div className="text-left">
                 <span>
-                    <RaisedButton 
-                        disabled={row.status === constants.promotionsStatus.declined} 
-                        onClick={() => this.handleChangeStatusSignUp(row, constants.promotionsStatus.declined, index)} 
-                        className="btn-smotion btn-min" 
+                    <RaisedButton
+                        disabled={row.status === constants.promotionsStatus.declined}
+                        onClick={() => this.handleChangeStatusSignUp(row, constants.promotionsStatus.declined, index)}
+                        className="btn-smotion btn-min"
                         label={row.status === constants.promotionsStatus.declined ? 'Declained' : 'Decline'} />
                 </span>
                 &nbsp;&nbsp;
                 <span>
-                    <RaisedButton 
-                        disabled={row.status === constants.promotionsStatus.declined} 
-                        onClick={() => this.handleChangeStatusSignUp(row, constants.promotionsStatus.active,index)} 
-                        className="btn-smotion primary btn-min" 
+                    <RaisedButton
+                        disabled={row.status === constants.promotionsStatus.declined}
+                        onClick={() => this.handleChangeStatusSignUp(row, constants.promotionsStatus.active,index)}
+                        className="btn-smotion primary btn-min"
                         label="Accept" primary />
                 </span>
             </div>
@@ -141,8 +141,8 @@ class Dashboard extends StaffRoleAwareComponent {
         return (
             <div className="text-left">
                 <span>
-                    <RaisedButton 
-                    disabled={row.status === constants.promotionsStatus.forfeited} 
+                    <RaisedButton
+                    disabled={row.status === constants.promotionsStatus.forfeited}
                     onClick={() => this.handleChangeStatusSignUp(row, constants.promotionsStatus.forfeited, index)}
                     className="btn-smotion secondary btn-min" label={row.status === constants.promotionsStatus.forfeited ? 'Forfeited' : 'Forfeit'} secondary />
                 </span>
@@ -186,7 +186,7 @@ class Dashboard extends StaffRoleAwareComponent {
                 <div className="row">
                     <div className="signups text-left">
                         <h4>Sign up requests</h4>
-                        <div className="col-xs-9">
+                        <div className="col-9">
                             <div className="smotion-table signups-table">
                                 <BootstrapTable data={ this.state.usersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
                                     <TableHeaderColumn dataAlign="center" width="120" dataField='user' isKey dataFormat={ this.userFormatter } >Client</TableHeaderColumn>
@@ -203,7 +203,7 @@ class Dashboard extends StaffRoleAwareComponent {
                     <div className="active-campigns">
                         <div className="campaigns text-left">
                             <h4>Active Campaigns</h4>
-                            <div className="col-xs-11">
+                            <div className="col-11">
                                 <div className="smotion-table campaigns-table">
                                     <BootstrapTable data={ this.state.activeUsersSignUp }  options={{hideSizePerPage: true}} bordered={ false }>
                                         <TableHeaderColumn width="80" dataField='user' isKey dataFormat={ this.userFormatter }>Client</TableHeaderColumn>
@@ -221,7 +221,7 @@ class Dashboard extends StaffRoleAwareComponent {
                 </div>
             </div>
         );
-        
+
         return this.renderIfAuth(jsx);
     }
 }

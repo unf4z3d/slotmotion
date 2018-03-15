@@ -16,7 +16,7 @@ class Login extends React.Component {
 
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -27,7 +27,7 @@ class Login extends React.Component {
      * Setter
      */
     setErrorMsg = (message) => ({ errorMessage: message })
-    
+
     /**
      * Login submit
      */
@@ -46,23 +46,23 @@ class Login extends React.Component {
     }
 
     /**
-     * Render method 
+     * Render method
      */
-    render = ()  => 
+    render = ()  =>
     (
         <div className="container">
             <div className="row">
-                <div className="col-xs-4 col-xs-offset-4">
+                <div className="col-4 offset-4">
                     <div className="login-form">
-                        <div className="login-title"> 
+                        <div className="login-title">
                             <h2>Client area login</h2>
                             <hr/>
                         </div>
-                        <Message error value={this.state.errorMessage} />  
+                        <Message error value={this.state.errorMessage} />
                         <form onSubmit={this.handleSubmit}>
                             <TextField className="login-input" ref="username" hintText="Username"/>
                             <TextField className="login-input" ref="password" type="password" hintText="Password"/>
-                            <Checkbox className="remember-me login-check" label="Remember me"           
+                            <Checkbox className="remember-me login-check" label="Remember me"
                                       checkedIcon={<NavigationCheck />}
                                       uncheckedIcon={<NavigationCheck />}/>
                             <RaisedButton className="btn-smotion primary login-button" type="submit" fullWidth={true} label="Login" primary={true} />
@@ -78,6 +78,6 @@ class Login extends React.Component {
         </div>
     );
 }
- 
+
 // export the component
 export default Login;

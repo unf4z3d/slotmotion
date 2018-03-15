@@ -14,10 +14,10 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
  * DocsAndFiles component for client Role.
  */
 class DocsAndFiles extends ClientRoleAwareComponent  {
-    
+
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -79,12 +79,12 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
      */
     chooseFile = e => {
         const { file } = this.state;
-        
+
         file.value = e.target.files[0];
         file.originName = file.value.name;
         file.size = file.value.size;
         file.type = file.value.type;
-        file.createdAt = 
+        file.createdAt =
         this.setState({file});
     }
 
@@ -117,7 +117,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
     handleToggleLanguage =(value, isInputChecked) => {
         const { file } = this.state;
-        
+
         if(file.language === undefined){
             file.language = [];
         }
@@ -131,7 +131,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
             }
         }
     }
-    
+
 
     /**
      * Upload new Docs & File
@@ -139,7 +139,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
     handleUploadNewFile = () => {
         const { file } = this.state;
         const now = new Date();
-        
+
         if(file.key === undefined){
             file.key = firabaseDB.child('documents').push().key;
         }
@@ -147,7 +147,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         file.createdAtTime = now.getTime();
         file.createdAt = dateFormat(now, constants.formatDate)
         file.name = file.name.toLowerCase();
-        
+
         this.uploadFile();
     }
 
@@ -170,7 +170,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
     /**
      * Put the file data to firebase.
-     */ 
+     */
     putFileData = () => {
         const { file } = this.state;
         console.log(file);
@@ -185,12 +185,12 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
      * Close the dialog
      */
     handleCloseDialog = () => this.setState({docsDialogVisible : false, file: {}})
-    
+
     /**
      * Formatter for the Name row
-     * @param {*} cell 
-     * @param {*} row 
-     * @param {*} enumObject 
+     * @param {*} cell
+     * @param {*} row
+     * @param {*} enumObject
      */
     docFormatter(cell, row){
         let className = "";
@@ -212,9 +212,9 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
     /**
      * Formatter for the Type and Category rows
-     * @param {*} cell 
-     * @param {*} row 
-     * @param {*} enumObject 
+     * @param {*} cell
+     * @param {*} row
+     * @param {*} enumObject
      */
     descriptionFormatter(cell, row, enumObject){
         if(enumObject[cell] !== undefined){
@@ -226,8 +226,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
     /**
      * Formatter for the Language row
-     * @param {*} cell 
-     * @param {*} row 
+     * @param {*} cell
+     * @param {*} row
      */
     languageFormatter = (cell, row) =>{
         if(cell !== undefined){
@@ -246,8 +246,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
     /**
      * Formatter for the Size row
-     * @param {*} cell 
-     * @param {*} row 
+     * @param {*} cell
+     * @param {*} row
      */
     sizeFormatter(cell, row){
         if(cell !== undefined){
@@ -259,8 +259,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
 
     /**
      * Download document formatter
-     * @param {*} cell 
-     * @param {*} row 
+     * @param {*} cell
+     * @param {*} row
      */
     downloadFormatter = (cell, row) => {
         return (
@@ -287,13 +287,13 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
-            <div> 
+            <div>
                 <div className="row">
-                    <div className="col-xs-4">
+                    <div className="col-4">
                         <div className="text-left">
                             <div className="dark-input input-icon">
                                 <ActionSearch viewBox="7 -7 6 40" onClick={this.handleFilterByName} />
@@ -301,7 +301,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                             </div>
                         </div>
                     </div>
-                    <div className="col-xs-8">
+                    <div className="col-8">
                         <div className="text-right">
                             <div>
                                 { this.isAdmin() &&
@@ -330,25 +330,25 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                         onRequestClose={this.handleCloseDialog}
                         open={this.state.docsDialogVisible}>
                     <div className="row">
-                        <div className="col-xs-12">
+                        <div className="col-12">
                             <div className="bg-gray">
                                 <div className="row header">
-                                    <div className="col-xs-10 col-xs-offset-1">
+                                    <div className="col-10 offset-1">
                                         <h6>&nbsp;</h6>
                                     </div>
-                                    <div className="col-xs-1">
+                                    <div className="col-1">
                                         <a className="close" onClick={this.handleCloseDialog}>X</a>
                                     </div>
                                 </div>
 
                                 <div className="row">
-                                    <div className="col-xs-10 col-xs-offset-1">
+                                    <div className="col-10 offset-1">
                                         <ValidatorForm ref="form" onSubmit={this.handleUploadNewFile}>
                                             <div className="white-form">
-            
+
                                                 <div className="row">
-                                                    <div className="col-xs-9">
-                                                        <TextValidator floatingLabelFixed floatingLabelText="Browse File" fullWidth 
+                                                    <div className="col-9">
+                                                        <TextValidator floatingLabelFixed floatingLabelText="Browse File" fullWidth
                                                             name="activeImgName"
                                                             value={this.state.file.originName}
                                                             disabled={true}
@@ -356,7 +356,7 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                             errorMessages={['This field is required']}
                                                         />
                                                     </div>
-                                                    <div className="col-xs-3 column-choose-file">
+                                                    <div className="col-3 column-choose-file">
                                                         <RaisedButton
                                                             className="btn-smotion secondary file-min"
                                                             containerElement='label'
@@ -366,8 +366,8 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-xs-6">
-                                                        <TextValidator floatingLabelFixed floatingLabelText="Name" fullWidth 
+                                                    <div className="col-6">
+                                                        <TextValidator floatingLabelFixed floatingLabelText="Name" fullWidth
                                                             name="name"
                                                             onChange={this.handleChangeInput}
                                                             value={this.state.file.name}
@@ -375,10 +375,10 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                             errorMessages={['This field is required']}
                                                         />
                                                     </div>
-                                                    <div className="col-xs-6">
+                                                    <div className="col-6">
                                                         <SelectValidator floatingLabelFixed floatingLabelText="Type" fullWidth
                                                             className="select-form"
-                                                            name="type" 
+                                                            name="type"
                                                             onChange={this.handleSetDocType}
                                                             value={this.state.file.docType}
                                                             maxHeight={200}
@@ -389,13 +389,13 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                             {this.state.docsType.map((docType, i) =>
                                                                 <MenuItem key={i} value={i} primaryText={docType.description} />
                                                             , this)}
-                                                        
+
                                                         </SelectValidator>
                                                     </div>
-                                                    <div className="col-xs-6">
+                                                    <div className="col-6">
                                                         <SelectValidator floatingLabelFixed floatingLabelText="Category" fullWidth
                                                             className="select-form"
-                                                            name="category" 
+                                                            name="category"
                                                             onChange={this.handleSetDocCategory}
                                                             value={this.state.file.docCategory}
                                                             maxHeight={200}
@@ -406,15 +406,15 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                             {this.state.docsCategory.map((docCategory, i) =>
                                                                 <MenuItem key={i} value={i} primaryText={docCategory.description} />
                                                             , this)}
-                                                        
+
                                                         </SelectValidator>
                                                     </div>
-                                                    <div className="col-xs-6">
+                                                    <div className="col-6">
                                                         <label className="form-label">Category</label>
                                                         <div>
                                                             <div className="row form-switches-inline">
                                                             {this.state.docsLanguage.map((docLanguage, i) =>
-                                                                <div key={i} className="col-xs-3">
+                                                                <div key={i} className="col-3">
                                                                     <Checkbox onCheck={(o, checked) => this.handleToggleLanguage(docLanguage.short, checked)} valueLink={this.state.file.languages} label={docLanguage.short} />
                                                                 </div>
                                                             , this)}
@@ -423,12 +423,12 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-xs-4 col-xs-offset-4">
+                                                    <div className="col-4 offset-4">
                                                         <RaisedButton className="btn-smotion primary btn-submit" type="submit" label="Upload File" primary={true} />
                                                     </div>
                                                 </div>
                                             </div>
-                                        </ValidatorForm>  
+                                        </ValidatorForm>
                                     </div>
                                 </div>
                             </div>
@@ -442,6 +442,6 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
         return this.renderIfAuth(jsx);
     }
 }
- 
+
 // export the component
 export default DocsAndFiles;

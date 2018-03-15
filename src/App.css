@@ -1,3 +1,5 @@
+@import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
 body {
   background-image: url("images/bg.png");
   color: #fff;
@@ -116,7 +118,7 @@ a:focus {
   border-color: #264251 currentcolor currentcolor;
 }
 
-.main-menu > .container > .items > div > hr{
+.main-menu > .container > .items > div > div > hr{
   border-top-width: 0px;
   margin: 10px 0 0;
   padding: 0 10%;
@@ -128,11 +130,11 @@ a:focus {
 }
 
 
-.main-menu > .container > .items > div > a{
+.main-menu > .container > .items > div > div > a{
   text-decoration: none;
 }
 
-.main-menu > .container > .items > .selected > hr{
+.main-menu > .container > .items > div > .selected > hr{
   border-color: #fdb603;
   border-top-width: 4px;
   margin: 7px 0 0;
@@ -140,11 +142,11 @@ a:focus {
   width: 80%;
 }
 
-.main-menu > .container > .items > div{
+.main-menu > .container > .items > div > div {
   padding:0px;
 }
 
-.main-menu > .container > .items > div > a{
+.main-menu > .container > .items > div > div > a{
   color: white;
   font-family: monospace;
   font-size: 12px;
@@ -396,13 +398,14 @@ a:focus {
 
 .settings-ico{
     background-image: url("images/settings.png");
-    height: 14px;
+    height: 16px;
     width: 16px;
     background-size: 18px;
     background-repeat: no-repeat;
     float: left;
     position: absolute;
-    right: 190px;
+    right: 205px;
+    margin-top: 5px;
 }
 
 .label {
@@ -866,13 +869,13 @@ a, .primary-color {
     z-index: 1000;
 }
 
-.items > div > a {
+.items > div > div > a {
     color: #859199 !important;
     font-size: 13px !important;;
     font-family: "LatoWeb" !important;
 }
 
-.items > .selected > a {
+.items > div > .selected > a {
     color: #fff !important;
 }
 
@@ -897,20 +900,8 @@ a, .primary-color {
     width: 16px !important;
 }
 
-.items > div {
+.items > div > div {
     height: 0px;
-}
-
-.items > .dashboard{
-    width:88px;
-}
-
-.items > .promotions{
-    width:90px;
-}
-
-.items > .docs-files{
-    width: 150px;
 }
 
 .user-menu-client{
@@ -998,7 +989,7 @@ a, .primary-color {
     transform: none !important;
     color: #00ffff !important;
     fill: #00ffff !important;
-    left: 3px;
+    left: 0px;
     top: 2px;
 }
 
@@ -1239,3 +1230,24 @@ a, .primary-color {
 .active-campigns{
     margin-top: 70px;
 }
+
+.footer {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    -moz-use-text-color: #264251;
+    border-color: #264251;
+    border-style: solid none none;
+    border-width: 1px 0;
+    text-align: center;
+    align-content: center;
+    align-self: center;
+    position:absolute;
+    bottom:0;
+    height: 40px;
+    width: 80%;
+    left: 10%;
+    font-size: 12px;
+    color: #264251;
+  }

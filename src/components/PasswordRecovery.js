@@ -9,10 +9,10 @@ import { resetPassword } from './../helpers/auth';
  * PasswordRecovery component. Recovery Password Form.
  */
 class PasswordRecovery extends React.Component {
-    
+
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -40,18 +40,18 @@ class PasswordRecovery extends React.Component {
     }
 
     /**
-     * Render method 
+     * Render method
      */
-    render = ()  => 
+    render = ()  =>
     (
         <div className="container">
             <div className="row">
-                <div className="col-xs-4 col-xs-offset-4">
+                <div className="col-4 offset-4">
                 <div className="login-form">
-                        <div className="password-title"> 
+                        <div className="password-title">
                             <h2>Password recovery</h2>
                             <hr/>
-                        </div>  
+                        </div>
                         <div className="recovery-pw-form">
                         { this.state.successMessage != null
                         ?
@@ -61,7 +61,7 @@ class PasswordRecovery extends React.Component {
                                 <br/>
                             </div>
                         :
-                            <div>      
+                            <div>
                                 <Message error value={this.state.errorMessage} />
                                 <div>
                                     <form onSubmit={this.handleSubmit}>
@@ -81,6 +81,6 @@ class PasswordRecovery extends React.Component {
         </div>
     );
 }
- 
+
 // export the component
 export default PasswordRecovery;
