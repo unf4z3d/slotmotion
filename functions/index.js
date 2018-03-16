@@ -33,12 +33,16 @@ const validateFirebaseIdToken = (req, res, next) => {
     // Read the ID Token from cookie.
     idToken = req.cookies.__session;
   }
-  admin.auth().verifyIdToken(idToken).then(decodedIdToken => {
+  admin
+    .auth()
+    .verifyIdToken(idToken)
+    .then(decodedIdToken => {
       console.log('ID Token correctly decoded', decodedIdToken);
       req.user = decodedIdToken;
 
       next();
-    }).catch(error => {
+    })
+    .catch(error => {
       console.error('Error while verifying Firebase ID token:', error);
       res.status(403).send('Unauthorized');
     });
@@ -54,10 +58,17 @@ app.use(validateFirebaseIdToken);
 app.get('/userGamePlay', (req, res) => {
   console.log('Running userGamePlay controller');
   // Get all casinos per user.
-  axios.get('https://de.cca.sh/clientarea/operators/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24')
+  axios
+    .get(
+      'https://de.cca.sh/clientarea/operators/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24'
+    )
     .then(response => {
       // Filter casinos per the authenticated user
-      admin.database().ref('users').child(req.user.uid).on('value', snap => {
+      admin
+        .database()
+        .ref('users')
+        .child(req.user.uid)
+        .on('value', snap => {
           const user = snap.val();
           let casinos = [];
 
@@ -76,21 +87,22 @@ app.get('/userGamePlay', (req, res) => {
                 &start=${req.param('signupDate')}${strCasinos}&groupBy=casino`;
             console.log('Endpoint:', gamePlayEndpoint);
             // Get user gameplay for each casino.
-            axios.get(gamePlayEndpoint)
-            .then(response => {
+            axios
+              .get(gamePlayEndpoint)
+              .then(response => {
                 let totalBet = 0;
 
                 if (response.data) {
-                    response.data.forEach(gamePlay => {
-                        //filter segment
-                        if (user.profile.segments.indexOf(gamePlay.segment) !== -1) {
-                            gamePlay.type.forEach(type => {
-                                if (type.type === 'WAGER') {
-                                    totalBet += type.rounds || 0;
-                                }
-                            })
+                  response.data.forEach(gamePlay => {
+                    //filter segment
+                    if (user.profile.segments.indexOf(gamePlay.segment) !== -1) {
+                      gamePlay.type.forEach(type => {
+                        if (type.type === 'WAGER') {
+                          totalBet += type.rounds || 0;
                         }
-                    })
+                      });
+                    }
+                  });
                 }
 
                 res.status(200).send({ totalBet });

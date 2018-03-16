@@ -11,15 +11,15 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
  * Promotions component for client Role.
  */
 class Promotions extends StaffRoleAwareComponent  {
-    
+
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
         this.state = {
-            promotions : [], 
+            promotions : [],
             promotionVisible: false,
             loading: true,
             savingPromotion: false,
@@ -65,7 +65,7 @@ class Promotions extends StaffRoleAwareComponent  {
     changePromotionsActivationTo = (row, active) => {
         this.promotionsDB.child(row.key).update( { active }).then(() => {
             row.active = active;
-            
+
             for(let i in this.state.promotions){
                 if(this.state.promotions[i].key === row.key){
                     this.state.promotions[i] = row;
@@ -88,8 +88,8 @@ class Promotions extends StaffRoleAwareComponent  {
                 <span>
                     {
                         (row.active === undefined || row.active) &&
-                        <RaisedButton 
-                            disabled={row.active !== undefined} 
+                        <RaisedButton
+                            disabled={row.active !== undefined}
                             onClick={() => {this.handlePublishPromotion(row)}}
                             className="btn-smotion secondary btn-min"
                             label={row.active !== undefined ? 'Published' : 'Publish'} secondary />
@@ -97,10 +97,10 @@ class Promotions extends StaffRoleAwareComponent  {
                 </span>
                 &nbsp;&nbsp;
                 <span>
-                    <RaisedButton 
-                        disabled={ row.active === false } 
+                    <RaisedButton
+                        disabled={ row.active === false }
                         onClick={() => {this.handleDeletePromotion(row)}}
-                        className="btn-smotion btn-min" 
+                        className="btn-smotion btn-min"
                         label={row.active === false ? 'Deleted' : 'Delete'} />
                 </span>
             </div>
@@ -109,7 +109,7 @@ class Promotions extends StaffRoleAwareComponent  {
 
     handleSavePromotion = () => {
         const response = this.refs.promotion.savePromotion();
-        
+
         if(!response.success){
             this.showErrorMessage(response.message);
         }else{
@@ -120,16 +120,16 @@ class Promotions extends StaffRoleAwareComponent  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
-            <div>  
-                {!this.state.promotionVisible &&   
+            <div>
+                {!this.state.promotionVisible &&
                     <div className="text-right">
                         <div>
-                            <RaisedButton className="btn-smotion primary btn-large" onClick={() => this.setState({promotionVisible : true}) } 
-                                type="submit" 
+                            <RaisedButton className="btn-smotion primary btn-large" onClick={() => this.setState({promotionVisible : true}) }
+                                type="submit"
                                 label="Create New" />
                         </div>
                     </div>
@@ -139,22 +139,22 @@ class Promotions extends StaffRoleAwareComponent  {
                     <div>
                         <div className="text-right">
                             <span>
-                                <RaisedButton 
-                                    className="btn-smotion btn-large" 
+                                <RaisedButton
+                                    className="btn-smotion btn-large"
                                     disabled={this.state.savingPromotion}
-                                    onClick={() => this.setState({promotionVisible : false}) } 
+                                    onClick={() => this.setState({promotionVisible : false}) }
                                     label="Cancel" />
                             </span>
                             &nbsp;&nbsp;
                             <span>
-                                <RaisedButton 
+                                <RaisedButton
                                     className="btn-smotion secondary btn-large"
                                     disabled={this.state.savingPromotion}
                                     onClick={this.handleSavePromotion}
                                     label={this.state.savingPromotion ? 'Saving Data' : 'Save Promotion' } secondary />
                             </span>
                         </div>
-                        
+
                         <div>
                             <br/><br/><br/>
                             <Promotion ref="promotion" onSuccess={this.promotionSavedCallback} value={{}} user={this.props.user} />
@@ -178,6 +178,6 @@ class Promotions extends StaffRoleAwareComponent  {
         return this.renderIfAuth(jsx);
     }
 }
- 
+
 // export the component
 export default Promotions;

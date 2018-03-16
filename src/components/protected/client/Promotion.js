@@ -79,13 +79,9 @@ class Promotion extends ClientRoleAwareComponent  {
             callGetUserGameplay(this.getUser(), signupDate).then((response) => {
                 const totalBet = response.data.totalBet;
 
-                for(let i in promotion.levels){
-                    let level = promotion.levels[i];
-                    if(totalBet >= level.bestToReach){
-                        promotion.levels[i].reached = true;
-                    }
-                }
-
+                promotion.levels.forEach(level => {
+                    if(totalBet >= level.bestToReach) level.reached = true;
+                })
                 this.setState({ promotion, loadingLevelProgress: false})
             }).catch( (error) => {
                 this.setState({loading : false, loadingLevelProgress: false});
@@ -222,12 +218,10 @@ class Promotion extends ClientRoleAwareComponent  {
 
     getPromotionBG = (promotion) => {
         let promotionBG = "";
-        for (let i in promotion.levels){
-            if(promotion.levels[i].reached){
-                promotionBG = "promotion-bg-lvl-" + i;
-            }
-        }
-        return "promotion-steps " + promotionBG;
+        promotion.levels.forEach((level, i) => {
+            if(level.reached) promotionBG = "promotion-bg-lvl-" + i;
+        })
+        return `promotion-steps ${promotionBG}`;
     }
 
     handleToggleShowDetail = () => {

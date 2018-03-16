@@ -318,12 +318,10 @@ class Promotion extends CommonRoleAwareComponent  {
 
     getPromotionBG = (promotion) => {
         let promotionBG = "";
-        for (let i in promotion.levels){
-            if(promotion.levels[i].reached){
-                promotionBG = "promotion-bg-lvl-" + i;
-            }
-        }
-        return "promotion-steps " + promotionBG;
+        promotion.levels.forEach((level, i) => {
+            if (level.reached) promotionBG = "promotion-bg-lvl-" + i;
+        })
+        return `promotion-steps ${promotionBG}`;
     }
 
     /**
