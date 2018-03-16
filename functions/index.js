@@ -1,5 +1,6 @@
 'use strict';
 
+const config = require('./config');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
@@ -60,7 +61,7 @@ app.get('/userGamePlay', (req, res) => {
   // Get all casinos per user.
   axios
     .get(
-      'https://de.cca.sh/clientarea/operators/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24'
+      `${config.clientArea}/operators/?${config.clientAuth}`
     )
     .then(response => {
       // Filter casinos per the authenticated user
@@ -83,8 +84,8 @@ app.get('/userGamePlay', (req, res) => {
           console.log(`number of casinos: ${casinos.length}`);
           if (casinos.length > 0) {
             const strCasinos = `&casino=${casinos.join('&casino=')}`;
-            const gamePlayEndpoint = `https://de.cca.sh/clientarea/gameplay/?auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb96210fcbac470e24
-                &start=${req.param('signupDate')}${strCasinos}&groupBy=casino`;
+            const gamePlayEndpoint =
+              `${clientArea}/gameplay/?${config.clientAuth}&start=${req.param('signupDate')}${config.strCasinos}&groupBy=casino`;
             console.log('Endpoint:', gamePlayEndpoint);
             // Get user gameplay for each casino.
             axios
