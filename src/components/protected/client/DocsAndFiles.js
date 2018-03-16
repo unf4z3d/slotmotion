@@ -333,10 +333,10 @@ class DocsAndFiles extends ClientRoleAwareComponent  {
                         <div className="col-12">
                             <div className="bg-gray">
                                 <div className="row header">
-                                    <div className="col-10 offset-1">
+                                    <div className="col-9 offset-1">
                                         <h6>&nbsp;</h6>
                                     </div>
-                                    <div className="col-1">
+                                    <div className="col-2">
                                         <a className="close" onClick={this.handleCloseDialog}>X</a>
                                     </div>
                                 </div>

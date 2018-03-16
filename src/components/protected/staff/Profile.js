@@ -121,77 +121,83 @@ class Profile extends StaffRoleAwareComponent  {
                             </div>
                             <div className="row">
                                 <div className="col-12">
-                                    <ValidatorForm
-                                        ref="form"
-                                        onSubmit={this.handleSubmit}
-                                    >
+                                    <ValidatorForm ref="form" onSubmit={this.handleSubmit} >
                                         <div className="bg-gray profile-form">
                                             <div className="row">
                                                 <div className="col-10 offset-1">
                                                     <div className="white-form">
-                                                        <TextValidator floatingLabelFixed floatingLabelText="Name" fullWidth
-                                                            name="name"
-                                                            value={this.state.profile.name}
-                                                            onChange={this.handleChange}
-                                                            validators={['required']}
-                                                            errorMessages={['This field is required']}
-                                                        />
-                                                        <TextValidator floatingLabelFixed floatingLabelText="Company Name" fullWidth
-                                                            name="company"
-                                                            onChange={this.handleChange}
-                                                            value={this.state.profile.company}
-                                                            validators={['required']}
-                                                            errorMessages={['This field is required']}
-                                                        />
+                                                        <div className="row">
+                                                            <TextValidator floatingLabelFixed floatingLabelText="Name" fullWidth
+                                                                name="name"
+                                                                value={this.state.profile.name}
+                                                                onChange={this.handleChange}
+                                                                validators={['required']}
+                                                                errorMessages={['This field is required']}
+                                                            />
+                                                        </div>
+                                                        <div className="row">
+                                                            <TextValidator floatingLabelFixed floatingLabelText="Company Name" fullWidth
+                                                                name="company"
+                                                                onChange={this.handleChange}
+                                                                value={this.state.profile.company}
+                                                                validators={['required']}
+                                                                errorMessages={['This field is required']}
+                                                            />
+                                                        </div>
                                                         <div className="input-icon">
-                                                            <div className="col-10 no-padding">
-                                                                <TextField floatingLabelFixed floatingLabelText="Password" fullWidth
-                                                                        name="password" ref ="password" type={this.state.passwordType} />
-                                                            </div>
-                                                            <div className="col-2 no-padding">
-                                                                <ImageRemoveRedEye onClick={this.toggleShowPassword} className="ico-inline" />
+                                                            <div className="row">
+                                                                <div className="col-10 no-padding">
+                                                                    <TextField floatingLabelFixed floatingLabelText="Password" fullWidth
+                                                                            name="password" ref ="password" type={this.state.passwordType} />
+                                                                </div>
+                                                                <div className="col-2 no-padding">
+                                                                    <ImageRemoveRedEye onClick={this.toggleShowPassword} className="ico-inline" />
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div className="row">
+                                                            <SelectValidator floatingLabelFixed floatingLabelText="Country" fullWidth
+                                                                className="select-form"
+                                                                name="country"
+                                                                onChange={this.handleSetCountry}
+                                                                value={this.state.profile.country}
+                                                                maxHeight={200}
+                                                                validators={['required']}
+                                                                errorMessages={['This field is required']}
+                                                            >
 
-                                                        <SelectValidator floatingLabelFixed floatingLabelText="Country" fullWidth
-                                                            className="select-form"
-                                                            name="country"
-                                                            onChange={this.handleSetCountry}
-                                                            value={this.state.profile.country}
-                                                            maxHeight={200}
-                                                            validators={['required']}
-                                                            errorMessages={['This field is required']}
-                                                        >
-
-                                                            {this.state.countries.map((country, i) =>
-                                                                <MenuItem key={i} value={i} primaryText={country.name} />
-                                                            , this)}
-
-                                                        </SelectValidator>
-
-                                                        <TextValidator floatingLabelFixed floatingLabelText="E-mail" fullWidth
-                                                            name="email"
-                                                            onChange={this.handleChange}
-                                                            value={this.state.profile.email}
-                                                            disabled={!this.hasRole('STAFF')}
-                                                            validators={['required']}
-                                                            errorMessages={['This field is required']}
-                                                        />
-                                                        <TextValidator floatingLabelFixed floatingLabelText="Role" fullWidth
-                                                            name="role"
-                                                            onChange={this.handleChange}
-                                                            value={this.state.profile.role}
-                                                            disabled={!this.hasRole('STAFF')}
-                                                            validators={['required']}
-                                                            errorMessages={['This field is required']}
-                                                        />
+                                                                {this.state.countries.map((country, i) =>
+                                                                    <MenuItem key={i} value={i} primaryText={country.name} />
+                                                                , this)}
+                                                            </SelectValidator>
+                                                        </div>
+                                                        <div className="row">
+                                                            <TextValidator floatingLabelFixed floatingLabelText="E-mail" fullWidth
+                                                                name="email"
+                                                                onChange={this.handleChange}
+                                                                value={this.state.profile.email}
+                                                                disabled={!this.hasRole('STAFF')}
+                                                                validators={['required']}
+                                                                errorMessages={['This field is required']}
+                                                            />
+                                                        </div>
+                                                        <div className="row">
+                                                            <TextValidator floatingLabelFixed floatingLabelText="Role" fullWidth
+                                                                name="role"
+                                                                onChange={this.handleChange}
+                                                                value={this.state.profile.role}
+                                                                disabled={!this.hasRole('STAFF')}
+                                                                validators={['required']}
+                                                                errorMessages={['This field is required']}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-10 offset-1">
-                                                <RaisedButton className="btn-smotion primary btn-submit" type="submit" fullWidth label="Save Changes" primary={true} />
+                                            <div className="row">
+                                                <div className="col-10 offset-1">
+                                                    <RaisedButton className="btn-smotion primary btn-submit" type="submit" fullWidth label="Save Changes" primary={true} />
+                                                </div>
                                             </div>
                                         </div>
                                     </ValidatorForm>

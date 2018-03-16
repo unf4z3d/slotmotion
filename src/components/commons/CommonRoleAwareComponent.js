@@ -8,7 +8,7 @@ class CommonRoleAwareComponent extends RoleAwareComponent  {
 
   /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
       super(props);
@@ -73,8 +73,8 @@ class CommonRoleAwareComponent extends RoleAwareComponent  {
    */
   hasRole = (role) => {
     const user = this.getUser();
-    return user !== undefined 
-          && user.profile !== undefined 
+    return user !== undefined
+          && user.profile !== undefined
           && user.profile.userType === role;
   }
 

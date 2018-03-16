@@ -512,7 +512,7 @@ a:focus {
 
 .btn-smotion.btn-min > button,
 .btn-smotion.file-min > label,
-.btn-smotion.btn-min > button > div > div{
+.btn-smotion.btn-min > button > div > div {
     height: 22px !important;
     line-height: 24px !important;
 }
@@ -526,7 +526,8 @@ a:focus {
 }
 
 .btn-smotion.btn-submit > button{
-  top: 18px !important;
+  margin-top: 18px !important;
+  margin-bottom: 18px !important;
 }
 
 .promo-edit-level{
@@ -577,8 +578,9 @@ a:focus {
 
 .header a.close{
   color: #222524;
-  float: left;
+  float: right;
   margin-top: 8px;
+  margin-right: 10px;
   text-transform: lowercase !important;
 }
 
@@ -1232,22 +1234,15 @@ a, .primary-color {
 }
 
 .footer {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    -moz-use-text-color: #264251;
     border-color: #264251;
     border-style: solid none none;
     border-width: 1px 0;
-    text-align: center;
-    align-content: center;
-    align-self: center;
-    position:absolute;
+    position: relative;
     bottom:0;
-    height: 40px;
-    width: 80%;
-    left: 10%;
+    height: 25px;
+    top: 30px;
+    width: 90%;
+    left: 5%;
     font-size: 12px;
     color: #264251;
   }

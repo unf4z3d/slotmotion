@@ -414,8 +414,9 @@ class Promotion extends CommonRoleAwareComponent  {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="promotion-detail" style={{display: this.state.showDetail }}>
+
+                        <div className="promotion-detail" style={{display: this.state.showDetail }}>
+                            <div className="row">
                                 <div className="col-8">
                                     <span className="promotion-name">
                                         <input onChange={this.handleChangeInput} className="transparent-input" type="text" placeholder="Edit Campaing Name" name="name" value={this.state.promotion.name} />

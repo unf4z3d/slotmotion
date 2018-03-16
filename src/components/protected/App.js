@@ -15,10 +15,10 @@ import { firabaseDB } from './../../config/constants'
  * Protected App component.
  */
 class App extends ClientRoleAwareComponent  {
-    
+
     /**
      * Component constructor
-     * @param {*} props 
+     * @param {*} props
      */
     constructor(props) {
         super(props);
@@ -33,7 +33,7 @@ class App extends ClientRoleAwareComponent  {
             user.getIdToken(true).then( idToken => {
                 user.idToken = idToken
                 this.setUser(user);
-                this.setState({loading: false })  
+                this.setState({loading: false })
             }).catch(error => {
                 alert(error);
                 this.setState({loading : false});
@@ -46,29 +46,29 @@ class App extends ClientRoleAwareComponent  {
     }
 
     /**
-     * Render method 
+     * Render method
      */
     render() {
         const jsx = (
             <div>
-                {   
-                    this.isAdmin() 
+                {
+                    this.isAdmin()
                     ? <StaffMenu user={() => this.user} />
                     : <ClientMenu user={() => this.user} />
                 }
                 <div className="container app-content">
                     <Switch>
-                        <Route exact path="/" render={(props) => ( 
-                            this.isAdmin() 
+                        <Route exact path="/" render={(props) => (
+                            this.isAdmin()
                             ?  <StaffDashboard user={() => this.user} />
-                            :  <ClientDashboard user={() => this.user} /> )} 
+                            :  <ClientDashboard user={() => this.user} /> )}
                         />
                         <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={() => this.user}/> )} />
                         <Route exact path="/promotions" render={(props) => ( <Promotions user={() => this.user}/> )} />
-                        <Route path="/profile" render={(props) => ( 
-                            this.isAdmin() 
+                        <Route path="/profile" render={(props) => (
+                            this.isAdmin()
                             ?  <StaffProfile user={() => this.user}/>
-                            :  <ClientProfile user={() => this.user}/> )} 
+                            :  <ClientProfile user={() => this.user}/> )}
                         />
                     </Switch>
                 </div>
@@ -78,6 +78,6 @@ class App extends ClientRoleAwareComponent  {
         return !this.state.loading && this.renderIfAuth(jsx);
     }
 }
- 
+
 // export the component
 export default App;
