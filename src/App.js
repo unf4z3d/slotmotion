@@ -39,10 +39,10 @@ class App extends Component {
                 return <ProtectedApp user={() => this.user}/>
             } else {
                 return <Switch>
-                            <Route exact path="/" component={Login}/>
-                            <Route path="/forgot-password" component={PasswordRecovery}/>
-                            <Route render={() => <Redirect to={{pathname: '/'}}/>}/>
-                    </Switch>
+                        <Route exact path="/" component={Login} />
+                        <Route path="/forgot-password" component={PasswordRecovery} />
+                        <Route render={() => <Redirect to={{ pathname: '/' }} />} />
+                    </Switch>;
             }
         }else{
            return <div><CircularProgress /></div>

@@ -49,31 +49,17 @@ class App extends ClientRoleAwareComponent  {
      * Render method
      */
     render() {
-        const jsx = (
-            <div>
-                {
-                    this.isAdmin()
-                    ? <StaffMenu user={() => this.user} />
-                    : <ClientMenu user={() => this.user} />
-                }
-                <div className="container app-content">
-                    <Switch>
-                        <Route exact path="/" render={(props) => (
-                            this.isAdmin()
-                            ?  <StaffDashboard user={() => this.user} />
-                            :  <ClientDashboard user={() => this.user} /> )}
-                        />
-                        <Route path="/docs-and-files" render={(props) => ( <DocsAndFiles user={() => this.user}/> )} />
-                        <Route exact path="/promotions" render={(props) => ( <Promotions user={() => this.user}/> )} />
-                        <Route path="/profile" render={(props) => (
-                            this.isAdmin()
-                            ?  <StaffProfile user={() => this.user}/>
-                            :  <ClientProfile user={() => this.user}/> )}
-                        />
-                    </Switch>
-                </div>
+        const jsx = <div>
+            {this.isAdmin() ? <StaffMenu user={() => this.user} /> : <ClientMenu user={() => this.user} />}
+            <div className="container app-content">
+              <Switch>
+                <Route exact path="/" render={props => (this.isAdmin() ? <StaffDashboard user={() => this.user} /> : <ClientDashboard user={() => this.user} />)} />
+                <Route path="/docs-and-files" render={props => <DocsAndFiles user={() => this.user} />} />
+                <Route exact path="/promotions" render={props => <Promotions user={() => this.user} />} />
+                <Route path="/profile" render={props => (this.isAdmin() ? <StaffProfile user={() => this.user} /> : <ClientProfile user={() => this.user} />)} />
+              </Switch>
             </div>
-        );
+          </div>;
 
         return !this.state.loading && this.renderIfAuth(jsx);
     }
