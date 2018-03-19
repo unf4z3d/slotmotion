@@ -48,6 +48,7 @@ a:focus {
 .App-header {
   background-color: #181f25;
   height: 82px;
+  min-width: 870px;
   color: white;
 }
 

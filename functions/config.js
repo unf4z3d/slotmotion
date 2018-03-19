@@ -4,4 +4,4 @@ const clientAuth = 'auth[usr]=clientarea&auth[passw]=a490e2ded90bc3e5e0cab8bb962
 module.exports = {
   clientArea,
   clientAuth
-}
+};
