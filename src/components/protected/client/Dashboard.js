@@ -36,10 +36,18 @@ class Dashboard extends ClientRoleAwareComponent {
       .orderByChild('active')
       .equalTo(true)
       .on('child_added', snap => {
-        this.setState({
-          promotions: this.state.promotions.concat(snap.val()),
-          loading: false
-        });
+        const promotion = snap.val();
+        let add = true;
+        let currentDate = new Date();
+        if (promotion.startDate && new Date(promotion.startDate) > currentDate) add = false;
+        if (promotion.endDate && new Date(promotion.endDate) < currentDate) add = false;
+
+        if (add) {
+          this.setState({
+            promotions: this.state.promotions.concat(promotion),
+            loading: false
+          });
+        }
       });
     this.signupsDB.on('child_added', snap => {
       userSignUp[snap.key] = snap.val();

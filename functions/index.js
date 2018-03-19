@@ -85,24 +85,33 @@ app.get('/userGamePlay', (req, res) => {
           if (casinos.length > 0) {
             const strCasinos = `&casino=${casinos.join('&casino=')}`;
             const gamePlayEndpoint =
-              `${clientArea}/gameplay/?${config.clientAuth}&start=${req.param('signupDate')}${config.strCasinos}&groupBy=casino`;
+              `${config.clientArea}/gameplay/?${config.clientAuth}&start=${req.param('signupDate')}${strCasinos}&groupBy=casino`;
             console.log('Endpoint:', gamePlayEndpoint);
             // Get user gameplay for each casino.
             axios
               .get(gamePlayEndpoint)
-              .then(response => {
+              .then(gamePlays => {
                 let totalBet = 0;
 
-                if (response.data) {
-                  response.data.forEach(gamePlay => {
-                    //filter segment
-                    if (user.profile.segments.indexOf(gamePlay.segment) !== -1) {
-                      gamePlay.type.forEach(type => {
-                        if (type.type === 'WAGER') {
-                          totalBet += type.rounds || 0;
+                if (gamePlays.data && gamePlays.data !== 'undefined') {
+                  gamePlays.data.forEach(gamePlay => {
+                    //filter segments
+                    user.profile.segments.forEach(s => {
+                      let userSegment = s.split('.');
+                      let gameSegment = gamePlay.segment.split('.');
+
+                      for(let i = 0; i < userSegment.length; i++) {
+                        if (userSegment[i] !== gameSegment[i]) {
+                          break;
+                        } else if (i === userSegment.length - 1) {
+                          gamePlay.type.forEach(type => {
+                            if (type.type === 'WAGER') {
+                              totalBet += type.rounds || 0;
+                            }
+                          });
                         }
-                      });
-                    }
+                      }
+                    })
                   });
                 }
 
