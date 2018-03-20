@@ -277,7 +277,7 @@ class Dashboard extends StaffRoleAwareComponent {
                     >
                       Ends
                     </TableHeaderColumn>
-                    <TableHeaderColumn width="80" dataField="levels">
+                    <TableHeaderColumn width="80" dataField="level">
                       Levels Claimed
                     </TableHeaderColumn>
                     <TableHeaderColumn width="70" dataAlign="center" dataFormat={this.activeSignUpActionsFormatter} />

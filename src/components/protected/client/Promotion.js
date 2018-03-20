@@ -30,7 +30,8 @@ class Promotion extends ClientRoleAwareComponent {
       selectedLevel: {},
       showDetail: 'none'
     };
-    this.signupsDB = firabaseDB.child(`users/${this.getUser().uid}/signups`);
+    this.userSignupsDB = firabaseDB.child(`users/${this.getUser().uid}/signups`);
+    this.signupsDB = firabaseDB.child(`signups`);
     this.promotionsStatusDB = firabaseDB.child('promotion_status');
   }
 
@@ -40,7 +41,7 @@ class Promotion extends ClientRoleAwareComponent {
   componentWillMount() {
     const { promotion } = this.state;
     if (promotion.key !== undefined) {
-      this.signupsDB.child(promotion.key).on('value', snap => {
+      this.userSignupsDB.child(promotion.key).on('value', snap => {
         const signedUp = snap.val();
         if (signedUp !== null) {
           promotion.createdAt = signedUp.createdAt;
@@ -55,6 +56,17 @@ class Promotion extends ClientRoleAwareComponent {
           });
         }
       });
+
+      this.signupsDB
+        .orderByChild('user')
+        .equalTo(this.getUser().uid)
+        .on('value', snap => {
+          const signUps = snap.val();
+          const signUpKey = Object.keys(signUps).find(key => signUps[key].promotion === promotion.key);
+          if (signUpKey) {
+            this.setState({ signUpKey })
+          }
+      })
     }
   }
 
@@ -62,7 +74,7 @@ class Promotion extends ClientRoleAwareComponent {
    * Component Life Cycle
    */
   componentWillUnmount() {
-    this.signupsDB.off();
+    this.userSignupsDB.off();
     this.promotionsStatusDB.off();
   }
 
@@ -81,16 +93,16 @@ class Promotion extends ClientRoleAwareComponent {
         .then(response => {
           const totalBet = response.data.totalBet;
 
-          let completed = true;
+          let claimedLevels = 0;
           promotion.levels.forEach(level => {
-            if (totalBet >= level.bestToReach) level.reached = true;
-            else {
-              level.reached = false;
-              completed = false;
+            if (totalBet >= level.bestToReach) {
+              level.reached = true;
+              claimedLevels++;
             }
+            else level.reached = false;
           });
 
-          if (completed) {
+          if (claimedLevels === promotion.levels.length) {
             const completed = constants.promotionsStatus.completed;
 
             this.promotionsStatusDB.child(completed)
@@ -105,6 +117,12 @@ class Promotion extends ClientRoleAwareComponent {
                 .child(promotion.key)
                 .update({ status: completed });
             });
+          }
+
+          if (this.state.signUpKey) {
+            firabaseDB
+              .child(`signups/${this.state.signUpKey}`)
+              .update({ level: `${claimedLevels}/${promotion.levels.length}` });
           }
 
           this.setState({ promotion, loadingLevelProgress: false });

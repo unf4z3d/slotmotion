@@ -31,8 +31,11 @@ class Promotions extends StaffRoleAwareComponent {
    */
   componentWillMount() {
     this.promotionsDB.on('child_added', snap => {
+      let promotion = snap.val();
+      promotion.status = promotion.active ? 'Active' : 'Not Active';
+
       this.setState({
-        promotions: this.state.promotions.concat(snap.val()),
+        promotions: this.state.promotions.concat(promotion),
         loading: false
       });
     });
