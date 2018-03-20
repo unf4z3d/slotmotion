@@ -112,11 +112,7 @@ a:focus {
 .main-menu > .container-fluid > hr{
   margin: 0px;
   border-color: #264251 currentcolor currentcolor;
-}
-
-.main-menu > .container-fluid > hr{
-  margin: 0px;
-  border-color: #264251 currentcolor currentcolor;
+  min-width: 870px;
 }
 
 .main-menu > .container > .items > div > div > hr{
@@ -1243,6 +1239,7 @@ a, .primary-color {
     height: 25px;
     top: 30px;
     width: 90%;
+    min-width: 783px;
     left: 5%;
     font-size: 12px;
     color: #264251;

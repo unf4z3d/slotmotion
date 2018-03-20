@@ -71,22 +71,51 @@ class Promotion extends ClientRoleAwareComponent {
    */
   refreshLevelStatus = () => {
     const { status } = this.state.promotion;
-    if (status !== undefined && (status.id === 2 || status.id === 3)) {
-      this.setState({ loadingLevelProgress: true });
-      let { promotion } = this.state;
-      const signupDate = dateFormat(promotion.createdAtTime, 'isoUtcDateTime', true);
-      callGetUserGameplay(this.getUser(), signupDate)
+    let { promotion } = this.state;
+
+    if (status !== undefined) {
+      if (status.id === 2 || status.id === 3) {
+        this.setState({ loadingLevelProgress: true });
+        const signupDate = dateFormat(promotion.createdAtTime, 'isoUtcDateTime', true);
+        callGetUserGameplay(this.getUser(), signupDate)
         .then(response => {
           const totalBet = response.data.totalBet;
 
+          let completed = true;
           promotion.levels.forEach(level => {
             if (totalBet >= level.bestToReach) level.reached = true;
+            else {
+              level.reached = false;
+              completed = false;
+            }
           });
+
+          if (completed) {
+            const completed = constants.promotionsStatus.completed;
+
+            this.promotionsStatusDB.child(completed)
+            .once('value', snap => {
+              promotion.status = snap.val();
+              promotion.status.id = completed;
+
+              firabaseDB
+                .child('users')
+                .child(this.getUser().uid)
+                .child('signups')
+                .child(promotion.key)
+                .update({ status: completed });
+            });
+          }
+
           this.setState({ promotion, loadingLevelProgress: false });
         })
         .catch(error => {
           this.setState({ loading: false, loadingLevelProgress: false });
         });
+      } else if (status.id === 8) {
+        promotion.levels.forEach(l => l.reached = true);
+        this.setState({ promotion, loadingLevelProgress: false });
+      }
     }
   };
 

@@ -13,7 +13,8 @@ export const constants = {
     inactive: 4,
     publish: 5,
     deleted: 6,
-    awarded: 7
+    awarded: 7,
+    completed: 8
   }
 };
 
